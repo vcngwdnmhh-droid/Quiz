@@ -1599,7 +1599,7 @@ const CATS=[
  {k:'de',n:'Deutschland',ic:'🇩🇪',c:['#64748b','#334155']},{k:'allg',n:'Allgemeinwissen',ic:'🧠',c:['#8b5cf6','#6d28d9']},
  {k:'pc',n:'Computer & Internet',ic:'💻',c:['#0ea5e9','#0369a1']},{k:'food',n:'Essen & Trinken',ic:'🍕',c:['#f97316','#c2410c']},
  {k:'emo',n:'Emoji-Rätsel',ic:'🧩',c:['#eab308','#a16207']},{k:'flag',n:'Flaggen',ic:'🏳️',c:['#14b8a6','#0f766e']},
- {k:'marie',n:'Marie',ic:'💖',c:['#f472b6','#be185d']}];
+ {k:'marie',n:'Mädchensachen',ic:'💖',c:['#f472b6','#be185d']}];
 const Q=[];CATS.forEach(c=>{RAW[c.k].split('\n').map(l=>l.trim()).filter(Boolean).forEach((l,i)=>{const p=l.split('|');const id=c.k+i;let o;
  if(p[0]==='TF')o={type:'tf',q:p[1],tf:p[2]==='W',d:+p[3]||1,info:p[4]||''};
  else if(p[0]==='EST')o={type:'est',q:p[1],ans:+p[2],min:+p[3],max:+p[4],tol:+p[5],unit:p[6]||'',d:+p[7]||1,info:p[8]||''};
