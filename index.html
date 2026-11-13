@@ -114,6 +114,11 @@ details.card>summary{cursor:pointer;font-weight:800;list-style:none;font-size:15
 .mill .a.pend{border-color:#fbbf24;background:#4a3a0a;color:#fff}.mill .a.tip{outline:2px dashed var(--acc2);outline-offset:2px}.mill.pulse{animation:yes .6s 3}
 .ring{position:fixed;inset:0;background:rgba(5,6,20,.85);z-index:60;display:flex;align-items:center;justify-content:center;padding:16px;overflow:auto}.ring .card{max-width:480px;width:100%;animation:pop .3s;margin:auto}
 .mh{font-size:16px;flex:none;letter-spacing:1px}.mh:empty{display:none}.decb{display:grid;gap:10px;margin-top:10px}.decb .btn{padding:15px;font-size:16px}.sus{animation:yes 1s infinite}
+#app{padding-bottom:90px}.pkgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(96px,1fr));gap:8px;margin-bottom:12px}.pkt{background:var(--p);border:2px solid var(--line);border-radius:16px;padding:8px 4px;text-align:center}.pkt .nm{font-size:13px;font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.pkt.turn{border-color:var(--acc);box-shadow:0 0 0 3px var(--acc)}.pkt.fold{opacity:.4}
+.pchipx{display:inline-flex;align-items:center;justify-content:center;width:46px;height:46px;border-radius:50%;background:#f8fafc;color:#0f172a;font-weight:900;font-size:18px;border:4px dashed #0f172a;box-shadow:0 0 0 3px #f8fafc;margin:4px auto;vertical-align:middle}.pchipx.big{width:54px;height:54px;font-size:22px}
+.emofab{position:fixed;right:14px;bottom:calc(16px + env(safe-area-inset-bottom));z-index:30;width:52px;height:52px;border-radius:50%;border:0;background:var(--acc);color:#fff;font-size:24px;font-weight:900;box-shadow:0 6px 18px rgba(0,0,0,.45)}
+.emopanel{position:fixed;right:14px;bottom:calc(78px + env(safe-area-inset-bottom));z-index:31;width:min(320px,calc(100vw - 28px));background:var(--p);border:1px solid var(--line);border-radius:18px;padding:12px;box-shadow:0 12px 32px rgba(0,0,0,.5);animation:pop .2s}.emopanel[hidden]{display:none}
+.emopanel .x{background:none;border:0;color:var(--mut);font-size:16px}.emogrid{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}.emogrid.q{grid-template-columns:1fr 1fr;margin-top:8px}
 </style></head><body>
 <div id="app"></div><div id="toast"></div><canvas id="fx"></canvas>
 <script>
@@ -2559,13 +2564,13 @@ function dailyShare(){const r=P.dres;if(!r)return;const [y,m,d]=r.d.split('-');c
 const ICE={iceServers:[{urls:'stun:stun.l.google.com:19302'},{urls:'stun:stun1.l.google.com:19302'},{urls:'stun:global.stun.twilio.com:3478'},
  {urls:'turn:openrelay.metered.ca:80',username:'openrelayproject',credential:'openrelayproject'},{urls:'turn:openrelay.metered.ca:443',username:'openrelayproject',credential:'openrelayproject'},{urls:'turn:openrelay.metered.ca:443?transport=tcp',username:'openrelayproject',credential:'openrelayproject'}]};
 let ON=null;const rint=(a,b)=>a+Math.floor(Math.random()*(b-a+1));
-const OMODES={klass:{ic:'🎯',n:'Klassisch',d:'Schnell & richtig = mehr Punkte'},turbo:{ic:'⚡',n:'Turbo',d:'Halbe Zeit, 1,5-fache Punkte'},ko:{ic:'💀',n:'K.-o.',d:'Falsch = raus! Wer bleibt übrig?'},team:{ic:'⚔️',n:'Team-Duell',d:'🔵 Blau gegen 🔴 Rot'},mill:{ic:'💰',n:'Wer wird Millionär?',d:'Alle gleichzeitig · aussteigen oder weiterzocken · echte Joker'}};
+const OMODES={klass:{ic:'🎯',n:'Klassisch',d:'Schnell & richtig = mehr Punkte'},turbo:{ic:'⚡',n:'Turbo',d:'Halbe Zeit, 1,5-fache Punkte'},ko:{ic:'💀',n:'K.-o.',d:'Falsch = raus! Wer bleibt übrig?'},team:{ic:'⚔️',n:'Team-Duell',d:'🔵 Blau gegen 🔴 Rot'},poker:{ic:'🃏',n:'Hochpokern',d:'Wer kennt mehr? Bieten, aussteigen, beweisen'},mill:{ic:'💰',n:'Wer wird Millionär?',d:'Alle gleichzeitig · aussteigen oder weiterzocken · echte Joker'}};
 const KH=['#e21b3c','#1368ce','#d89e00','#26890c'],KS=['▲','◆','●','■'],EMOS=['😂','🔥','😮','👏','😭','🤯','😏','💀'],TEAMS=[['🔵','Blau','#2563eb'],['🔴','Rot','#dc2626']];
 const QUIPS=['GG 🤝','Nochmal! 🔁','Glück gehabt 😏','Zu leicht 😎','Was?! 😳','Ich wusste es! 🧠','Nächstes Mal… 😤','Haha 😂'];
 const OSET={n:[5,10,15,20,30],t:[10,15,20,30,45],mt:[30,45,60,90,0],diff:['mix',1,2,3],catm:['host','wheel','vote']};
 const OLBL={diff:{mix:'🎲 Gemischt',1:'🟢 Leicht',2:'🟡 Mittel',3:'🔴 Schwer'},catm:{host:'👑 Host wählt',wheel:'🎡 Glücksrad',vote:'🗳️ Abstimmung'}};
 const OTYPES=[['mc','🎯','Quiz'],['tf','✅','Wahr/Falsch'],['est','📏','Schätzen'],['who','🕵️','Wer bin ich?']];
-function defCfg(){return{cat:'mix',n:10,mode:'klass',t:20,diff:'mix',catm:'host',types:{mc:true,tf:true,est:false,who:false},streak:true,fin:true,wett:false,jok:false,speed:true,pen:false,change:true,auto:true,mt:60,fa:true,mjk:true}}
+function defCfg(){return{cat:'mix',n:10,mode:'klass',t:20,diff:'mix',catm:'host',types:{mc:true,tf:true,est:false,who:false},streak:true,fin:true,wett:false,jok:false,speed:true,pen:false,change:true,auto:true,mt:60,fa:true,mjk:true,pr:5,pc:10,pt:20,pv:'type',ps:5}}
 function loadPeer(){return new Promise((res,rej)=>{if(window.Peer)return res();const srcs=['https://unpkg.com/peerjs@1.5.4/dist/peerjs.min.js','https://cdn.jsdelivr.net/npm/peerjs@1.5.4/dist/peerjs.min.js'];let k=0;
  const next=()=>{if(window.Peer)return res();if(k>=srcs.length)return rej(new Error('load'));const sc=document.createElement('script');sc.src=srcs[k++];sc.onload=()=>window.Peer?res():next();sc.onerror=next;document.head.appendChild(sc)};next()})}
 function myName(){const n=($('oname')&&$('oname').value.trim())||P.name||'';if(n&&n!==P.name){P.name=n;save()}return n||('Spieler '+rint(10,99))}
@@ -2612,7 +2617,7 @@ function hostData(conn,d){if(!ON||ON.role!=='host'||!d)return;const id=conn.peer
  if(d.t==='hello'){if(ON.players.length>=12&&!p){conn.send({t:'full'});setTimeout(()=>conn.close(),300);return}let nm=String(d.name||'Gast').slice(0,16);if(ON.players.some(x=>x.name===nm&&x.id!==id))nm+=' '+(ON.players.length+1);
   if(Array.isArray(d.hist))d.hist.slice(-400).forEach(x=>{if(typeof x==='string'&&x.length<40)ON.ghs.add(x)});
   ON.conns[id]=conn;let q=p;if(!q){q=mkP(id,nm,String(d.ava||'🙂').slice(0,8),cleanLook(d.look));ON.players.push(q);
-   if(ON.state!=='lobby'){if(ON.cfg.mode==='mill'){q.m=Object.assign(mNew(),{st:'out'})}if(ON.cfg.mode==='ko'){q.out=true;q.outAt=-1}if(ON.cfg.mode==='team'){const c0=ON.players.filter(x=>x.team===0&&x!==q).length,c1=ON.players.filter(x=>x.team===1).length;q.team=c0<=c1?0:1}}}
+   if(ON.state!=='lobby'){if(ON.cfg.mode==='mill'){q.m=Object.assign(mNew(),{st:'out'})}if(ON.cfg.mode==='poker'){q.score=+ON.cfg.pc||10}if(ON.cfg.mode==='ko'){q.out=true;q.outAt=-1}if(ON.cfg.mode==='team'){const c0=ON.players.filter(x=>x.team===0&&x!==q).length,c1=ON.players.filter(x=>x.team===1).length;q.team=c0<=c1?0:1}}}
   conn.send({t:'welcome',code:ON.code,you:id,players:pubPlayers(),cfg:ON.cfg,state:ON.state});sfx('ok');toast(`👋 ${q.ava} ${nm} ist beigetreten`);
   hostBroadcast({t:'lobby',players:pubPlayers(),cfg:ON.cfg});if(ON.state==='lobby')renderLobby();return}
  if(!p)return;
@@ -2624,7 +2629,7 @@ function hostData(conn,d){if(!ON||ON.role!=='host'||!d)return;const id=conn.peer
  if(d.t==='emo'||d.t==='quip'){const now=Date.now();if(now-(ON.emoT[id]||0)<500)return;if(d.t==='emo'&&!EMOS.includes(d.e))return;if(d.t==='quip'&&!QUIPS.includes(d.e))return;ON.emoT[id]=now;const m={t:d.t,e:d.e,a:p.ava,n:p.name};showFx(m);Object.entries(ON.conns).forEach(([k,c])=>{if(k!==id)try{c.send(m)}catch(e){}})}}
 function hostTakeAns(p,d){if(p.out||d.i!==ON.qi||ON.state!=='q')return;const q=ON.cq;let v=+d.v;if(!Number.isFinite(v))return;if(q.type==='est')v=clamp(v,q.min,q.max);else if(!(v>=0&&v<q.opts.length))return;
  if(ON.ans[p.id]&&!ON.cfg.change)return;ON.ans[p.id]={v,ms:clamp(+d.ms||ON.dur*1000,0,ON.dur*1000)};afterAnswer()}
-function dropPlayer(id){if(!ON||ON.role!=='host')return;const p=ON.players.find(x=>x.id===id);if(!p)return;ON.players=ON.players.filter(x=>x.id!==id);delete ON.conns[id];if(ON.rconns)delete ON.rconns[id];toast(`🚪 ${p.name} hat den Raum verlassen`);hostBroadcast({t:'lobby',players:pubPlayers(),cfg:ON.cfg});if(ON.state==='lobby')renderLobby();else if(ON.state==='q')afterAnswer();else if(ON.state==='bet')hostBetCount();else if(ON.state==='vote')hostVoteCount();else if(ON.state==='mq'||ON.state==='mdec')millCheck()}
+function dropPlayer(id){if(!ON||ON.role!=='host')return;const p=ON.players.find(x=>x.id===id);if(!p)return;ON.players=ON.players.filter(x=>x.id!==id);delete ON.conns[id];if(ON.rconns)delete ON.rconns[id];toast(`🚪 ${p.name} hat den Raum verlassen`);hostBroadcast({t:'lobby',players:pubPlayers(),cfg:ON.cfg});if(ON.state==='lobby')renderLobby();else if(ON.state==='q')afterAnswer();else if(ON.state==='bet')hostBetCount();else if(ON.state==='vote')hostVoteCount();else if(ON.state==='mq'||ON.state==='mdec')millCheck();else if(ON.state[0]==='p')pkDrop()}
 function hostKick(id){if(!ON||ON.role!=='host'||id==='host')return;const c=ON.conns[id];if(c){try{c.send({t:'kick'})}catch(e){}setTimeout(()=>{try{c.close()}catch(e){}},300)}dropPlayer(id)}
 function pubPlayers(){return ON.players.map(p=>({id:p.id,name:p.name,ava:p.ava,look:p.look,score:p.score,last:p.last,st:p.st,best:p.best,mv:p.mv,out:p.out,outAt:p.outAt,team:p.team,cor:p.cor,jk:p.jk,m:p.m}))}
 function hostBroadcast(m){Object.values(ON.conns).forEach(c=>{try{c.open!==false&&c.send(m)}catch(e){}})}
@@ -2634,9 +2639,9 @@ function shareCode(){const link=/^https?:/.test(location.href)?location.href.spl
 function showFx(m){if(m.t==='emo'){const d=document.createElement('div');d.className='femo';d.textContent=m.e;d.style.left=(8+Math.random()*78)+'%';document.body.appendChild(d);setTimeout(()=>d.remove(),2700)}
  else{const d=document.createElement('div');d.className='fquip';d.innerHTML=`${m.a||''} <b>${esc(m.n||'')}</b>: ${esc(m.e)}`;document.body.appendChild(d);setTimeout(()=>d.remove(),3000)}}
 function sendFx(t,e){if(!ON)return;const now=Date.now();if(now-(ON.myEmo||0)<600)return;ON.myEmo=now;const me=meP()||{};const m={t,e,a:me.ava||P.ava,n:me.name||P.name};showFx(m);if(ON.role==='host')hostBroadcast(m);else try{ON.conn.send({t,e})}catch(x){}}
-function emoBar(){return`<div class="row" style="justify-content:center;gap:5px;margin-top:10px">${EMOS.map(e=>`<button class="btn alt s" style="font-size:19px;padding:5px 8px" data-a="oemo|${e}">${e}</button>`).join('')}</div>
- <div class="row" style="justify-content:center;gap:5px;margin-top:6px">${QUIPS.map(e=>`<button class="btn alt s xs" style="padding:5px 8px" data-a="oquip|${e}">${e}</button>`).join('')}</div>`}
+function emoBar(){return`<button class="emofab" data-a="emomenu" title="Reaktionen">☰</button><div class="emopanel" id="emop" hidden><div class="line" style="margin-bottom:6px"><b class="sm">Reaktionen</b><button class="x" data-a="emomenu">✕</button></div><div class="emogrid">${EMOS.map(e=>`<button class="btn alt s" style="font-size:22px;padding:6px" data-a="oemo|${e}">${e}</button>`).join('')}</div><div class="emogrid q">${QUIPS.map(e=>`<button class="btn alt s" style="padding:6px 8px" data-a="oquip|${e}">${esc(e)}</button>`).join('')}</div></div>`}
 function cfgText(c){const m=OMODES[c.mode]||OMODES.klass;const C=c.cat==='mix'?null:catOf(c.cat);
+ if(c.mode==='poker')return`${c.pr} Runden · ${c.pc} Start-Chips · ${c.pv==='say'?'🗣️ laut sagen':'⌨️ eintippen'} · ${c.pt} s zum Bieten`;
  if(c.mode==='mill')return`${C?C.ic+' '+C.n:'🎲 Gemischt'} · 15 Fragen · ${c.mt?c.mt+' s pro Frage':'ohne Zeitlimit'}${c.mjk?' · 🃏 Joker':''}${c.fa!==false?' · ✋ Endgültig?':''}`;const ty=OTYPES.filter(t=>c.types&&c.types[t[0]]).map(t=>t[1]).join('');
  return`${m.ic} ${m.n} · ${c.catm==='host'?(C?C.ic+' '+C.n:'🎲 Gemischt'):OLBL.catm[c.catm]} · ${c.mode==='ko'?'bis einer übrig ist':c.n+' Fragen'} · ${c.t} s · ${ty}${c.wett?' · 💰':''}${c.jok?' · 🃏':''}${c.diff!=='mix'?' · '+OLBL.diff[c.diff]:''}`}
 function lobbyList(){const host=ON.role==='host';return ON.players.map(p=>`<div class="line it sm"><span>${headH(p,26)} ${p.id===meId()?'<b>':''}${nameH(p)}${p.id===meId()?' (du)</b>':''}${p.id==='host'?' <span class="xs mut">👑</span>':''}${p.look&&p.look.t?` <span class="xs mut">„${esc(p.look.t)}“</span>`:''}</span>${host&&p.id!=='host'?`<button class="btn alt s" style="padding:4px 10px" data-a="okick|${p.id}">✕</button>`:''}</div>`).join('')}
@@ -2645,8 +2650,11 @@ function setRow(ic,lbl,val,k,ro){return`<div class="line setrow"><span class="sm
 function togRow(ic,lbl,k,hint,ro){const on=ON.cfg[k]!==false&&!!ON.cfg[k];return`<div class="line setrow"><span class="sm">${ic} ${lbl}${hint?`<br><span class="xs mut">${hint}</span>`:''}</span><span class="tgl ${on?'on':''} ${ro?'ro':''}" ${ro?'':`data-a="otog|${k}"`}><i></i></span></div>`}
 function modePicker(){const c=ON.cfg;return`<div class="card"><h3>🎮 Spielmodus</h3><div class="mgrid">${Object.entries(OMODES).map(([k,m])=>`<div class="mcard ${c.mode===k?'sel':''} ${k==='mill'?'wide':''}" data-a="omode|${k}"><div class="mi">${m.ic}</div><b>${m.n}</b><span>${m.d}</span>${k==='mill'?'<em>NEU</em>':''}</div>`).join('')}</div></div>`}
 function catSel(ro){const c=ON.cfg;const C=c.cat==='mix'?null:catOf(c.cat);return ro?`<div class="line setrow"><span class="sm">🗂️ Kategorie</span><b class="sm">${C?C.ic+' '+esc(C.n):'🎲 Bunt gemischt'}</b></div>`:`<div class="setrow"><div class="sm" style="margin-bottom:4px">🗂️ Kategorie</div><select id="ocsel" class="txt" style="display:block;width:100%" onchange="ON.cfg.cat=this.value;hostCfg()"><option value="mix">🎲 Bunt gemischt</option>${CATS.map(x=>`<option value="${x.k}" ${c.cat===x.k?'selected':''}>${x.ic} ${x.n}</option>`).join('')}</select></div>`}
+const PKRULES='Jede Runde wählt ein anderer ein „Wer kennt mehr …“-Thema. Reihum wird geboten: höher gehen oder aussteigen. Wer übrig bleibt, muss so viele Begriffe nennen, wie er geboten hat. Geschafft: Jeder zahlt ihm 1 Chip. Nicht geschafft: Er zahlt jedem 2 Chips. Wer keine Chips mehr hat, ist raus.';
 const MILLRULES='Alle bekommen gleichzeitig dieselbe Frage. Nach jeder richtigen Antwort entscheidet jeder selbst: aussteigen und das Geld mitnehmen oder weiterspielen. Wer falsch liegt, fällt auf die letzte Sicherheitsstufe (500 € bzw. 16.000 €). Am Ende gewinnt, wer am meisten Geld hat.';
 function settingsHTML(ro){const c=ON.cfg;
+ if(c.mode==='poker')return`<div class="card"><h3 style="margin-top:0">⚙️ Einstellungen</h3><div class="xs mut" style="margin-bottom:6px">${PKRULES}</div>
+  ${setRow('🔁','Runden',c.pr,'pr',ro)}${setRow('🪙','Start-Chips',c.pc,'pc',ro)}${setRow('⏱️','Zeit zum Bieten',c.pt+' s','pt',ro)}${setRow('✅','Beweisen durch',c.pv==='say'?'🗣️ Laut sagen':'⌨️ Eintippen','pv',ro)}${setRow('⌛','Zeit pro Begriff',c.ps+' s','ps',ro)}${togRow('⏭️','Automatisch weiter','auto','',ro)}</div>`;
  if(c.mode==='mill')return`<div class="card"><h3 style="margin-top:0">⚙️ Einstellungen</h3><div class="xs mut" style="margin-bottom:6px">${MILLRULES}</div>
   ${catSel(ro)}${setRow('⏱️','Zeit pro Frage',c.mt?c.mt+' s':'∞ ohne Limit','mt',ro)}
   ${togRow('🃏','Joker','mjk','✂️ 50:50 · 👥 Publikum (die Zuschauer stimmen ab) · 📞 Telefon (ruf einen Mitspieler an)',ro)}${togRow('✋','„Ist das deine endgültige Antwort?“','fa','Nach dem Antippen wird nochmal nachgefragt',ro)}${togRow('⏭️','Automatisch weiter','auto','',ro)}</div>`;
@@ -2668,13 +2676,14 @@ function renderLobby(){if(!ON)return;G=null;ON.state='lobby';stopTimer();const c
   <div class="startbar"><button class="btn gold" style="width:100%;font-size:17px;padding:14px" data-a="ostart">🚀 Starten: ${M.ic} ${M.n}</button><div class="xs mut" style="text-align:center;margin-top:5px">${cfgText(c)}</div></div>${emoBar()}`)}
  else{const M=c?(OMODES[c.mode]||OMODES.klass):null;view(`<div class="top"><button class="back" data-a="oleave">✕</button><h2>🌐 Raum ${ON.code}</h2>${voiceChip()}</div>
   <div class="card" style="text-align:center;padding:16px">${headH(meP()||{ava:'⏳'},52)}<div style="margin-top:6px"><b>Du bist drin!</b></div><div class="sm mut">${ON.state==='wait'?'Das Spiel läuft schon – du steigst bei der nächsten Frage ein.':'Warte, bis der Host das Spiel startet …'}</div></div>
-  ${M?`<div class="card"><div class="xs mut">Der Host hat gewählt</div><div style="font-size:20px;font-weight:900;margin:4px 0">${M.ic} ${M.n}</div><div class="sm">${cfgText(c)}</div>${c.mode==='mill'?`<div class="xs mut" style="margin-top:6px">${MILLRULES}</div>`:''}</div>`:''}
+  ${M?`<div class="card"><div class="xs mut">Der Host hat gewählt</div><div style="font-size:20px;font-weight:900;margin:4px 0">${M.ic} ${M.n}</div><div class="sm">${cfgText(c)}</div>${c.mode==='mill'?`<div class="xs mut" style="margin-top:6px">${MILLRULES}</div>`:''}${c.mode==='poker'?`<div class="xs mut" style="margin-top:6px">${PKRULES}</div>`:''}</div>`:''}
   <div class="card"><div class="line"><b class="sm">👥 Spieler</b><span class="chip">${n}/12</span></div><div class="plgrid">${lobbyGrid()}</div></div>
   <details class="card"><summary>🎙️ Meine Moderator-Stimme <span class="xs mut">· ${P.voice.on?'an':'aus'}</span></summary><div style="margin-top:8px">${voiceCard('lob')}</div></details>${emoBar()}`)}}
 /* ----- Host: Spielablauf ----- */
 function qTotal(){return ON.cfg.mode==='ko'?60:ON.cfg.n}
 function hostStart(){if(!ON||ON.role!=='host')return;if(ON.players.length<2&&!ON.soloOk){ON.soloOk=true;toast('Noch niemand da – nochmal tippen, um allein zu testen');return}
  if(ON.cfg.mode==='mill'){millStart();return}
+ if(ON.cfg.mode==='poker'){pkStart();return}
  if(!OTYPES.some(t=>ON.cfg.types[t[0]]))ON.cfg.types.mc=true;
  ON.qi=-1;ON.used=[];ON.usedA=[];ON.curCat=ON.cfg.catm==='host'?ON.cfg.cat:'mix';ON.players.forEach(resetP);
  if(ON.cfg.mode==='team'){const sh=[...ON.players].sort(()=>Math.random()-.5);sh.forEach((p,i)=>p.team=i%2)}P.games++;hostNext()}
@@ -2853,6 +2862,7 @@ function showReveal(m){if(!ON||!ON.cur)return;ON.state='rev';stopTimer();if(ON.r
   ${ON.role==='host'?`<button class="btn" style="width:100%;margin-top:8px" data-a="onext">${m.last?'🏁 Zum Ergebnis':'Nächste Frage →'}</button>${ON.cfg.auto?'<div class="xs mut" style="text-align:center;margin-top:4px">geht automatisch weiter…</div>':''}`:'<div class="xs mut" style="text-align:center;margin-top:6px">Gleich geht es weiter…</div>'}`;$('ocnt')&&($('ocnt').textContent='')}
 function showEnd(m){if(!ON)return;ON.state='end';stopTimer();if(ON.role!=='host')ON.players=m.players;if(ON.cfg)ON.cfg.mode=m.mode;const s=rankOrder(m.players);const pos=s.findIndex(p=>p.id===meId())+1;const me=meP();
  let title=`${s[0].ava} ${esc(s[0].name)} gewinnt!`,won=pos===1;if(m.mode==='team'){const ts=teamScores(m.players);const wt=ts[0]===ts[1]?-1:ts[0]>ts[1]?0:1;title=wt<0?'🤝 Unentschieden!':`${TEAMS[wt][0]} Team ${TEAMS[wt][1]} gewinnt!`;won=me&&me.team===wt}
+ if(m.mode==='poker'){title=`🃏 ${s[0].ava} ${esc(s[0].name)} gewinnt mit ${s[0].score} Chips!`;sayStop();say(s[0].name+' gewinnt mit '+s[0].score+' Chips!')}
  if(m.mode==='mill'){title=s[0].score>=1000000?`🏆 ${s[0].ava} ${esc(s[0].name)} ist MILLIONÄR!`:s[0].score>0?`${s[0].ava} ${esc(s[0].name)} gewinnt mit ${eur(s[0].score)}!`:'😅 Niemand hat Geld gewonnen!';if(me&&me.score>P.best.mill)P.best.mill=me.score;if(me&&me.score>=1000000)unlock('m1m');if(me&&me.score>=16000)unlock('m16');sayStop();say(title.replace(/<[^>]+>/g,''))}
  if(won){confetti(200);sfx('win')}const coins=won?60:pos<=3?30:10;P.coins+=coins;P.xp+=40;unlock('party');checkAch();save();G={mode:'done'};
  view(`<div class="top"><h2>🌐 Online-Ergebnis</h2></div><div class="card" style="text-align:center"><h2 style="margin:4px 0">${title}</h2>
@@ -2996,7 +3006,7 @@ const MG={
  mpubwait(d){mJkSet(d.jk);const e=$('mjkr');if(e)e.innerHTML=`<div class="info">👥 ${d.aud?`Das Publikum (${d.aud} Zuschauer) stimmt ab …`:'Das Studio-Publikum stimmt ab …'}</div>`;mod('pub')},
  mpub(d){const e=$('mjkr');if(!e)return;const rem=(ON.mm&&ON.mm.rem)||[];e.innerHTML=`<div class="card"><b>👥 Das Publikum sagt:</b> <span class="xs mut">${d.real?`${d.n} echte Stimmen`:'🤖 Studio-Publikum'}</span><div class="pubbar">${[0,1,2,3].map(x=>`<div style="height:${Math.max(2,d.pct[x])}px;${rem.includes(x)?'opacity:.2':''}"><span>${d.pct[x]}%</span><b>${'ABCD'[x]}</b></div>`).join('')}</div><div style="height:16px"></div></div>`;
   const best=d.pct.indexOf(Math.max(...d.pct));say(`Das Publikum sagt: ${'ABCD'[best]}, mit ${d.pct[best]} Prozent.`)},
- mpollreq(d){toast(`👥 ${d.n} fragt das Publikum – stimm ab!`);sfx('lock');const e=$('mspec');if(e)e.innerHTML=`<b class="gold">👥 ${esc(d.n)} braucht das Publikum! Tippe auf die Antwort, die du für richtig hältst.</b>`;const a=$('mans');if(a)a.classList.add('pulse')},
+ mpollreq(d){toast(`👥 ${d.n} fragt das Publikum – stimm ab!`);const e=$('mspec');if(e)e.innerHTML=`<b class="gold">👥 ${esc(d.n)} braucht das Publikum! Tippe auf die Antwort, die du für richtig hältst.</b>`;const a=$('mans');if(a)a.classList.add('pulse')},
  mtelring(d){mJkSet(d.jk);const e=$('mjkr');if(e)e.innerHTML=`<div class="info">📞 Es klingelt bei <b>${esc(d.name)}</b> …</div>`;mod('tel',{c:d.name})},
  mtelres(d){const e=$('mjkr');if(!e)return;const q=ON.mm&&ON.mm.q;if(d.none){e.innerHTML=`<div class="info">📞 ${esc(d.name)} ist nicht rangegangen 😬</div>`;return}
   const s=['hm, keine Ahnung … vielleicht','ich glaube','ich bin mir ziemlich sicher:'][d.s!=null?d.s:1];const ans=d.v>=0&&q?`<b>${'ABCD'[d.v]}: ${esc(q.opts[d.v])}</b>`:'<b>keine Ahnung</b>';
@@ -3016,7 +3026,7 @@ function mJkBtns(jk){return`<div class="jokers"><button class="jk" data-a="mjk|f
 function mDecList(dec){dec=dec||{};return mAct2().map(p=>{const v=dec[p.id];return`<span class="pchip">${headH(p,20)} ${nameH(p)} ${v==null?'🤔':v?'▶️ weiter':'🏳️ raus'}</span>`}).join('')}
 function mAct2(){return ON.players.filter(p=>p.m&&p.m.st==='in')}
 function mTimer(){const mm=ON.mm;stopTimer();if(!mm||!mm.end){return}let last=-1;const loop=now=>{if(!ON||!ON.mm||ON.mm!==mm||ON.state!=='mq')return;const left=(mm.end-now)/1000;const tb=$('tb');if(tb){tb.style.width=clamp(left/mm.dur*100,0,100)+'%';$('tw').className='timer'+(left<10?' warn':'')}
- if(left<8&&left>0&&Math.ceil(left)!==last&&mm.act&&mm.v==null){last=Math.ceil(left);sfx('tick')}if(left<=0){if(mm.act&&mm.v==null){mm.up=true;document.querySelectorAll('#mans .a').forEach(b=>b.disabled=true);const f=$('mfa');if(f)f.innerHTML='<div class="info" style="text-align:center">⏰ Zeit um!</div>'}return}TIMER=requestAnimationFrame(loop)};TIMER=requestAnimationFrame(loop)}
+ if(left<8&&left>0&&Math.ceil(left)!==last&&mm.act&&mm.v==null){last=Math.ceil(left);}if(left<=0){if(mm.act&&mm.v==null){mm.up=true;document.querySelectorAll('#mans .a').forEach(b=>b.disabled=true);const f=$('mfa');if(f)f.innerHTML='<div class="info" style="text-align:center">⏰ Zeit um!</div>'}return}TIMER=requestAnimationFrame(loop)};TIMER=requestAnimationFrame(loop)}
 /* ----- Bildschirme ----- */
 function showMillIntro(m){stopTimer();sayStop();if(ON.role!=='host'){ON.players=m.players;ON.cfg=m.cfg||ON.cfg}ON.state='mstart';G={mode:'online'};const n=ON.players.length;
  view(`${mHead('Wer wird Millionär')}<div class="card" style="text-align:center;padding:22px 14px;background:linear-gradient(160deg,#1e1b4b,#0f172a);color:#fff"><div style="font-size:54px">💰</div><h2 style="margin:4px 0">Wer wird Millionär?</h2><div class="sm" style="opacity:.85">${n} Kandidaten · 15 Fragen · Sicherheitsstufen bei 500 € und 16.000 €</div></div><div id="mmod"></div>
@@ -3032,16 +3042,16 @@ function showMillQ(m){ON.state='mq';stopTimer();sayStop();const r=$('ringov');if
  <div id="mcnt" class="xs mut" style="text-align:center;margin-top:8px"></div><div id="mpl">${mPlayers()}</div>${emoBar()}`);
  const nr=m.i+1;mod(m.i===14?'qmil':m.i>=9?'qbig':'q',{nr,amt:eur(LADDER[m.i])});if(P.voice.q)say(m.q.q+'. '+m.q.opts.map((o,i)=>'ABCD'[i]+': '+o).join('. '));mTimer()}
 function mPick(i){const mm=ON.mm;if(!mm||ON.state!=='mq'||mm.up)return;if(mm.rem.includes(i))return;
- if(!mm.act){mm.tip=i;document.querySelectorAll('#mans .a').forEach((b,k)=>b.classList.toggle('tip',k===i));mSend({t:'mvote',i:mm.i,v:i});const s=$('mspec');if(s)s.innerHTML=`👀 Dein Tipp: <b>${'ABCD'[i]}</b> – zählt fürs Publikum.`;sfx('lock');return}
+ if(!mm.act){mm.tip=i;document.querySelectorAll('#mans .a').forEach((b,k)=>b.classList.toggle('tip',k===i));mSend({t:'mvote',i:mm.i,v:i});const s=$('mspec');if(s)s.innerHTML=`👀 Dein Tipp: <b>${'ABCD'[i]}</b> – zählt fürs Publikum.`;return}
  if(mm.v!=null)return;if(ON.cfg.fa===false){mm.sel=i;mLock();return}
- mm.sel=i;document.querySelectorAll('#mans .a').forEach((b,k)=>b.classList.toggle('pend',k===i));sfx('tick');
+ mm.sel=i;document.querySelectorAll('#mans .a').forEach((b,k)=>b.classList.toggle('pend',k===i));
  const L=`${'ABCD'[i]}`;const t=modLine('fa',{L});$('mfa').innerHTML=`<div class="card" style="text-align:center;margin-top:10px;border-color:#fbbf24"><div class="modb" style="margin-bottom:8px"><span class="mic">🎙️</span><span>${esc(t)}</span></div><div class="row" style="justify-content:center"><button class="btn gold" data-a="mlock">✔ Ja, endgültig!</button><button class="btn alt" data-a="mundo">↩ Nochmal überlegen</button></div></div>`;say(t,true);setTimeout(()=>{const f=$('mfa');if(f)f.scrollIntoView({behavior:'smooth',block:'center'})},50)}
 function mUndo(){const mm=ON.mm;if(!mm||mm.v!=null)return;mm.sel=null;document.querySelectorAll('#mans .a').forEach(b=>b.classList.remove('pend'));$('mfa').innerHTML='';sayStop()}
-function mLock(){const mm=ON.mm;if(!mm||mm.v!=null||mm.sel==null||ON.state!=='mq'||mm.up)return;mm.v=mm.sel;document.querySelectorAll('#mans .a').forEach((b,k)=>{b.classList.remove('pend');b.disabled=true;if(k===mm.v)b.classList.add('lock')});sfx('lock');
+function mLock(){const mm=ON.mm;if(!mm||mm.v!=null||mm.sel==null||ON.state!=='mq'||mm.up)return;mm.v=mm.sel;document.querySelectorAll('#mans .a').forEach((b,k)=>{b.classList.remove('pend');b.disabled=true;if(k===mm.v)b.classList.add('lock')});
  $('mfa').innerHTML='';['mjk','mqb'].forEach(k=>{const e=$(k);if(e)e.innerHTML=''});mod('lock',{L:'ABCD'[mm.v]});mSend({t:'mans',i:mm.i,v:mm.v,ms:Math.round(performance.now()-mm.t0)})}
 function mTelPick(){const mm=ON.mm;if(!mm||!mm.act||mm.v!=null)return;const others=ON.players.filter(p=>p.id!==meId());
  $('mjkr').innerHTML=`<div class="card"><b>📞 Wen rufst du an?</b><div class="xs mut" style="margin:2px 0 8px">Die Person sieht deine Frage und schickt dir ihren Tipp.</div><div class="pwrap">${others.map(p=>`<button class="btn alt s" data-a="mtel|${p.id}">${headH(p,20)} ${esc(p.name)}${p.m&&p.m.st==='in'?' 🎯':''}</button>`).join('')}<button class="btn alt s" data-a="mtel|bot">🤖 Telefon-Joker vom Computer</button></div><button class="btn alt s" style="margin-top:8px" data-a="mtelx">Abbrechen</button></div>`}
-function showRing(d){const old=$('ringov');if(old)old.remove();sfx('win');if(navigator.vibrate)navigator.vibrate([200,100,200]);
+function showRing(d){const old=$('ringov');if(old)old.remove();if(navigator.vibrate)navigator.vibrate([200,100,200]);
  const el=document.createElement('div');el.className='ring';el.id='ringov';el.innerHTML=`<div class="card"><div style="text-align:center"><div style="font-size:44px">📞</div><b style="font-size:18px">${esc(d.fa||'')} ${esc(d.from)} ruft dich an!</b><div class="xs mut">Hilf mit deinem Tipp – du hast ${d.dur} Sekunden.</div></div>
  ${d.q.emo?`<div style="font-size:44px;text-align:center">${d.q.emo}</div>`:''}<div class="q" style="font-weight:800;font-size:17px;margin:10px 0">${esc(d.q.q)}</div>
  <div class="xs mut">Wie sicher bist du?</div><div class="row" style="gap:6px;margin:4px 0 10px" id="rings">${['🤷 Keine Ahnung','🤔 Ich glaube','💪 Sicher'].map((t,i)=>`<button class="btn s ${i===1?'':'alt'}" data-a="rsure|${i}">${t}</button>`).join('')}</div>
@@ -3049,15 +3059,16 @@ function showRing(d){const old=$('ringov');if(old)old.remove();sfx('win');if(nav
  el.dataset.s='1';document.body.appendChild(el);const t=modLine('ring',{c:d.from});say(t,true);setTimeout(()=>{if(el.isConnected)el.remove()},(d.dur+3)*1000)}
 function ringAns(v){const el=$('ringov');if(!el)return;const s=+el.dataset.s||1;el.remove();mSend({t:'mcall',v:+v,s});toast(+v>=0?`📞 Tipp ${'ABCD'[+v]} verschickt`:'📞 Aufgelegt')}
 function showMillLock(m){if(!ON.mm)return;ON.state='mlock';stopTimer();const tw=$('tw');if(tw)tw.style.display='none';document.querySelectorAll('#mans .a').forEach(b=>b.disabled=true);['mfa','mjk','mqb'].forEach(k=>{const e=$(k);if(e)e.innerHTML=''});
- const a=$('mafter');if(a)a.innerHTML=`<div class="card sus" style="text-align:center;margin-top:10px"><div style="font-size:34px">🥁</div><b>Alle Antworten sind eingeloggt …</b></div>`;drum(3.3);mod('sus',{},true)}
+ const a=$('mafter');if(a)a.innerHTML=`<div class="card" style="text-align:center;margin-top:10px;border-color:#fbbf24"><b>🔒 Alle Antworten sind eingeloggt</b><div class="sm mut" style="margin-top:4px">Auflösung in</div><div class="big gold" id="mcd" style="margin:2px 0">3</div></div>`;mod('sus',{},true);
+ let k=3;const iv=setInterval(()=>{k--;const e=$('mcd');if(!e||k<=0||ON.state!=='mlock'){clearInterval(iv);if(e&&k<=0)e.textContent='0';return}e.textContent=k},1150)}
 function showMillRev(m){if(ON.role!=='host')ON.players=m.players;ON.state='mrev';stopTimer();const mm=ON.mm||{};const me=meP();const res=m.res[meId()];const q=mm.q;
  if(!$('mans')&&q){view(`${mHead(`Frage ${m.i+1}/15`)}${mLadder(m.i)}<div id="mmod"></div>${qcardHTML(q,catOf(q.cat)||CATS[0])}<div class="ans mill" id="mans">${q.opts.map((o,i)=>`<button class="a" id="ma${i}"><span class="l">${'ABCD'[i]}</span><span style="flex:1">${esc(o)}</span><span class="mh" id="mw${i}"></span></button>`).join('')}</div><div id="mafter"></div><div id="mpl"></div>${emoBar()}`)}
  document.querySelectorAll('#mans .a').forEach((b,k)=>{b.disabled=true;b.classList.remove('pend','tip');if(k===m.ok){b.classList.remove('lock');b.classList.add('ok')}else if(k===mm.v){b.classList.remove('lock');b.classList.add('no')}
   const heads=ON.players.filter(p=>m.picks[p.id]===k);const vt=Object.values(m.votes||{}).filter(v=>v===k).length;const w=$('mw'+k);if(w)w.innerHTML=heads.map(p=>`<span title="${esc(p.name)}">${p.ava}</span>`).join('')+(vt?`<span class="xs" style="margin-left:6px;opacity:.8">👀${vt}</span>`:'')});
  const R=ON.players.filter(p=>m.res[p.id]==='ok'),W=ON.players.filter(p=>m.res[p.id]==='no'),T=ON.players.filter(p=>m.res[p.id]==='time');const amt=eur(LADDER[m.i]);const right=q?q.opts[m.ok]:'';
  let head,bg;if(res==='ok'){const won=me.m.st==='won';head=won?`<div style="font-size:44px">🏆</div><b style="font-size:22px">MILLIONÄR!</b>`:`<b style="font-size:20px">✔ Richtig! ${amt}</b>${SAFE.includes(m.i)?'<div class="sm">🛡️ Sicherheitsstufe erreicht!</div>':''}`;bg='#15803d';
-  if(won){confetti(300);sfx('win');mod('mil')}else{sfx('ok');if(SAFE.includes(m.i)){confetti(120);mod('safe',{amt})}else mod('right',{amt})}}
- else if(res==='no'){head=`<b style="font-size:20px">✘ Leider falsch!</b><div class="sm">Du gehst mit <b>${eur(me.m.fin)}</b> nach Hause.</div>`;bg='#991b1b';sfx('no');mod('wrong',{fin:eur(me.m.fin),R:right})}
+  if(won){confetti(300);mod('mil')}else{if(SAFE.includes(m.i)){confetti(120);mod('safe',{amt})}else mod('right',{amt})}}
+ else if(res==='no'){head=`<b style="font-size:20px">✘ Leider falsch!</b><div class="sm">Du gehst mit <b>${eur(me.m.fin)}</b> nach Hause.</div>`;bg='#991b1b';mod('wrong',{fin:eur(me.m.fin),R:right})}
  else if(res==='time'){head=`<b style="font-size:20px">⏰ Keine Antwort</b><div class="sm">Du steigst automatisch mit <b>${eur(me.m.fin)}</b> aus.</div>`;bg='#475569';mod('time',{fin:eur(me.m.fin)})}
  else{const t=mm.tip;head=t==null?'<b>👀 Auflösung</b>':t===m.ok?'<b>👀 Dein Tipp war richtig! 🧠</b>':'<b>👀 Dein Tipp war falsch.</b>';bg='var(--p2)';say('Richtig ist '+'ABCD'[m.ok]+': '+right,true)}
  const a=$('mafter');if(a)a.innerHTML=`<div class="card" style="text-align:center;margin-top:10px;padding:12px;background:${bg};color:#fff">${head}</div>${m.info?`<div class="info">💡 ${esc(m.info)}</div>`:''}
@@ -3075,10 +3086,117 @@ function showMillDec(m){if(ON.role!=='host')ON.players=m.players;ON.state='mdec'
  <div class="card" style="padding:10px"><div class="sm" style="margin-bottom:4px"><b>Entscheidungen</b></div><div class="pwrap" id="mdl">${mDecList({})}</div></div><div id="mpl">${mPlayers()}</div>${emoBar()}`);
  if(act)mod(noRisk?'decsafe':'dec',{bank,nx,safe});else mod('watch',{},false);bar(m.dur)}
 function castDec(go){if(!ON||ON.state!=='mdec'||ON.mmDec!=null)return;const me=meP();if(!me||!me.m||me.m.st!=='in')return;ON.mmDec=!!go;const b=$('decb');if(b)b.innerHTML=go?'<div class="info" style="text-align:center">▶️ Du spielst weiter – warte auf die anderen …</div>':`<div class="info" style="text-align:center">🏳️ Du steigst aus mit ${eur(me.m.bank)}!</div>`;
- sfx(go?'ok':'win');mod(go?'go':'quit',{bank:eur(me.m.bank)});mSend({t:'mdec',go:!!go})}
+ mod(go?'go':'quit',{bank:eur(me.m.bank)});mSend({t:'mdec',go:!!go})}
 function showMillGo(m){if(ON.role!=='host')ON.players=m.players;ON.state='mgo';stopTimer();const q=ON.players.filter(p=>m.quit.includes(p.id));const n=ON.players.filter(p=>p.m&&p.m.st==='in').length;
  view(`${mHead('Gleich geht’s weiter')}<div class="card" style="text-align:center;padding:20px"><div style="font-size:40px">${q.length?'🏳️':'🔥'}</div>${q.length?`<b>Ausgestiegen:</b><div class="pwrap" style="justify-content:center;margin-top:6px">${q.map(p=>chipP(p,` <b class="xs">${eur(p.m.fin)}</b>`)).join('')}</div>`:'<b>Alle spielen weiter!</b>'}<div class="sm mut" style="margin-top:8px">Noch ${n} Kandidat${n===1?'':'en'} im Spiel</div></div><div id="mpl">${mPlayers()}</div>${emoBar()}`);
  if(q.length)say(q.map(p=>p.name).join(' und ')+(q.length>1?' steigen aus.':' steigt aus.'));else say('Alle spielen weiter!')}
+
+/* ====================== Online: Hochpokern ====================== */
+const PKTOPICS='Automarken;Automodelle von VW;Formel-1-Fahrer;Fußballvereine aus Deutschland;Fußballspieler der deutschen Nationalmannschaft;Länder in Europa;Länder in Afrika;Hauptstädte;Deutsche Städte mit über 100.000 Einwohnern;Bundesländer und ihre Hauptstädte;Flüsse in Deutschland;Pokémon;Minecraft-Mobs;Minecraft-Blöcke;Fortnite-Skins;Videospiele von Nintendo;Spielkonsolen;Rapper aus Deutschland;Rapper aus den USA;Sänger und Sängerinnen;Bands;Disney-Filme;Pixar-Filme;Marvel-Helden;Harry-Potter-Figuren;Star-Wars-Figuren;Simpsons-Figuren;Netflix-Serien;Zeichentrickserien;YouTuber;Streamer;Social-Media-Apps;Smartphone-Marken;Elektronikmarken;Modemarken;Sportmarken;Getränkemarken;Süßigkeiten;Eissorten;Pizzabeläge;Obstsorten;Gemüsesorten;Gewürze;Käsesorten;Nudelsorten;Biersorten bzw. Biermarken;Fast-Food-Ketten;Supermärkte;Tiere im Zoo;Hunderassen;Katzenrassen;Vögel;Fische;Insekten;Dinosaurier;Bäume;Blumen;Sportarten;Olympische Sportarten;Werkzeuge;Elektrische Bauteile;Musikinstrumente;Berufe;Schulfächer;Körperteile;Organe;Krankheiten;Planeten und Monde;Sternbilder;Chemische Elemente;Erfinder;Wissenschaftler;Bundeskanzler und Bundespräsidenten;US-Präsidenten;Könige und Kaiser;Götter aus Mythologien;Märchen;Märchenfiguren;Brettspiele;Kartenspiele;Tänze;Sprachen;Farben;Automarken aus Japan;Motorradmarken;Fahrzeugtypen (Bus, Lkw …);Fluggesellschaften;Hotelketten;Wörter mit „Auto“ am Anfang;Wörter, die auf „-ung“ enden;Tiere mit vier Buchstaben;Vornamen mit M;Länder mit A;Städte mit B;Emojis, die man oft benutzt;Jugendwörter;Schimpfwörter, die man im TV sagen darf;Weihnachtslieder;Kinderlieder;Superhelden aus DC;Anime-Serien;K-Pop-Bands'.split(';');
+const PKSET={pr:[3,5,8,10,15],pc:[5,10,15,20],pt:[10,15,20,30,45],pv:['type','say'],ps:[3,4,5,6,8,10]};
+Object.assign(OSET,PKSET);
+Object.assign(MOD,{
+ pkbid:['Oha, {v} Stück!','{v}? Mutig, {n2}!','{n2} legt {v} auf den Tisch!','Wow – {v}! Wer geht da noch mit?','{n2} sagt {v}. Hm, ob das klappt?'],
+ pkfold:['{n2} steigt aus.','{n2} passt.','Zu heiß für {n2} – raus!','{n2} legt die Karten weg.'],
+ pkprove:['{n2}, jetzt zeig, was du kannst: {v} {t}!','Die Zeit läuft, {n2}! {v} Stück, los geht’s!'],
+ pkok:['Geschafft! {n2} kassiert ab!','Respekt, {n2}! Gebot erfüllt.'],
+ pkfail:['Nicht geschafft! {n2} muss zahlen.','Autsch, {n2} – das war zu hoch gepokert!'],
+ pktopic:['Neue Runde! {n2} sucht das Thema aus.','{n2}, du bestimmst das Thema!']});
+function pkAlive(){return ON.players.filter(p=>p.score>0)}
+function pkValid(items){return(items||[]).filter(it=>{if(it.dup)return false;const vs=Object.values(it.v||{});const no=vs.filter(x=>!x).length,yes=vs.length-no;return !(no>yes)}).length}
+function pkMedian(c){const v=Object.values(c||{}).map(Number).sort((a,b)=>a-b);if(!v.length)return 0;return v[Math.floor((v.length-1)/2)]}
+function pkCount(){const k=ON.pk;return ON.cfg.pv==='say'?pkMedian(k.counts):pkValid(k.items)}
+/* ----- Host ----- */
+function pkStart(){ON.used=[];ON.usedA=[];ON.players.forEach(p=>{resetP(p);p.score=+ON.cfg.pc||10});ON.pk={r:-1,ci:-1,usedT:[],best:null,worst:null};P.games++;pkNextRound()}
+function pkNextRound(){if(!ON||ON.role!=='host')return;clearT();const k=ON.pk;k.r++;const al=pkAlive();
+ if(k.r>=(+ON.cfg.pr||5)||(ON.players.length>1&&al.length<2)||!al.length){pkEnd();return}
+ k.ci=(k.ci+1)%al.length;const ch=al[k.ci];k.chooser=ch.id;let pool=PKTOPICS.filter(t=>!k.usedT.includes(t));if(pool.length<3)pool=PKTOPICS;k.sugg=shuffle([...pool]).slice(0,3);ON.state='ptopic';
+ const m={t:'pktopic',r:k.r,rounds:+ON.cfg.pr,chooser:ch.id,sugg:k.sugg,dur:30,players:pubPlayers(),cfg:ON.cfg};hostBroadcast(m);showPkTopic(m);ON.mT=setTimeout(()=>pkSetTopic(k.sugg[0]),31000)}
+function pkSetTopic(t){const k=ON.pk;if(!ON||ON.state!=='ptopic')return;clearT();k.topic=String(t).replace(/[<>]/g,'').trim().slice(0,60)||k.sugg[0];k.usedT.push(k.topic);
+ const al=pkAlive();const s=al.findIndex(p=>p.id===k.chooser);k.order=[...al.slice(Math.max(0,s)),...al.slice(0,Math.max(0,s))].map(p=>p.id);k.bids={};k.folded=[];k.high=0;k.holder=null;k.turn=k.order[0];k.act=null;pkTurn()}
+function pkActive(){const k=ON.pk;return k.order.filter(id=>!k.folded.includes(id)&&ON.players.some(p=>p.id===id))}
+function pkTurn(){const k=ON.pk;clearT();const act=pkActive();
+ if(!act.length){pkNextRound();return}
+ if(act.length===1&&(k.holder===act[0]||ON.players.length===1&&k.holder)){if(!k.holder){k.holder=act[0];k.high=Math.max(1,k.high)}pkProve();return}
+ if(!act.includes(k.turn))k.turn=pkNextId(k.turn);
+ ON.state='pbid';const dur=+ON.cfg.pt||20;const m={t:'pkbid',r:k.r,rounds:+ON.cfg.pr,topic:k.topic,bids:k.bids,folded:k.folded,order:k.order,turn:k.turn,high:k.high,holder:k.holder,dur,act:k.act,players:pubPlayers()};hostBroadcast(m);showPkBid(m);
+ ON.mT=setTimeout(()=>{if(!ON||ON.state!=='pbid'||ON.pk.turn!==m.turn)return;if(!k.high)pkDoBid(m.turn,1);else pkDoFold(m.turn)},dur*1000+1500)}
+function pkNextId(id){const k=ON.pk;const n=k.order.length;let i=k.order.indexOf(id);for(let s=0;s<n;s++){i=(i+1)%n;const c=k.order[i];if(!k.folded.includes(c)&&ON.players.some(p=>p.id===c))return c}return id}
+function pkDoBid(id,v){const k=ON.pk;v=Math.round(+v);if(!(v>k.high&&v<=999))return;k.bids[id]=v;k.high=v;k.holder=id;k.act={id,v};k.turn=pkNextId(id);pkTurn()}
+function pkDoFold(id){const k=ON.pk;if(!k.high||k.folded.includes(id))return;k.folded.push(id);k.act={id,fold:1};k.turn=pkNextId(id);pkTurn()}
+function pkProve(){const k=ON.pk;clearT();k.prover=k.holder;k.target=k.high;k.items=[];k.counts={};k.away=0;const dur=clamp(k.target*(+ON.cfg.ps||5)+10,20,600);k.dur=dur;ON.state='pprove';
+ const m={t:'pkprove',r:k.r,topic:k.topic,prover:k.prover,target:k.target,dur,mode:ON.cfg.pv,bids:k.bids,players:pubPlayers()};hostBroadcast(m);showPkProve(m);ON.mT=setTimeout(pkCheck,dur*1000+1500)}
+function pkItemsMsg(){const k=ON.pk;const m={t:'pkitems',items:k.items.map(it=>({k:it.k,w:it.w,dup:it.dup,v:it.v}))};hostBroadcast(m);MG.pkitems(m)}
+function pkCheck(){if(!ON||ON.state!=='pprove')return;clearT();ON.state='pcheck';const m={t:'pkcheck',dur:8};hostBroadcast(m);MG.pkcheck(m);ON.mT=setTimeout(pkResult,8500)}
+function pkResult(){if(!ON||ON.state!=='pcheck')return;clearT();const k=ON.pk;const cnt=pkCount(),ok=cnt>=k.target;const pr=ON.players.find(p=>p.id===k.prover);const tr=[];
+ if(pr){ON.players.forEach(o=>{if(o===pr||o.score<=0)return;if(ok){const a=Math.min(1,o.score);o.score-=a;pr.score+=a;if(a)tr.push([o.id,pr.id,a])}else{const a=Math.min(2,pr.score);if(a<=0)return;pr.score-=a;o.score+=a;tr.push([pr.id,o.id,a])}});
+  if(ok){pr.cor++;if(!k.best||k.target>k.best.v)k.best={n:pr.name,v:k.target}}else if(!k.worst||k.target-cnt>k.worst.d)k.worst={n:pr.name,d:k.target-cnt,v:k.target,c:cnt}}
+ ON.state='pres';const last=k.r+1>=(+ON.cfg.pr||5)||(ON.players.length>1&&pkAlive().length<2);
+ const m={t:'pkres',prover:k.prover,target:k.target,cnt,ok,tr,away:k.away,topic:k.topic,last,players:pubPlayers()};hostBroadcast(m);showPkRes(m);if(ON.cfg.auto)ON.mT=setTimeout(pkNextRound,last?7000:9000)}
+function pkEnd(){if(!ON)return;clearT();ON.state='end';const k=ON.pk||{};const a=[];if(k.best)a.push(['🏆','Höchstes Gebot geschafft',k.best.n,k.best.v+' Stück']);if(k.worst)a.push(['🤥','Größter Reinfall',k.worst.n,k.worst.c+' von '+k.worst.v]);
+ const m={t:'end',players:pubPlayers(),mode:'poker',awards:a};hostBroadcast(m);showEnd(m)}
+function pkDrop(){if(!ON||!ON.pk)return;const k=ON.pk;if(ON.state==='pbid')pkTurn();else if(ON.state==='ptopic'&&!ON.players.some(p=>p.id===k.chooser))pkSetTopic(k.sugg[0]);else if((ON.state==='pprove'||ON.state==='pcheck')&&!ON.players.some(p=>p.id===k.prover)){ON.state='pres';clearT();ON.mT=setTimeout(pkNextRound,1500)}}
+Object.assign(MH,{
+ pkt(p,d){if(ON.state==='ptopic'&&p.id===ON.pk.chooser&&d.topic)pkSetTopic(String(d.topic))},
+ pkb(p,d){if(ON.state!=='pbid'||p.id!==ON.pk.turn)return;if(d.fold)pkDoFold(p.id);else pkDoBid(p.id,d.v)},
+ pki(p,d){const k=ON.pk;if(ON.state!=='pprove'||p.id!==k.prover||ON.cfg.pv==='say')return;const w=String(d.w||'').replace(/[<>]/g,'').trim().slice(0,40);if(!w||k.items.length>=300)return;const n=norm(w);k.items.push({k:k.items.length,w,n,dup:k.items.some(it=>it.n===n),v:{}});pkItemsMsg()},
+ pkv(p,d){const k=ON.pk;if(!['pprove','pcheck'].includes(ON.state)||p.id===k.prover)return;const it=k.items[+d.k];if(!it)return;it.v[p.id]=d.v?1:0;pkItemsMsg()},
+ pkc(p,d){const k=ON.pk;if(!['pprove','pcheck'].includes(ON.state)||p.id===k.prover||ON.cfg.pv!=='say')return;k.counts[p.id]=clamp(Math.round(+d.c||0),0,999);const m={t:'pkcnt',counts:k.counts};hostBroadcast(m);MG.pkcnt(m)},
+ pkdone(p){if(ON.state==='pprove'&&p.id===ON.pk.prover)pkCheck()},
+ pkaway(p){const k=ON.pk;if(ON.state!=='pprove'||p.id!==k.prover)return;k.away++;const m={t:'pkawayb',n:p.name,c:k.away};hostBroadcast(m);MG.pkawayb(m)}});
+/* ----- Anzeige ----- */
+Object.assign(MG,{pktopic(d){showPkTopic(d)},pkbid(d){showPkBid(d)},pkprove(d){showPkProve(d)},pkres(d){showPkRes(d)},
+ pkitems(d){if(ON.pkc)ON.pkc.items=d.items;pkRenderList()},
+ pkcnt(d){if(ON.pkc)ON.pkc.counts=d.counts;pkRenderCnt()},
+ pkcheck(d){ON.state='pcheck';stopTimer();const e=$('pkst');if(e)e.innerHTML=`<div class="card" style="text-align:center;border-color:#fbbf24"><b>⏱️ Zeit vorbei!</b><div class="sm mut">Noch ${d.dur} Sekunden zum Prüfen – stimmt jetzt ab bzw. korrigiert eure Zählung.</div></div>`;const f=$('pkin');if(f)f.innerHTML='';bar(d.dur)},
+ pkawayb(d){toast(`👀 ${d.n} hat die App verlassen!`);const e=$('pkaway');if(e)e.innerHTML=`👀 ${esc(d.n)} hat ${d.c}× die App verlassen`}});
+function pkChip(v,big){return`<span class="pchipx ${big?'big':''}">${v==null?'':v}</span>`}
+function pkGrid(m){const k=m||{};return`<div class="pkgrid">${ON.players.map(p=>{const fold=(k.folded||[]).includes(p.id),turn=k.turn===p.id,hold=k.holder===p.id;const inR=!k.order||k.order.includes(p.id);
+ return`<div class="pkt ${turn?'turn':''} ${fold||!inR?'fold':''}">${headH(p,34)}<div class="nm">${p.id===meId()?'<b>':''}${esc(p.name)}${p.id===meId()?'</b>':''}</div>${pkChip(k.bids&&k.bids[p.id]!=null?k.bids[p.id]:null)}<div class="xs">${fold?'🏳️ raus':!inR?'👀 zuschauen':turn?'🤔 ist dran':hold?'👑 höchstes':''}</div><div class="xs mut">${p.score} Chips</div></div>`}).join('')}</div>`}
+function pkTopicBox(t){return`<div class="card" style="text-align:center;background:linear-gradient(160deg,#064e3b,#022c22);color:#fff;border-color:#10b98155"><div class="xs" style="letter-spacing:2px;opacity:.8">WER KENNT MEHR …</div><div style="font-size:22px;font-weight:900;margin-top:4px">${esc(t)}?</div></div>`}
+function pkHead(t){return`<div class="qhead"><button class="back" data-a="oleave">✕</button><span class="chip">🃏 ${t}</span><span style="flex:1"></span>${voiceChip()}<span class="chip">🌐 ${ON.code}</span></div>`}
+function showPkTopic(m){ON.state='ptopic';stopTimer();sayStop();if(ON.role!=='host'){ON.players=m.players;if(m.cfg)ON.cfg=m.cfg}G={mode:'online'};const ch=ON.players.find(p=>p.id===m.chooser)||{name:'?'};const mine=m.chooser===meId();ON.pkSugg=m.sugg;
+ view(`${pkHead(`Runde ${m.r+1}/${m.rounds}`)}<div id="mmod"></div><div class="timer" id="tw"><i id="tb" style="width:100%"></i></div>
+ ${mine?`<div class="card"><h3>🎯 Du wählst das Thema!</h3><div class="xs mut" style="margin-bottom:8px">„Wer kennt mehr …“</div><div style="display:grid;gap:8px">${m.sugg.map((t,i)=>`<button class="btn alt" style="text-align:left" data-a="pkt|${i}">${esc(t)}</button>`).join('')}</div>
+  <div class="sm" style="margin:12px 0 4px">… oder eigenes Thema:</div><div class="row" style="flex-wrap:nowrap"><input class="txt" id="pktin" maxlength="60" placeholder="z. B. Automarken" onkeydown="if(event.key==='Enter')document.querySelector('[data-a=pktc]').click()"><button class="btn" data-a="pktc">OK</button></div></div>`
+ :`<div class="card" style="text-align:center;padding:24px">${headH(ch,52)}<div style="margin-top:8px"><b>${esc(ch.name)}</b> sucht das Thema aus …</div></div>`}
+ <div class="card" style="padding:10px"><div class="pwrap">${rankOrder(ON.players).map(p=>chipP(p,` <b class="xs">${p.score} Chips</b>`)).join('')}</div></div>${emoBar()}`);
+ mod('pktopic',{n2:mine?'du':ch.name});bar(m.dur)}
+function showPkBid(m){ON.state='pbid';stopTimer();if(ON.role!=='host')ON.players=m.players;G={mode:'online'};ON.pkm=m;const mine=m.turn===meId();const tp=ON.players.find(p=>p.id===m.turn)||{name:'?'};ON.pkv=m.high+1;
+ view(`${pkHead(`Runde ${m.r+1}/${m.rounds}`)}${pkTopicBox(m.topic)}<div id="mmod"></div><div class="timer" id="tw"><i id="tb" style="width:100%"></i></div>${pkGrid(m)}
+ ${mine?`<div class="card" style="text-align:center;border-color:var(--acc)"><b>Du bist dran!</b><div class="sm mut">${m.high?`Höchstes Gebot: ${m.high} – biete mehr oder steig aus.`:'Du fängst an – wie viele schaffst du?'}</div>
+  <div class="row" style="justify-content:center;margin:10px 0"><button class="btn alt s" data-a="pkn|-1">−</button><div class="big" id="pkv" style="margin:0 10px;min-width:70px">${ON.pkv}</div><button class="btn alt s" data-a="pkn|1">+</button><button class="btn alt s" data-a="pkn|5">+5</button></div>
+  <div class="row" style="justify-content:center"><button class="btn gold" data-a="pkbid">🃏 Ich kann <span id="pkv2">${ON.pkv}</span>!</button><button class="btn alt" data-a="pkfold" ${m.high?'':'disabled'}>🏳️ Aussteigen</button></div></div>`
+ :`<div class="card sm" style="text-align:center">${headH(tp,24)} <b>${esc(tp.name)}</b> ist dran${m.high?` – höchstes Gebot: <b>${m.high}</b>`:''} …</div>`}${emoBar()}`);
+ if(m.act){const ap=ON.players.find(p=>p.id===m.act.id)||{name:'?'};const nm=m.act.id===meId()?'du':ap.name;if(m.act.fold)mod('pkfold',{n2:nm});else mod('pkbid',{n2:nm,v:m.act.v})}bar(m.dur)}
+function pkSetV(d){if(!ON.pkm)return;ON.pkv=clamp((ON.pkv||1)+d,ON.pkm.high+1,999);const a=$('pkv'),b=$('pkv2');if(a)a.textContent=ON.pkv;if(b)b.textContent=ON.pkv}
+let PKVIS=null;
+function showPkProve(m){ON.state='pprove';stopTimer();sayStop();if(ON.role!=='host')ON.players=m.players;G={mode:'online'};const mine=m.prover===meId();const pr=ON.players.find(p=>p.id===m.prover)||{name:'?'};
+ ON.pkc={m,items:[],counts:{},mine,myc:0};
+ if(PKVIS)document.removeEventListener('visibilitychange',PKVIS);PKVIS=()=>{if(document.hidden&&ON&&ON.pkc&&ON.pkc.mine&&ON.state==='pprove')mSend({t:'pkaway'})};if(mine)document.addEventListener('visibilitychange',PKVIS);
+ const say=m.mode==='say';
+ view(`${pkHead('Beweisen!')}${pkTopicBox(m.topic)}<div id="mmod"></div><div class="timer" id="tw"><i id="tb" style="width:100%"></i></div>
+ <div class="card" style="text-align:center">${headH(pr,40)}<div><b>${mine?'Du musst':esc(pr.name)+' muss'}</b> ${pkChip(m.target,1)} <b>Stück nennen!</b></div><div class="big" id="pkcnt" style="margin:4px 0">0 / ${m.target}</div><div class="xs neg" id="pkaway"></div></div>
+ <div id="pkst"></div>
+ <div id="pkin">${mine?(say?`<div class="card sm" style="text-align:center">🗣️ Sag sie jetzt laut! Die anderen zählen mit.<br><button class="btn gold" style="margin-top:10px" data-a="pkdone">✅ Fertig</button></div>`
+  :`<div class="card"><div class="row" style="flex-wrap:nowrap"><input class="txt" id="pkw" maxlength="40" placeholder="Begriff eintippen + Enter" autocomplete="off" autocapitalize="off" onkeydown="if(event.key==='Enter'){event.preventDefault();pkAdd()}"><button class="btn" data-a="pkadd">+</button></div><button class="btn gold s" style="width:100%;margin-top:8px" data-a="pkdone">✅ Fertig</button><div class="xs mut" style="margin-top:6px">Nicht googeln – die anderen sehen, wenn du die App verlässt 👀</div></div>`)
+ :(say?`<div class="card" style="text-align:center"><div class="sm">Zähl jeden richtigen Begriff mit:</div><div class="row" style="justify-content:center;margin-top:8px"><button class="btn alt" data-a="pkc|-1">−1</button><div class="big" id="pkmy" style="margin:0 12px">0</div><button class="btn gold" style="font-size:22px;padding:14px 26px" data-a="pkc|1">+1</button></div><div class="xs mut" id="pkall" style="margin-top:6px"></div></div>`
+  :`<div class="card sm mut" style="text-align:center">Stimm bei jedem Begriff ab, ob er zählt 👍 / 👎</div>`)}</div>
+ <div id="pkl"></div>${emoBar()}`);
+ if(mine)setTimeout(()=>{const i=$('pkw');if(i)i.focus()},100);mod('pkprove',{n2:mine?'du':pr.name,v:m.target,t:m.topic});bar(m.dur)}
+function pkAdd(){const i=$('pkw');if(!i)return;const w=i.value.trim();if(!w)return;i.value='';i.focus();mSend({t:'pki',w})}
+function pkRenderList(){const c=ON.pkc;if(!c)return;const e=$('pkl');const cnt=pkValid(c.items);const ce=$('pkcnt');if(ce)ce.textContent=`${cnt} / ${c.m.target}`;if(!e)return;const me=meId();
+ e.innerHTML=c.items.length?`<div class="card" style="padding:8px">${[...c.items].reverse().map(it=>{const vs=Object.values(it.v||{});const no=vs.filter(x=>!x).length,yes=vs.length-no;const bad=it.dup||no>yes;const my=it.v?it.v[me]:undefined;
+  return`<div class="line it sm" style="${bad?'opacity:.5;text-decoration:line-through':''}"><span>${it.k+1}. <b>${esc(it.w)}</b>${it.dup?' <span class="xs neg">doppelt</span>':''}</span><span class="row" style="gap:4px;flex-wrap:nowrap"><span class="xs mut">👍${yes} 👎${no}</span>${!c.mine&&!it.dup?`<button class="btn s ${my===1?'':'alt'}" data-a="pkv|${it.k}|1">👍</button><button class="btn s ${my===0?'':'alt'}" data-a="pkv|${it.k}|0">👎</button>`:''}</span></div>`}).join('')}</div>`:''}
+function pkRenderCnt(){const c=ON.pkc;if(!c)return;const md=pkMedian(c.counts);const ce=$('pkcnt');if(ce)ce.textContent=`${md} / ${c.m.target}`;const a=$('pkall');if(a)a.textContent='Gezählt: '+Object.entries(c.counts).map(([id,v])=>{const p=ON.players.find(x=>x.id===id);return(p?p.name:'?')+' '+v}).join(' · ')}
+function showPkRes(m){ON.state='pres';stopTimer();if(ON.role!=='host')ON.players=m.players;G={mode:'online'};if(PKVIS){document.removeEventListener('visibilitychange',PKVIS);PKVIS=null}
+ const pr=ON.players.find(p=>p.id===m.prover)||{name:'?'};const mine=m.prover===meId();const nm=id=>{const p=ON.players.find(x=>x.id===id);return p?(p.id===meId()?'Du':p.name):'?'};
+ const sum={};m.tr.forEach(([f,t,a])=>{sum[f]=(sum[f]||0)-a;sum[t]=(sum[t]||0)+a});
+ const box=$('pkst');const html=`<div class="card" style="text-align:center;padding:14px;background:${m.ok?'#15803d':'#991b1b'};color:#fff"><div style="font-size:40px">${m.ok?'✅':'❌'}</div><b style="font-size:20px">${m.ok?(mine?'Geschafft!':esc(pr.name)+' hat es geschafft!'):(mine?'Nicht geschafft!':esc(pr.name)+' hat es nicht geschafft!')}</b><div class="sm">${m.cnt} von ${m.target} ${m.ok?'– jeder zahlt 1 Chip':'– Strafe: 2 Chips an jeden'}</div>${m.away?`<div class="xs">👀 ${m.away}× App verlassen</div>`:''}</div>
+ <div class="card" style="padding:10px"><div class="pwrap">${rankOrder(ON.players).map(p=>chipP(p,` <b class="xs">${p.score} Chips</b>${sum[p.id]?` <span class="xs ${sum[p.id]>0?'pos':'neg'}">${sum[p.id]>0?'+':''}${sum[p.id]}</span>`:''}`)).join('')}</div></div>
+ ${ON.role==='host'?`<button class="btn gold" style="width:100%" data-a="pknext">${m.last?'🏁 Zum Ergebnis':'Nächste Runde →'}</button>${ON.cfg.auto?'<div class="xs mut" style="text-align:center;margin-top:4px">geht automatisch weiter …</div>':''}`:'<div class="xs mut" style="text-align:center">Gleich geht es weiter …</div>'}`;
+ if(box){box.innerHTML=html;const f=$('pkin');if(f)f.innerHTML='';box.scrollIntoView({behavior:'smooth',block:'center'})}else view(`${pkHead('Ergebnis')}${pkTopicBox(m.topic)}<div id="mmod"></div><div id="pkst">${html}</div>${emoBar()}`);
+ document.querySelectorAll('#pkl button').forEach(b=>b.disabled=true);if(m.ok&&mine)confetti(120);mod(m.ok?'pkok':'pkfail',{n2:mine?'du':pr.name})}
 
 /* ---------- Statistik / Erfolge / Shop / Einstellungen ---------- */
 function stats(){const L=lvlInfo();view(`<div class="top"><button class="back" data-a="home">←</button><h2>📊 Statistik</h2></div>
@@ -3131,7 +3249,7 @@ document.addEventListener('click',e=>{const b=e.target.closest('[data-a]');if(!b
  case'ovote':castVote(p[1]);break;
  case'oest':onlineEst();break;
  case'oestd':estNudge(+p[1]);break;
- case'oquip':sendFx('quip',p[1]);break;
+ case'oquip':sendFx('quip',p[1]);{const ep=$('emop');if(ep)ep.hidden=true}break;
  case'look':buyLook(p[1],p.slice(2).join('|'));break;
  case'bkcopy':{const t=backupCode();if(navigator.clipboard)navigator.clipboard.writeText(t).then(()=>toast('📋 Code kopiert'),()=>toast('Kopieren nicht möglich'));break}
  case'bkshare':shareText(backupCode());break;
@@ -3140,11 +3258,22 @@ document.addEventListener('click',e=>{const b=e.target.closest('[data-a]');if(!b
  case'omode':ON.cfg.mode=p[1];hostCfg();break;
  case'otog':ON.cfg[p[1]]=!ON.cfg[p[1]];hostCfg();break;
  case'okick':hostKick(p[1]);break;
- case'oemo':sendFx('emo',p[1]);break;
+ case'oemo':sendFx('emo',p[1]);{const ep=$('emop');if(ep)ep.hidden=true}break;
+ case'emomenu':{const ep=$('emop');if(ep)ep.hidden=!ep.hidden;break}
  case'oava':{const n=$('oname')&&$('oname').value.trim();if(n)P.name=n;P.ava=p[1];save();onlineMenu();break}
  case'oshare':shareCode();break;
  case'oans':onlineAnswer(p[1]);break;
  case'oagain':hostLobbyAgain();break;
+ case'pkt':if(ON&&ON.pkSugg)mSend({t:'pkt',topic:ON.pkSugg[+p[1]]});break;
+ case'pktc':{const v=($('pktin')&&$('pktin').value.trim())||'';if(v.length<2){toast('Bitte ein Thema eintippen');break}mSend({t:'pkt',topic:v});break}
+ case'pkn':pkSetV(+p[1]);break;
+ case'pkbid':if(ON&&ON.pkm)mSend({t:'pkb',v:ON.pkv});break;
+ case'pkfold':mSend({t:'pkb',fold:1});break;
+ case'pkadd':pkAdd();break;
+ case'pkv':mSend({t:'pkv',k:+p[1],v:+p[2]});break;
+ case'pkc':{const c=ON&&ON.pkc;if(!c)break;c.myc=Math.max(0,c.myc+ +p[1]);const e=$('pkmy');if(e)e.textContent=c.myc;mSend({t:'pkc',c:c.myc});break}
+ case'pkdone':mSend({t:'pkdone'});break;
+ case'pknext':if(ON&&ON.role==='host'&&ON.state==='pres')pkNextRound();break;
  case'mpick':mPick(+p[1]);break;
  case'mlock':mLock();break;
  case'mundo':mUndo();break;
