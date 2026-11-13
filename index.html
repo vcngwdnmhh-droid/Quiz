@@ -115,6 +115,19 @@ details.card>summary{cursor:pointer;font-weight:800;list-style:none;font-size:15
 .ring{position:fixed;inset:0;background:rgba(5,6,20,.85);z-index:60;display:flex;align-items:center;justify-content:center;padding:16px;overflow:auto}.ring .card{max-width:480px;width:100%;animation:pop .3s;margin:auto}
 .mh{font-size:16px;flex:none;letter-spacing:1px}.mh:empty{display:none}.decb{display:grid;gap:10px;margin-top:10px}.decb .btn{padding:15px;font-size:16px}.sus{animation:yes 1s infinite}
 #app{padding-bottom:90px}.pkgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(96px,1fr));gap:8px;margin-bottom:12px}.pkt{background:var(--p);border:2px solid var(--line);border-radius:16px;padding:8px 4px;text-align:center}.pkt .nm{font-size:13px;font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.pkt.turn{border-color:var(--acc);box-shadow:0 0 0 3px var(--acc)}.pkt.fold{opacity:.4}
+.ptwrap{position:relative;pointer-events:none;perspective:950px;perspective-origin:50% 20%;margin:6px 0 10px}
+.ptable{position:absolute;left:7%;right:7%;top:16%;bottom:8%;transform:rotateX(52deg);transform-style:preserve-3d;border-radius:50%;background:radial-gradient(ellipse at 50% 45%,#22a356 0,#15803d 45%,#0f5e2e 75%);box-shadow:0 0 0 12px #6b4423,0 0 0 16px #3b2512,0 0 0 17px #000,0 40px 50px rgba(0,0,0,.7),inset 0 0 40px rgba(0,0,0,.45)}
+.ptable::before{content:'';position:absolute;inset:14%;border-radius:50%;border:2px dashed rgba(255,255,255,.18)}
+.pcenter{position:absolute;left:50%;top:36%;transform:translate(-50%,-50%);text-align:center;color:#fff;opacity:.9}.pcenter b{display:block;font-size:30px;font-weight:900}.pcenter span{font-size:10px;letter-spacing:1px;text-transform:uppercase;opacity:.7}
+.pstack{position:absolute;width:0;height:0;transform-style:preserve-3d}
+.pstack i{position:absolute;left:-15px;top:-15px;width:30px;height:30px;border-radius:50%;background:var(--c);border:3px dashed rgba(255,255,255,.9);box-shadow:0 0 0 1px rgba(0,0,0,.5);transform:translateZ(var(--z))}
+.pstack i.nw{animation:chipdrop .5s cubic-bezier(.3,1.4,.6,1) both}@keyframes chipdrop{from{transform:translateZ(calc(var(--z) + 90px));opacity:0}}
+.pstack .sv{position:absolute;left:0;top:0;transform:translate(-50%,-100%) translateZ(var(--z)) rotateX(-52deg);transform-origin:bottom center;background:#fff;color:#0f172a;border-radius:9px;padding:1px 7px;font-size:14px;font-weight:900;white-space:nowrap;border:2px solid var(--c)}
+.pseat{position:absolute;width:0;height:0;transform-style:preserve-3d;transition:opacity .3s}.pseat.fold{opacity:.55;filter:grayscale(.6)}
+.pbb{position:absolute;left:0;top:0;transform:translate(-50%,-100%) rotateX(-52deg);transform-origin:bottom center;text-align:center;width:84px}
+.pav{width:46px;height:46px;margin:0 auto;border-radius:50%;background:#1e1b4b;border:3px solid var(--c);display:flex;align-items:center;justify-content:center;font-size:26px;box-shadow:0 4px 10px rgba(0,0,0,.5)}
+.pseat.turn .pav{box-shadow:0 0 0 4px #fff,0 0 18px var(--c);animation:yes 1s infinite}
+.pnm{margin-top:3px;background:var(--c);color:#fff;border-radius:8px;padding:1px 6px;font-size:11.5px;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.pinf{font-size:10.5px;color:#fff;text-shadow:0 1px 2px #000;margin-top:1px}
 .pchipx{display:inline-flex;align-items:center;justify-content:center;width:46px;height:46px;border-radius:50%;background:#f8fafc;color:#0f172a;font-weight:900;font-size:18px;border:4px dashed #0f172a;box-shadow:0 0 0 3px #f8fafc;margin:4px auto;vertical-align:middle}.pchipx.big{width:54px;height:54px;font-size:22px}
 .emofab{position:fixed;right:14px;bottom:calc(16px + env(safe-area-inset-bottom));z-index:30;width:52px;height:52px;border-radius:50%;border:0;background:var(--acc);color:#fff;font-size:24px;font-weight:900;box-shadow:0 6px 18px rgba(0,0,0,.45)}
 .emopanel{position:fixed;right:14px;bottom:calc(78px + env(safe-area-inset-bottom));z-index:31;width:min(320px,calc(100vw - 28px));background:var(--p);border:1px solid var(--line);border-radius:18px;padding:12px;box-shadow:0 12px 32px rgba(0,0,0,.5);animation:pop .2s}.emopanel[hidden]{display:none}
@@ -2570,7 +2583,7 @@ const QUIPS=['GG 🤝','Nochmal! 🔁','Glück gehabt 😏','Zu leicht 😎','Wa
 const OSET={n:[5,10,15,20,30],t:[10,15,20,30,45],mt:[30,45,60,90,0],diff:['mix',1,2,3],catm:['host','wheel','vote']};
 const OLBL={diff:{mix:'🎲 Gemischt',1:'🟢 Leicht',2:'🟡 Mittel',3:'🔴 Schwer'},catm:{host:'👑 Host wählt',wheel:'🎡 Glücksrad',vote:'🗳️ Abstimmung'}};
 const OTYPES=[['mc','🎯','Quiz'],['tf','✅','Wahr/Falsch'],['est','📏','Schätzen'],['who','🕵️','Wer bin ich?']];
-function defCfg(){return{cat:'mix',n:10,mode:'klass',t:20,diff:'mix',catm:'host',types:{mc:true,tf:true,est:false,who:false},streak:true,fin:true,wett:false,jok:false,speed:true,pen:false,change:true,auto:true,mt:60,fa:true,mjk:true,pr:5,pc:10,pt:20,pv:'type',ps:5}}
+function defCfg(){return{cat:'mix',n:10,mode:'klass',t:20,diff:'mix',catm:'host',types:{mc:true,tf:true,est:false,who:false},streak:true,fin:true,wett:false,jok:false,speed:true,pen:false,change:true,auto:true,mt:60,fa:true,mjk:true,pr:5,pc:10,pt:20,pv:'type',pw:10}}
 function loadPeer(){return new Promise((res,rej)=>{if(window.Peer)return res();const srcs=['https://unpkg.com/peerjs@1.5.4/dist/peerjs.min.js','https://cdn.jsdelivr.net/npm/peerjs@1.5.4/dist/peerjs.min.js'];let k=0;
  const next=()=>{if(window.Peer)return res();if(k>=srcs.length)return rej(new Error('load'));const sc=document.createElement('script');sc.src=srcs[k++];sc.onload=()=>window.Peer?res():next();sc.onerror=next;document.head.appendChild(sc)};next()})}
 function myName(){const n=($('oname')&&$('oname').value.trim())||P.name||'';if(n&&n!==P.name){P.name=n;save()}return n||('Spieler '+rint(10,99))}
@@ -2654,7 +2667,7 @@ const PKRULES='Jede Runde wählt ein anderer ein „Wer kennt mehr …“-Thema.
 const MILLRULES='Alle bekommen gleichzeitig dieselbe Frage. Nach jeder richtigen Antwort entscheidet jeder selbst: aussteigen und das Geld mitnehmen oder weiterspielen. Wer falsch liegt, fällt auf die letzte Sicherheitsstufe (500 € bzw. 16.000 €). Am Ende gewinnt, wer am meisten Geld hat.';
 function settingsHTML(ro){const c=ON.cfg;
  if(c.mode==='poker')return`<div class="card"><h3 style="margin-top:0">⚙️ Einstellungen</h3><div class="xs mut" style="margin-bottom:6px">${PKRULES}</div>
-  ${setRow('🔁','Runden',c.pr,'pr',ro)}${setRow('🪙','Start-Chips',c.pc,'pc',ro)}${setRow('⏱️','Zeit zum Bieten',c.pt+' s','pt',ro)}${setRow('✅','Beweisen durch',c.pv==='say'?'🗣️ Laut sagen':'⌨️ Eintippen','pv',ro)}${setRow('⌛','Zeit pro Begriff',c.ps+' s','ps',ro)}${togRow('⏭️','Automatisch weiter','auto','',ro)}</div>`;
+  ${setRow('🔁','Runden',c.pr,'pr',ro)}${setRow('🪙','Start-Chips',c.pc,'pc',ro)}${setRow('⏱️','Zeit zum Bieten',c.pt+' s','pt',ro)}${setRow('✅','Beweisen durch',c.pv==='say'?'🗣️ Laut sagen':'⌨️ Eintippen','pv',ro)}${setRow('⌛','Zeit pro Begriff',c.pw+' s','pw',ro)}${togRow('⏭️','Automatisch weiter','auto','',ro)}</div>`;
  if(c.mode==='mill')return`<div class="card"><h3 style="margin-top:0">⚙️ Einstellungen</h3><div class="xs mut" style="margin-bottom:6px">${MILLRULES}</div>
   ${catSel(ro)}${setRow('⏱️','Zeit pro Frage',c.mt?c.mt+' s':'∞ ohne Limit','mt',ro)}
   ${togRow('🃏','Joker','mjk','✂️ 50:50 · 👥 Publikum (die Zuschauer stimmen ab) · 📞 Telefon (ruf einen Mitspieler an)',ro)}${togRow('✋','„Ist das deine endgültige Antwort?“','fa','Nach dem Antippen wird nochmal nachgefragt',ro)}${togRow('⏭️','Automatisch weiter','auto','',ro)}</div>`;
@@ -3093,7 +3106,7 @@ function showMillGo(m){if(ON.role!=='host')ON.players=m.players;ON.state='mgo';s
 
 /* ====================== Online: Hochpokern ====================== */
 const PKTOPICS='Automarken;Automodelle von VW;Formel-1-Fahrer;Fußballvereine aus Deutschland;Fußballspieler der deutschen Nationalmannschaft;Länder in Europa;Länder in Afrika;Hauptstädte;Deutsche Städte mit über 100.000 Einwohnern;Bundesländer und ihre Hauptstädte;Flüsse in Deutschland;Pokémon;Minecraft-Mobs;Minecraft-Blöcke;Fortnite-Skins;Videospiele von Nintendo;Spielkonsolen;Rapper aus Deutschland;Rapper aus den USA;Sänger und Sängerinnen;Bands;Disney-Filme;Pixar-Filme;Marvel-Helden;Harry-Potter-Figuren;Star-Wars-Figuren;Simpsons-Figuren;Netflix-Serien;Zeichentrickserien;YouTuber;Streamer;Social-Media-Apps;Smartphone-Marken;Elektronikmarken;Modemarken;Sportmarken;Getränkemarken;Süßigkeiten;Eissorten;Pizzabeläge;Obstsorten;Gemüsesorten;Gewürze;Käsesorten;Nudelsorten;Biersorten bzw. Biermarken;Fast-Food-Ketten;Supermärkte;Tiere im Zoo;Hunderassen;Katzenrassen;Vögel;Fische;Insekten;Dinosaurier;Bäume;Blumen;Sportarten;Olympische Sportarten;Werkzeuge;Elektrische Bauteile;Musikinstrumente;Berufe;Schulfächer;Körperteile;Organe;Krankheiten;Planeten und Monde;Sternbilder;Chemische Elemente;Erfinder;Wissenschaftler;Bundeskanzler und Bundespräsidenten;US-Präsidenten;Könige und Kaiser;Götter aus Mythologien;Märchen;Märchenfiguren;Brettspiele;Kartenspiele;Tänze;Sprachen;Farben;Automarken aus Japan;Motorradmarken;Fahrzeugtypen (Bus, Lkw …);Fluggesellschaften;Hotelketten;Wörter mit „Auto“ am Anfang;Wörter, die auf „-ung“ enden;Tiere mit vier Buchstaben;Vornamen mit M;Länder mit A;Städte mit B;Emojis, die man oft benutzt;Jugendwörter;Schimpfwörter, die man im TV sagen darf;Weihnachtslieder;Kinderlieder;Superhelden aus DC;Anime-Serien;K-Pop-Bands'.split(';');
-const PKSET={pr:[3,5,8,10,15],pc:[5,10,15,20],pt:[10,15,20,30,45],pv:['type','say'],ps:[3,4,5,6,8,10]};
+const PKSET={pr:[3,5,8,10,15],pc:[5,10,15,20],pt:[10,15,20,30,45,60,90],pv:['type','say'],pw:[5,8,10,12,15,20,30,45]};
 Object.assign(OSET,PKSET);
 Object.assign(MOD,{
  pkbid:['Oha, {v} Stück!','{v}? Mutig, {n2}!','{n2} legt {v} auf den Tisch!','Wow – {v}! Wer geht da noch mit?','{n2} sagt {v}. Hm, ob das klappt?'],
@@ -3124,7 +3137,7 @@ function pkTurn(){const k=ON.pk;clearT();const act=pkActive();
 function pkNextId(id){const k=ON.pk;const n=k.order.length;let i=k.order.indexOf(id);for(let s=0;s<n;s++){i=(i+1)%n;const c=k.order[i];if(!k.folded.includes(c)&&ON.players.some(p=>p.id===c))return c}return id}
 function pkDoBid(id,v){const k=ON.pk;v=Math.round(+v);if(!(v>k.high&&v<=999))return;k.bids[id]=v;k.high=v;k.holder=id;k.act={id,v};k.turn=pkNextId(id);pkTurn()}
 function pkDoFold(id){const k=ON.pk;if(!k.high||k.folded.includes(id))return;k.folded.push(id);k.act={id,fold:1};k.turn=pkNextId(id);pkTurn()}
-function pkProve(){const k=ON.pk;clearT();k.prover=k.holder;k.target=k.high;k.items=[];k.counts={};k.away=0;const dur=clamp(k.target*(+ON.cfg.ps||5)+10,20,600);k.dur=dur;ON.state='pprove';
+function pkProve(){const k=ON.pk;clearT();k.prover=k.holder;k.target=k.high;k.items=[];k.counts={};k.away=0;const dur=clamp(k.target*(+ON.cfg.pw||10)+30,45,1800);k.dur=dur;ON.state='pprove';
  const m={t:'pkprove',r:k.r,topic:k.topic,prover:k.prover,target:k.target,dur,mode:ON.cfg.pv,bids:k.bids,players:pubPlayers()};hostBroadcast(m);showPkProve(m);ON.mT=setTimeout(pkCheck,dur*1000+1500)}
 function pkItemsMsg(){const k=ON.pk;const m={t:'pkitems',items:k.items.map(it=>({k:it.k,w:it.w,dup:it.dup,v:it.v}))};hostBroadcast(m);MG.pkitems(m)}
 function pkCheck(){if(!ON||ON.state!=='pprove')return;clearT();ON.state='pcheck';const m={t:'pkcheck',dur:8};hostBroadcast(m);MG.pkcheck(m);ON.mT=setTimeout(pkResult,8500)}
@@ -3150,6 +3163,16 @@ Object.assign(MG,{pktopic(d){showPkTopic(d)},pkbid(d){showPkBid(d)},pkprove(d){s
  pkcnt(d){if(ON.pkc)ON.pkc.counts=d.counts;pkRenderCnt()},
  pkcheck(d){ON.state='pcheck';stopTimer();const e=$('pkst');if(e)e.innerHTML=`<div class="card" style="text-align:center;border-color:#fbbf24"><b>⏱️ Zeit vorbei!</b><div class="sm mut">Noch ${d.dur} Sekunden zum Prüfen – stimmt jetzt ab bzw. korrigiert eure Zählung.</div></div>`;const f=$('pkin');if(f)f.innerHTML='';bar(d.dur)},
  pkawayb(d){toast(`👀 ${d.n} hat die App verlassen!`);const e=$('pkaway');if(e)e.innerHTML=`👀 ${esc(d.n)} hat ${d.c}× die App verlassen`}});
+const PKCOL=['#ef4444','#3b82f6','#22c55e','#f59e0b','#a855f7','#ec4899','#14b8a6','#f97316','#6366f1','#84cc16','#e11d48','#0ea5e9'];
+function pkCol(id){const i=ON.players.findIndex(p=>p.id===id);return PKCOL[(i<0?0:i)%PKCOL.length]}
+function pkTable(m){const pl=ON.players,n=pl.length;const H=250+Math.max(0,n-2)*28;const me=Math.max(0,pl.findIndex(p=>p.id===meId()));const bids=m.bids||{};
+ if(!Object.keys(bids).length||!ON.pkPrev)ON.pkPrev={};const prev=ON.pkPrev;
+ const seats=pl.map((p,i)=>{const a=(90+(i-me)*360/n)*Math.PI/180;const cx=Math.cos(a),cy=Math.sin(a);const col=pkCol(p.id);const fold=(m.folded||[]).includes(p.id);const inR=!m.order||m.order.includes(p.id);const turn=m.turn===p.id,hold=m.holder===p.id;
+  const v=bids[p.id];const nc=v?Math.min(v,30):0;const pv=Math.min(prev[p.id]||0,30);let chips='';for(let k=0;k<nc;k++)chips+=`<i class="${k>=pv?'nw':''}" style="--z:${k*3}px;animation-delay:${(k-pv)*35}ms"></i>`;
+  return`<div class="pstack" style="left:${50+cx*30}%;top:${50+cy*28}%;--c:${col}">${chips}${v?`<b class="sv" style="--z:${nc*3+6}px">${v}</b>`:''}</div>
+  <div class="pseat ${fold||!inR?'fold':''} ${turn?'turn':''}" style="left:${50+cx*48}%;top:${50+cy*(46+Math.max(0,cy)*16)}%;--c:${col}"><div class="pbb"><div class="pav">${p.ava}</div><div class="pnm">${hold?'👑 ':''}${esc(p.name)}${p.id===meId()?' (du)':''}</div><div class="pinf">${fold?'🏳️ raus':!inR?'👀 schaut zu':turn?'🤔 ist dran':p.score+' Chips'}</div></div></div>`}).join('');
+ ON.pkPrev={...bids};
+ return`<div class="ptwrap" style="height:${H}px"><div class="ptable">${seats}<div class="pcenter"><b>${m.high||'–'}</b><span>Höchstgebot</span></div></div></div>`}
 function pkChip(v,big){return`<span class="pchipx ${big?'big':''}">${v==null?'':v}</span>`}
 function pkGrid(m){const k=m||{};return`<div class="pkgrid">${ON.players.map(p=>{const fold=(k.folded||[]).includes(p.id),turn=k.turn===p.id,hold=k.holder===p.id;const inR=!k.order||k.order.includes(p.id);
  return`<div class="pkt ${turn?'turn':''} ${fold||!inR?'fold':''}">${headH(p,34)}<div class="nm">${p.id===meId()?'<b>':''}${esc(p.name)}${p.id===meId()?'</b>':''}</div>${pkChip(k.bids&&k.bids[p.id]!=null?k.bids[p.id]:null)}<div class="xs">${fold?'🏳️ raus':!inR?'👀 zuschauen':turn?'🤔 ist dran':hold?'👑 höchstes':''}</div><div class="xs mut">${p.score} Chips</div></div>`}).join('')}</div>`}
@@ -3163,7 +3186,7 @@ function showPkTopic(m){ON.state='ptopic';stopTimer();sayStop();if(ON.role!=='ho
  <div class="card" style="padding:10px"><div class="pwrap">${rankOrder(ON.players).map(p=>chipP(p,` <b class="xs">${p.score} Chips</b>`)).join('')}</div></div>${emoBar()}`);
  mod('pktopic',{n2:mine?'du':ch.name});bar(m.dur)}
 function showPkBid(m){ON.state='pbid';stopTimer();if(ON.role!=='host')ON.players=m.players;G={mode:'online'};ON.pkm=m;const mine=m.turn===meId();const tp=ON.players.find(p=>p.id===m.turn)||{name:'?'};ON.pkv=m.high+1;
- view(`${pkHead(`Runde ${m.r+1}/${m.rounds}`)}${pkTopicBox(m.topic)}<div id="mmod"></div><div class="timer" id="tw"><i id="tb" style="width:100%"></i></div>${pkGrid(m)}
+ view(`${pkHead(`Runde ${m.r+1}/${m.rounds}`)}${pkTopicBox(m.topic)}<div id="mmod"></div><div class="timer" id="tw"><i id="tb" style="width:100%"></i></div>${pkTable(m)}
  ${mine?`<div class="card" style="text-align:center;border-color:var(--acc)"><b>Du bist dran!</b><div class="sm mut">${m.high?`Höchstes Gebot: ${m.high} – biete mehr oder steig aus.`:'Du fängst an – wie viele schaffst du?'}</div>
   <div class="row" style="justify-content:center;margin:10px 0"><button class="btn alt s" data-a="pkn|-1">−</button><div class="big" id="pkv" style="margin:0 10px;min-width:70px">${ON.pkv}</div><button class="btn alt s" data-a="pkn|1">+</button><button class="btn alt s" data-a="pkn|5">+5</button></div>
   <div class="row" style="justify-content:center"><button class="btn gold" data-a="pkbid">🃏 Ich kann <span id="pkv2">${ON.pkv}</span>!</button><button class="btn alt" data-a="pkfold" ${m.high?'':'disabled'}>🏳️ Aussteigen</button></div></div>`
