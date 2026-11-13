@@ -88,6 +88,21 @@ body.anim::before{content:'';position:fixed;inset:-40%;background:radial-gradien
 @keyframes drift{to{transform:rotate(360deg)}}
 .wheelwrap{position:relative;width:300px;height:300px;margin:0 auto}
 .wheelwrap .ptr{position:absolute;top:-8px;left:50%;transform:translateX(-50%);font-size:30px;z-index:2}
+.kh .a{position:relative;flex-wrap:wrap}.kh .a:disabled{opacity:1}.kh.done .a:not(.lock){opacity:.45}.kh .a.lock{outline:3px solid #fff;outline-offset:2px}
+.kh.rev .a{opacity:.35}.kh.rev .a.right{opacity:1;outline:4px solid #4ade80;outline-offset:2px;animation:yes .4s}.kh.rev .a.mine{opacity:.75;outline:3px dashed #fff}.kh.rev .a.right::after{content:'✔';position:absolute;right:10px;top:8px;font-size:20px}
+.who{width:100%;font-size:18px;letter-spacing:1px;min-height:0}.who:empty{display:none}
+.pwrap{display:flex;flex-wrap:wrap;gap:6px;margin-top:4px}.pchip{background:var(--p2);border-radius:20px;padding:3px 10px 3px 6px;font-size:13px;font-weight:700}
+.femo{position:fixed;bottom:90px;font-size:40px;pointer-events:none;z-index:999;animation:femo 2.6s ease-out forwards}@keyframes femo{to{transform:translateY(-60vh) scale(1.5);opacity:0}}
+.podium{display:flex;align-items:flex-end;justify-content:center;gap:8px;margin:12px 0 6px}.pod{flex:1;max-width:110px;text-align:center}.pa{font-size:42px;animation:podin .6s}.pn{font-weight:800;font-size:13px;margin:2px 0 4px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pb{border-radius:12px 12px 0 0;padding:8px 4px;color:#fff;font-size:18px}.p0 .pb{height:110px;background:linear-gradient(#facc15,#b45309)}.p1 .pb{height:80px;background:linear-gradient(#e2e8f0,#64748b)}.p2 .pb{height:60px;background:linear-gradient(#fb923c,#9a3412)}
+@keyframes podin{from{transform:scale(0) translateY(30px)}}
+.hd{display:inline-flex;align-items:center;justify-content:center;border-radius:50%;vertical-align:middle;line-height:1;margin:3px}@keyframes disco{to{filter:hue-rotate(360deg)}}
+.fquip{position:fixed;left:50%;transform:translateX(-50%);top:70px;background:rgba(15,23,42,.92);color:#fff;padding:8px 14px;border-radius:20px;font-size:14px;z-index:999;pointer-events:none;animation:fq 3s ease forwards;white-space:nowrap}@keyframes fq{0%{opacity:0;top:50px}10%{opacity:1;top:70px}85%{opacity:1}100%{opacity:0}}
+.setrow{padding:6px 0;border-bottom:1px solid rgba(255,255,255,.06)}.stp{display:flex;align-items:center;gap:6px}.stp b{min-width:92px;text-align:center}.stp .btn{padding:4px 11px}
+.tgl{width:48px;height:28px;border-radius:14px;background:#475569;border:0;position:relative;flex:none;transition:background .2s}.tgl i{position:absolute;top:3px;left:3px;width:22px;height:22px;border-radius:50%;background:#fff;transition:left .2s}.tgl.on{background:#22c55e}.tgl.on i{left:23px}
+.wlab{font-size:30px;font-weight:900;margin:14px 0 4px;min-height:44px}.wlab.win{animation:podin .5s;font-size:34px}
+.vopt{display:block;text-align:center;border:0;color:#fff;border-radius:16px;padding:12px}.vopt.sel{outline:4px solid #fff;outline-offset:2px}.vheads{font-size:20px;min-height:24px;margin-top:4px}.bopt.sel{outline:4px solid #fff;outline-offset:2px}
+.clue{background:rgba(255,255,255,.07);border-radius:10px;padding:8px 10px;margin-top:6px;font-size:15px;transition:opacity .4s}.clue.hid{display:none}.jk.used{opacity:.35}.kh .a.gone{opacity:.08!important;pointer-events:none}
 </style></head><body>
 <div id="app"></div><div id="toast"></div><canvas id="fx"></canvas>
 <script>
@@ -192,7 +207,28 @@ TF|Ein Vogel auf einer Stromleitung bekommt keinen Schlag, solange er nur ein Ka
 TF|Ein FI-Schalter schützt Menschen vor gefährlichen Stromschlägen.|W|1
 TF|Ein Kühlschrank verbraucht nur Strom, wenn die Tür offen ist.|F|1
 EST|In welchem Jahr gingen in Deutschland die letzten Atomkraftwerke vom Netz?|2023|2000|2030|0|Jahr|2
-EST|Wie viel Volt hat eine Autobatterie?|12|1|48|0|V|1`,
+EST|Wie viel Volt hat eine Autobatterie?|12|1|48|0|V|1
+Welche Farbe hat in Deutschland der Schutzleiter?|Grün-Gelb|Blau|Braun|Schwarz|1
+Welche Farbe hat in Deutschland der Neutralleiter?|Blau|Grün-Gelb|Braun|Rot|1
+Wie hoch ist die Netzspannung an einer normalen Steckdose in Deutschland?|230 Volt|110 Volt|400 Volt|12 Volt|1
+Wie hoch ist die Spannung beim Drehstrom (Starkstrom) zwischen zwei Außenleitern?|400 Volt|230 Volt|1000 Volt|120 Volt|2
+In welcher Einheit misst man Stromstärke?|Ampere|Volt|Watt|Ohm|1
+In welcher Einheit misst man Spannung?|Volt|Ampere|Watt|Hertz|1
+In welcher Einheit misst man Leistung?|Watt|Volt|Ohm|Ampere|1
+In welcher Einheit misst man Widerstand?|Ohm|Watt|Volt|Ampere|1
+Welche Frequenz hat das Stromnetz in Europa?|50 Hertz|60 Hertz|100 Hertz|230 Hertz|1
+Was ist ein FI-Schalter?|Fehlerstrom-Schutzschalter|Lichtschalter|Dimmer|Steckdosenleiste|2
+Was zeigt ein Spannungsprüfer an?|Ob Spannung anliegt|Wie warm ein Kabel ist|Wie lang ein Kabel ist|Wie hell eine Lampe ist|1
+Wie heißt die Batterie im Auto meistens?|Starterbatterie mit 12 Volt|Lithium-Knopfzelle|AA-Batterie|9-Volt-Block|1
+Welche Batteriegröße ist am häufigsten in Fernbedienungen?|AA bzw. AAA|9-Volt-Block|D-Zelle|Knopfzelle CR2032|1
+Welches Material leitet Strom gut?|Kupfer|Holz|Gummi|Glas|1
+Welches Material leitet Strom schlecht (Isolator)?|Gummi|Kupfer|Aluminium|Gold|1
+Was passiert, wenn man einen Stromkreis unterbricht?|Es fließt kein Strom mehr|Es fließt mehr Strom|Die Spannung verdoppelt sich|Nichts|1
+Was ist eine LED?|Leuchtdiode|Glühbirne|Leuchtstoffröhre|Laser|1
+Warum sind LEDs sparsamer als Glühbirnen?|Sie machen weniger Wärme|Sie sind kleiner|Sie sind bunt|Sie sind teurer|1
+Was gibt die Angabe kWh auf der Stromrechnung an?|Verbrauchte Energie|Spannung|Stromstärke|Leistung der Steckdose|2
+TF|Wasser leitet Strom – deshalb sind Föhn und Badewanne gefährlich.|W|1
+TF|Ein Vogel auf einer Hochspannungsleitung bekommt einen Schlag.|F|2|Er berührt nur einen Leiter, deshalb fließt kein Strom durch ihn.`,
 game:`Welches Material braucht man in Minecraft für ein Netherportal?|Obsidian|Grundgestein|Bruchstein|Endstein|1
 Wie heißt der Endboss im Ende von Minecraft?|Enderdrache|Wither|Wärter|Wächter|1
 Welcher grüne Minecraft-Mob explodiert?|Creeper|Zombie|Enderman|Schleim|1
@@ -240,7 +276,34 @@ Welches Spiel spielt in der Stadt „Night City“?|Cyberpunk 2077|GTA V|Watch D
 Welches Studio entwickelte „The Witcher 3“?|CD Projekt Red|Ubisoft|Bethesda|Rockstar Games|2
 Welche Farbe hat Sonic?|Blau|Rot|Grün|Gelb|1
 Welche Firma stellt die Xbox her?|Microsoft|Sony|Nintendo|Valve|1
-Auf welcher Karte startete das Battle-Royale-Spiel PUBG ursprünglich?|Erangel|Verdansk|Kings Canyon|Tilted Towers|3`,
+Auf welcher Karte startete das Battle-Royale-Spiel PUBG ursprünglich?|Erangel|Verdansk|Kings Canyon|Tilted Towers|3
+Wie heißt der Klempner mit roter Mütze von Nintendo?|Mario|Luigi|Wario|Toad|1
+Welche Farbe hat Luigis Mütze?|Grün|Rot|Blau|Gelb|1
+Welches Tier ist Sonic?|Igel|Fuchs|Maulwurf|Gürteltier|1
+Wie heißt das grüne explodierende Monster in Minecraft?|Creeper|Zombie|Enderman|Ghast|1
+Welchen Gegenstand braucht man in Minecraft, um in den Nether zu kommen?|Obsidian-Portal|Endportal|Bett|Kompass|1
+Wie heißt der Endboss in Minecraft?|Enderdrache|Wither|Wächter|Ghast|1
+Welches Material ist in Minecraft am stärksten (Rüstung)?|Netherit|Diamant|Eisen|Gold|1
+Wie heißt das Battle-Royale-Spiel mit dem „Battle Bus“?|Fortnite|PUBG|Apex Legends|Warzone|1
+In welchem Spiel muss man den „Impostor“ finden?|Among Us|Fall Guys|Phasmophobia|Lethal Company|1
+Wie heißt der Held in „The Legend of Zelda“?|Link|Zelda|Ganon|Epona|2|Zelda ist die Prinzessin – der Held heißt Link.
+Welches Pokémon ist die Nummer 25?|Pikachu|Glumanda|Bisasam|Schiggy|1
+Welcher Typ ist Glumanda?|Feuer|Wasser|Pflanze|Elektro|1
+Welcher Typ ist Schiggy?|Wasser|Feuer|Pflanze|Gestein|1
+Wie viele Spieler sind in einem Team bei League of Legends (normales Spiel)?|5|4|6|3|2
+Wie heißt die Stadt in GTA V?|Los Santos|Liberty City|Vice City|San Fierro|1
+Welche Firma entwickelt die GTA-Reihe?|Rockstar Games|Ubisoft|EA|Activision|1
+Welche Firma stellt die PlayStation her?|Sony|Microsoft|Nintendo|Sega|1
+Welche Firma stellt die Xbox her?|Microsoft|Sony|Nintendo|Valve|1
+Wie heißt der Shop/Launcher von Valve für PC-Spiele?|Steam|Epic Games Store|Origin|Uplay|1
+In welchem Spiel baut man in „Bedwars“ das Bett des Gegners ab?|Minecraft|Roblox|Terraria|Fortnite|1
+Wie heißt das Rennspiel mit Mario und Bananenschalen?|Mario Kart|Crash Team Racing|Need for Speed|Forza Horizon|1
+In welchem Spiel steuert man Autos mit realistischem Schadensmodell (Soft-Body-Physik)?|BeamNG.drive|Rocket League|Forza Motorsport|Gran Turismo|2
+Wie heißt der Fußball-mit-Autos-Spiel von Psyonix?|Rocket League|Car Ball|Turbo Soccer|FIFA Street|1
+Welches Spiel spielt in Nachtschichten in einer Pizzeria mit Animatronics?|Five Nights at Freddy's|Poppy Playtime|Bendy|Hello Neighbor|1
+Welches Spiel ist das meistverkaufte Videospiel aller Zeiten?|Minecraft|Tetris|GTA V|Wii Sports|2
+TF|In Minecraft kann man Diamanten mit einer Steinspitzhacke abbauen.|F|2|Man braucht mindestens eine Eisenspitzhacke.
+TF|Tetris wurde in der Sowjetunion erfunden.|W|2`,
 geo:`Was ist die Hauptstadt von Australien?|Canberra|Sydney|Melbourne|Perth|2
 Welcher Fluss fließt durch Köln?|Rhein|Elbe|Main|Donau|1
 Wie heißt der höchste Berg der Welt?|Mount Everest|K2|Kilimandscharo|Mont Blanc|1
@@ -422,7 +485,32 @@ Wie heißt das Stadion von Borussia Dortmund traditionell?|Westfalenstadion|Alli
 In welcher Sportart gibt es den „Slam Dunk“?|Basketball|Volleyball|Handball|Tennis|1
 Welcher Tennisspieler hat bei den Herren die meisten Grand-Slam-Titel?|Novak Djoković|Roger Federer|Rafael Nadal|Boris Becker|2
 In welcher Sportart wurde Michael Jordan berühmt?|Basketball|Baseball|Golf|American Football|1
-Wie viele Spieler hat eine Handballmannschaft auf dem Feld (mit Torwart)?|7|6|11|5|2`,
+Wie viele Spieler hat eine Handballmannschaft auf dem Feld (mit Torwart)?|7|6|11|5|2
+Wie lang dauert ein normales Fußballspiel (ohne Nachspielzeit)?|90 Minuten|80 Minuten|100 Minuten|120 Minuten|1
+Wie viele Punkte bringt ein Touchdown im American Football?|6|7|3|5|2
+Wie viele Ringe hat das Olympia-Symbol?|5|4|6|7|1
+Wie viele Spieler hat ein Basketball-Team auf dem Feld?|5|6|7|4|1
+Wie viele Spieler hat ein Volleyball-Team auf dem Feld?|6|5|7|8|1
+Wie viele Spieler hat ein Handball-Team auf dem Feld (inkl. Torwart)?|7|6|8|11|2
+In welcher Sportart gibt es einen „Strike“ beim Umwerfen aller Pins?|Bowling|Baseball|Golf|Curling|1
+Was ist beim Tennis ein „Ass“?|Ein direkter Punkt durch den Aufschlag|Ein Doppelfehler|Ein Netzball|Ein Satzgewinn|2
+Wie heißt der Formel-1-Rekordweltmeister mit 7 Titeln neben Lewis Hamilton?|Michael Schumacher|Sebastian Vettel|Ayrton Senna|Niki Lauda|1
+Für welches Team fuhr Michael Schumacher seine meisten Titel?|Ferrari|Benetton|Mercedes|McLaren|2
+Wie viele Löcher hat ein normaler Golfplatz?|18|9|12|24|1
+Wo finden die Olympischen Sommerspiele 2028 statt?|Los Angeles|Paris|Brisbane|Tokio|2
+Wo fanden die Olympischen Sommerspiele 2024 statt?|Paris|Tokio|Los Angeles|London|1
+Welches Land war 2026 neben USA und Mexiko Gastgeber der Fußball-WM?|Kanada|Brasilien|Costa Rica|Kuba|2
+Wie heißt der Rennkurs mit der „Grünen Hölle“?|Nürburgring Nordschleife|Hockenheimring|Spa-Francorchamps|Monza|1
+Wie lang ist eine Runde auf der Nürburgring-Nordschleife ungefähr?|20,8 km|5,1 km|12 km|35 km|2
+In welcher Sportart gibt es den „Stanley Cup“?|Eishockey|Basketball|Baseball|American Football|2
+Wie heißt das Finale im American Football?|Super Bowl|World Series|Final Four|Grey Cup|1
+Wie viele Felder hat ein Dartboard (Zahlen)?|20|18|24|16|2
+Was ist die höchste Punktzahl mit drei Darts?|180|150|160|200|2|Dreimal Triple 20 = 180.
+Wie heißt der Wettbewerb der besten europäischen Fußballvereine?|Champions League|Europa League|Conference League|Nations League|1
+Welcher Verein hat die meisten deutschen Meistertitel?|FC Bayern München|Borussia Dortmund|1. FC Nürnberg|Hamburger SV|1
+TF|Beim Fußball darf der Torwart den Ball im eigenen Strafraum mit der Hand spielen.|W|1
+TF|Ein Tennis-Tiebreak geht normalerweise bis 7 Punkte.|W|2
+TF|Beim Basketball zählt ein Wurf hinter der Dreierlinie 4 Punkte.|F|1`,
 film:`Wer spielt Iron Man in den Marvel-Filmen?|Robert Downey Jr.|Chris Evans|Chris Hemsworth|Mark Ruffalo|1
 Wie heißt der Zauberschüler mit der Blitznarbe?|Harry Potter|Ron Weasley|Frodo Beutlin|Percy Jackson|1
 Welcher Film von 1997 handelt von einem sinkenden Schiff?|Titanic|Poseidon|Der Sturm|Waterworld|1
@@ -461,7 +549,37 @@ Welcher Musiker wurde „King of Pop“ genannt?|Michael Jackson|Elvis Presley|P
 Was für ein Fisch ist Nemo?|Ein Clownfisch|Ein Goldfisch|Ein Hai|Ein Kugelfisch|1
 Wie heißt der Schneemann in „Die Eiskönigin“?|Olaf|Sven|Kristoff|Hans|1
 Wer spielte Harry Potter in den Filmen?|Daniel Radcliffe|Rupert Grint|Tom Felton|Elijah Wood|1
-Welcher Schauspieler spielte den Terminator?|Arnold Schwarzenegger|Sylvester Stallone|Bruce Willis|Dwayne Johnson|1`,
+Welcher Schauspieler spielte den Terminator?|Arnold Schwarzenegger|Sylvester Stallone|Bruce Willis|Dwayne Johnson|1
+Wie heißt der Zauberer-Schüler mit der Blitznarbe?|Harry Potter|Ron Weasley|Neville Longbottom|Draco Malfoy|1
+Wie heißt der König der Löwen?|Simba|Mufasa|Scar|Nala|1|Simba wird am Ende König – Mufasa ist sein Vater.
+Welcher Film handelt von einem Schiffsunglück 1912 mit Leonardo DiCaprio?|Titanic|Poseidon|Inception|Der große Gatsby|1
+Wie heißt der grüne Oger aus dem gleichnamigen Film?|Shrek|Grinch|Hulk|Yoda|1
+In welchem Film sagt eine Figur „Ich bin dein Vater“?|Star Wars|Der Herr der Ringe|Matrix|Avatar|1
+Wie heißt der Spielzeug-Cowboy in Toy Story?|Woody|Buzz|Rex|Jessie|1
+Welches Tier ist Nemo?|Clownfisch|Doktorfisch|Goldfisch|Kugelfisch|1
+Wie heißt die Eiskönigin aus „Die Eiskönigin“?|Elsa|Anna|Ariel|Rapunzel|1
+Wie heißt der Schneemann in „Die Eiskönigin“?|Olaf|Sven|Kristoff|Hans|1
+Welcher Superheld kommt aus Wakanda?|Black Panther|Thor|Iron Man|Hulk|2
+Wie heißt der Hammer von Thor?|Mjölnir|Excalibur|Gungnir|Stormbreaker|2
+Welcher Schauspieler spielte Iron Man im Marvel-Universum?|Robert Downey Jr.|Chris Evans|Chris Hemsworth|Mark Ruffalo|1
+Wie heißt die Schule in Harry Potter?|Hogwarts|Durmstrang|Beauxbatons|Ilvermorny|1
+Wie heißt der Ring-Träger in „Der Herr der Ringe“?|Frodo|Sam|Gandalf|Aragorn|1
+Welche Farbe hat die Pille, die Neo in „Matrix“ schluckt?|Rot|Blau|Grün|Gelb|2
+In welcher Stadt spielt „Die Simpsons“?|Springfield|Shelbyville|Quahog|South Park|1
+Wie heißt Bart Simpsons Vater?|Homer|Ned|Abe|Moe|1
+Wie heißt der gelbe Schwamm, der in einer Ananas wohnt?|SpongeBob|Patrick|Thaddäus|Mr. Krabs|1
+Wie heißt der beste Freund von SpongeBob?|Patrick|Thaddäus|Sandy|Plankton|1
+Welche Serie spielt im Ort Hawkins und dem „Upside Down“?|Stranger Things|Dark|Wednesday|The Walking Dead|1
+In welcher Serie geht es um ein Spiel mit tödlichen Kinderspielen in Südkorea?|Squid Game|Alice in Borderland|Sweet Home|Kingdom|1
+Welche Netflix-Serie spielt in der Nevermore Academy?|Wednesday|Stranger Things|Sex Education|Elite|1
+Wie heißt der Dinosaurier-Park im gleichnamigen Film?|Jurassic Park|Dino World|Raptor Island|Fossil Park|1
+Wer führte Regie bei „Jurassic Park“ (1993)?|Steven Spielberg|James Cameron|George Lucas|Christopher Nolan|2
+Welcher Film gewann 2020 als erster nicht-englischsprachiger Film den Oscar als bester Film?|Parasite|Roma|Drive My Car|Das Leben der Anderen|3
+Wie heißt der Hund von Shaggy in Scooby-Doo?|Scooby-Doo|Snoopy|Pluto|Goofy|1
+In welchem Film fährt ein DeLorean durch die Zeit?|Zurück in die Zukunft|Terminator|Interstellar|Tenet|1
+Wie heißen die kleinen gelben Helfer von Gru?|Minions|Schlümpfe|Gremlins|Ewoks|1
+TF|Die „Fast & Furious“-Reihe hat mehr als 5 Filme.|W|1
+TF|Darth Vader heißt eigentlich Anakin Skywalker.|W|1`,
 de:`Was ist die Hauptstadt von Deutschland?|Berlin|Bonn|Hamburg|Frankfurt|1
 Wie heißt das deutsche Parlament?|Bundestag|Bundesrat|Landtag|Reichstag|1
 Wer wählt den Bundeskanzler?|Der Bundestag|Das Volk direkt|Der Bundesrat|Der Bundespräsident|2
@@ -540,7 +658,36 @@ ORD|Sortiere die Regenbogenfarben von außen nach innen|Rot;Gelb;Grün;Blau|2
 Wie viele Farben hat ein Regenbogen traditionell?|7|5|6|9|1
 Welche Form hat ein Stoppschild?|Achteck|Dreieck|Kreis|Sechseck|1
 Was ist ein Palindrom?|Ein Wort, das vorwärts und rückwärts gleich ist|Ein sehr langes Wort|Ein Wort ohne Vokale|Ein Fremdwort|2
-Wie viele Spielkarten hat ein Pokerblatt (ohne Joker)?|52|32|48|54|1`,
+Wie viele Spielkarten hat ein Pokerblatt (ohne Joker)?|52|32|48|54|1
+Wie viele Minuten hat ein Tag?|1440|1200|1680|960|2|24 × 60 = 1440
+Wie viele Sekunden hat eine Stunde?|3600|360|6000|1200|1|60 × 60 = 3600
+Welche Farbe entsteht aus Blau und Gelb?|Grün|Lila|Orange|Braun|1
+Welche Farbe entsteht aus Rot und Blau?|Lila|Grün|Orange|Pink|1
+Welche Farbe entsteht aus Rot und Gelb?|Orange|Grün|Lila|Braun|1
+Wie viele Felder hat ein Schachbrett?|64|81|49|100|1
+Wie viele Karten hat ein Skatblatt?|32|52|36|40|2
+Wie viele Spieler stehen beim Fußball pro Team auf dem Platz?|11|10|12|9|1
+Wie viele Tasten hat ein normales Klavier?|88|76|100|64|2
+Welcher Monat hat die wenigsten Tage?|Februar|April|November|Juni|1
+Wie viele Wochen hat ein Jahr ungefähr?|52|48|56|50|1
+Welche Zahl hat der Notruf für Feuerwehr und Rettungsdienst in Deutschland?|112|110|911|116|1
+Welche Nummer hat der Polizei-Notruf in Deutschland?|110|112|911|119|1
+Wie viele Ecken hat ein Würfel?|8|6|12|4|1
+Wie viele Kanten hat ein Würfel?|12|8|6|10|2
+Was zeigt ein Barometer an?|Luftdruck|Temperatur|Windgeschwindigkeit|Luftfeuchtigkeit|2
+Was misst ein Thermometer?|Temperatur|Luftdruck|Gewicht|Lautstärke|1
+Wie viele Zähne hat ein erwachsener Mensch normalerweise (mit Weisheitszähnen)?|32|28|36|24|2
+Wie heißt der höchste Berg Deutschlands?|Zugspitze|Watzmann|Brocken|Feldberg|1
+Wie heißt der höchste Berg der Welt?|Mount Everest|K2|Kilimandscharo|Mont Blanc|1
+Welcher Ozean ist der größte?|Pazifik|Atlantik|Indischer Ozean|Arktischer Ozean|1
+Wie viele Bundesländer hat Deutschland?|16|14|18|12|1
+Wie viele Länder sind in der EU (Stand 2026)?|27|28|25|30|2|Seit dem Brexit 2020 sind es 27.
+Was ist das größte Land der Welt (Fläche)?|Russland|Kanada|China|USA|1
+Was ist das bevölkerungsreichste Land der Welt?|Indien|China|USA|Indonesien|2|Indien hat China 2023 überholt.
+TF|Ein Schaltjahr hat 366 Tage.|W|1
+TF|Die Chinesische Mauer ist mit bloßem Auge vom Mond aus zu sehen.|F|2|Ein Mythos – dafür ist sie viel zu schmal.
+TF|Tomaten sind botanisch gesehen Früchte.|W|2
+TF|Ein Marathon ist genau 42,195 km lang.|W|2`,
 pc:`Wofür steht „CPU“?|Central Processing Unit|Computer Power Unit|Central Program Utility|Core Processing Usage|1
 Wofür steht „GPU“?|Graphics Processing Unit|General Power Unit|Game Processing Utility|Graphic Program Upload|1
 Wie viele Bit hat ein Byte?|8|4|16|10|1
@@ -660,7 +807,31 @@ EMO|🍕🏛️🛵|Welche Stadt ist das?|Rom|Athen|Madrid|Paris|1
 EMO|🌷🚲🧀|Welches Land ist das?|Niederlande|Dänemark|Schweiz|Belgien|1
 EMO|🦘🐨|Welches Land ist das?|Australien|Neuseeland|Südafrika|Brasilien|1
 EMO|🍣🗻🎌|Welches Land ist das?|Japan|China|Südkorea|Thailand|1
-EMO|🥨🏰🍺|Welches Bundesland ist das?|Bayern|Bremen|Hamburg|Saarland|1`,
+EMO|🥨🏰🍺|Welches Bundesland ist das?|Bayern|Bremen|Hamburg|Saarland|1
+EMO|🦁👑|Welcher Film?|Der König der Löwen|Madagascar|Das Dschungelbuch|Zoomania|1
+EMO|❄️👸⛄|Welcher Film?|Die Eiskönigin|Rapunzel|Cinderella|Arielle|1
+EMO|🕷️🧑|Welcher Superheld?|Spider-Man|Ant-Man|Batman|Iron Man|1
+EMO|🦇🧑|Welcher Superheld?|Batman|Spider-Man|Superman|Robin|1
+EMO|⚡👓🧙|Welche Filmfigur?|Harry Potter|Gandalf|Merlin|Dumbledore|1
+EMO|🚢🧊💔|Welcher Film?|Titanic|Poseidon|Aquaman|Fluch der Karibik|1
+EMO|🐠🔍|Welcher Film?|Findet Nemo|Arielle|Hai-Alarm|Der weiße Hai|1
+EMO|🦖🏝️|Welcher Film?|Jurassic Park|King Kong|Ice Age|Godzilla|1
+EMO|🧟‍♂️🧟‍♀️🚶|Welche Serie?|The Walking Dead|Stranger Things|Wednesday|Dark|2
+EMO|🍫🏭🎫|Welcher Film?|Charlie und die Schokoladenfabrik|Ratatouille|Willy Wonka 2|Chocolat|1
+EMO|👻🚫|Welcher Film?|Ghostbusters|Casper|Insidious|Scary Movie|2
+EMO|🐀👨‍🍳|Welcher Film?|Ratatouille|Stuart Little|Mäusejagd|Die Schöne und das Biest|1
+EMO|🧸🍯|Welche Figur?|Winnie Puuh|Paddington|Garfield|Balu|1
+EMO|🟡🍌👖|Welche Figuren?|Minions|Simpsons|Schlümpfe|Teletubbies|1
+EMO|🏴‍☠️⚓🦜|Welcher Film?|Fluch der Karibik|Peter Pan|One Piece|Hook|1
+EMO|🐼🥋|Welcher Film?|Kung Fu Panda|Karate Kid|Big Hero 6|Mulan|1
+EMO|👽📞🏠|Welcher Film?|E.T.|Alien|Independence Day|Men in Black|2
+EMO|🔨⚡|Welcher Superheld?|Thor|Zeus|Flash|Shazam|1
+EMO|💍🌋|Welcher Film?|Der Herr der Ringe|Avatar|Dune|Narnia|1
+EMO|🏎️⚡🔴|Welche Filmfigur?|Lightning McQueen|Speedy|Herbie|Turbo|1
+EMO|🧜‍♀️🌊|Welche Figur?|Arielle|Moana|Elsa|Belle|1
+EMO|🕰️🔙🚗|Welcher Film?|Zurück in die Zukunft|Tenet|Interstellar|Terminator|2
+EMO|🦸‍♂️🛡️🇺🇸|Welcher Superheld?|Captain America|Superman|Iron Man|Hawkeye|1
+EMO|🍕🐢🥷|Welche Figuren?|Teenage Mutant Ninja Turtles|Power Rangers|Kung Fu Panda|Ninjago|1`,
 flag:`FLAG|🇩🇪|Deutschland|Belgien|Spanien|Österreich|1
 FLAG|🇫🇷|Frankreich|Niederlande|Russland|Italien|1
 FLAG|🇮🇹|Italien|Irland|Mexiko|Ungarn|1
@@ -881,7 +1052,41 @@ EST|🚗 Wie lang ist der Anhalteweg bei 100 km/h nach Faustformel?|130|50|250|5
 ORD|🏍️ Sortiere die Motorrad-Klassen nach erlaubter Leistung (wenig → viel)|AM (Roller bis 45 km/h);A1;A2;A|2
 ORD|🚗 Sortiere die erlaubte Höchstgeschwindigkeit für Pkw (langsam → schnell)|Spielstraße;Innerorts;Landstraße;Autobahn-Richtgeschwindigkeit|1
 MULTI|🚗 Was braucht man, um zur praktischen Prüfung Klasse B zugelassen zu werden?|Bestandene Theorieprüfung;Erste-Hilfe-Kurs;Sehtest|Eigenes Auto;Motorradhelm;Abitur|2
-MULTI|🚗 Welche Schilder regeln die Vorfahrt?|Stoppschild;Vorfahrt gewähren;Vorfahrtstraße|Parkplatz;Tankstelle;Sackgasse|1`
+MULTI|🚗 Welche Schilder regeln die Vorfahrt?|Stoppschild;Vorfahrt gewähren;Vorfahrtstraße|Parkplatz;Tankstelle;Sackgasse|1
+Welche Farbe entsteht, wenn man Rot und Weiß mischt?|Rosa|Lila|Orange|Pink-Rot|1
+Wie heißt das Make-up für die Wimpern?|Mascara|Rouge|Concealer|Highlighter|1
+Wofür benutzt man Concealer?|Augenringe und Pickel abdecken|Lippen färben|Wimpern verlängern|Haare stylen|1
+Was ist ein Balayage?|Eine Haarfärbetechnik mit weichen Übergängen|Ein Tanz|Eine Nageltechnik|Ein Kleid|2
+Was ist French Nails?|Nägel mit weißer Spitze|Komplett rote Nägel|Glitzer-Nägel|Abgekaute Nägel|1
+Wie heißt die bekannte Puppe von Mattel mit Freund Ken?|Barbie|Bratz|Polly|Lilly|1
+Welche Farbe hatte der Barbie-Film 2023 überall?|Pink|Blau|Lila|Gelb|1
+Was ist ein „Scrunchie“?|Ein Stoff-Haargummi|Ein Make-up-Pinsel|Ein Armband|Ein Lipgloss|1
+Was ist ein „Crop Top“?|Ein kurzes, bauchfreies Oberteil|Ein langes Kleid|Eine Mütze|Eine Hose|1
+Was ist eine „Mom Jeans“?|Eine Jeans mit hoher Taille und lockerem Schnitt|Eine Jeans nur für Mütter|Eine kurze Hose|Eine Leggings|1
+Wofür ist Sonnencreme mit LSF?|Schutz vor Sonnenbrand|Bräunen|Feuchtigkeit für Haare|Parfüm|1
+Was bedeutet LSF auf Sonnencreme?|Lichtschutzfaktor|Leicht-Sonnen-Filter|Lotion Sommer Frisch|Langer Schutz Faktor|1
+Was ist ein „Bob“?|Eine kinnlange Frisur|Ein Haarband|Ein Zopf|Eine Glatze|1
+Wie heißt ein französischer Zopf, der am Kopf geflochten wird?|Französischer Zopf|Pferdeschwanz|Dutt|Pony|2
+Was ist ein Dutt?|Haare zu einem Knoten am Kopf gedreht|Offene Locken|Kurze Haare|Ein Zopf zur Seite|1
+Was ist ein Pony bei der Frisur?|Kurze Haare, die in die Stirn fallen|Ein Pferdeschwanz|Locken|Ein Mittelscheitel|1
+Was macht ein Glätteisen?|Haare glätten|Haare lockig machen|Haare föhnen|Haare färben|1
+Wie heißt das Pferd, das klein bleibt?|Pony|Fohlen|Stute|Haflinger|1
+Welche Pferdefarbe nennt man „Fuchs“?|Rotbraun mit gleich farbiger Mähne|Weiß|Schwarz|Gefleckt|2
+Was ist Dressur beim Reiten?|Pferd zeigt genaue Lektionen und Figuren|Über Hindernisse springen|Schnell rennen|Durchs Gelände reiten|2
+Wie heißt der Beruf, der Nägel macht?|Nageldesignerin|Kosmetikerin für Haare|Floristin|Visagist für Füße|1
+Wie heißt jemand, der beruflich Make-up macht?|Visagist bzw. Visagistin|Friseur|Florist|Stylist für Möbel|1
+Wie heißt das große Fest zum 15. Geburtstag in Lateinamerika?|Quinceañera|Sweet Sixteen|Bat Mizwa|Jugendweihe|3
+Was ist ein „Sweet Sixteen“?|Eine große Party zum 16. Geburtstag|Eine Süßigkeit|Eine Band|Ein Film|1
+Welche Blume steht für die Liebe?|Rote Rose|Sonnenblume|Tulpe|Gänseblümchen|1
+Was ist ein „Vision Board“?|Eine Collage mit Zielen und Träumen|Ein Spiegel|Ein Kalender|Ein Schminktisch|2
+Was bedeutet „Self Care“?|Sich gut um sich selbst kümmern|Selbst kochen|Selbst Haare schneiden|Selbst fahren|1
+Was ist „Glow up“?|Eine positive Veränderung des Aussehens bzw. Lebens|Ein Make-up-Fehler|Eine Lampe|Ein Sonnenbrand|1
+Was ist ein „Bestie“?|Beste Freundin bzw. bester Freund|Ein Tier|Ein Haustier-Name|Eine Feindin|1
+Welche Serie spielt um vier Freundinnen in New York und Kolumnistin Carrie?|Sex and the City|Gossip Girl|Gilmore Girls|Friends|2
+Welche Serie spielt in Stars Hollow mit Mutter und Tochter?|Gilmore Girls|Gossip Girl|Friends|Pretty Little Liars|2
+Welche Serie hat Charaktere aus „Upper East Side“ und eine anonyme Bloggerin?|Gossip Girl|Gilmore Girls|Elite|Riverdale|2
+TF|Parfüm hält auf trockener Haut besser als auf eingecremter.|F|2|Gut eingecremte Haut hält den Duft länger.
+TF|Man sollte Wimperntusche nach ca. 3–6 Monaten austauschen.|W|2`
 ,
 buch:`Wer schrieb die Harry-Potter-Bücher?|J. K. Rowling|Cornelia Funke|Suzanne Collins|Stephenie Meyer|1
 Wer schrieb „Der Herr der Ringe“?|J. R. R. Tolkien|C. S. Lewis|George R. R. Martin|Michael Ende|1
@@ -926,7 +1131,27 @@ ORD|Sortiere die Harry-Potter-Bände in der richtigen Reihenfolge|Der Stein der 
 EMO|🐛🍎🍐🦋|Welches Kinderbuch ist das?|Die kleine Raupe Nimmersatt|Biene Maja|Der Grüffelo|Die kleine Hexe|1
 EMO|👧🧦🐴🐒|Welche Buchfigur ist das?|Pippi Langstrumpf|Heidi|Ronja Räubertochter|Rotkäppchen|2
 EMO|🕵️🔍🎻|Welche Buchfigur ist das?|Sherlock Holmes|Hercule Poirot|Miss Marple|Inspector Gadget|2
-EMO|🐋⚓🦵|Welcher Roman ist das?|Moby Dick|Die Schatzinsel|Robinson Crusoe|20.000 Meilen unter dem Meer|3`,
+EMO|🐋⚓🦵|Welcher Roman ist das?|Moby Dick|Die Schatzinsel|Robinson Crusoe|20.000 Meilen unter dem Meer|3
+Wer schrieb „Harry Potter“?|J. K. Rowling|J. R. R. Tolkien|Stephen King|Cornelia Funke|1
+Wer schrieb „Der Herr der Ringe“?|J. R. R. Tolkien|C. S. Lewis|George R. R. Martin|J. K. Rowling|1
+Wer schrieb „Faust“?|Johann Wolfgang von Goethe|Friedrich Schiller|Heinrich Heine|Thomas Mann|1
+Wer schrieb „Die Räuber“?|Friedrich Schiller|Goethe|Lessing|Kafka|2
+Wie heißt die Pippi mit den roten Zöpfen mit Nachnamen?|Langstrumpf|Kurzstrumpf|Schmidt|Sommer|1
+Wer schrieb „Pippi Langstrumpf“?|Astrid Lindgren|Enid Blyton|Michael Ende|Erich Kästner|1
+Wer schrieb „Die unendliche Geschichte“?|Michael Ende|Cornelia Funke|Otfried Preußler|Erich Kästner|2
+Wer schrieb „Emil und die Detektive“?|Erich Kästner|Michael Ende|Otfried Preußler|James Krüss|2
+Wie heißt der Räuber bei Otfried Preußler?|Räuber Hotzenplotz|Räuber Rumpelstilzchen|Räuber Kneißl|Räuber Hans|1
+Wem folgt Alice ins Wunderland?|Einem weißen Kaninchen|Einer Katze|Einem Hutmacher|Einer Raupe|1
+Wer ist der Erzähler in „Der kleine Prinz“?|Ein Pilot|Ein Fuchs|Ein König|Eine Rose|2
+Welcher Autor ist bekannt für Horror wie „Es“?|Stephen King|Dan Brown|Sebastian Fitzek|Neil Gaiman|1
+Welcher deutsche Autor schreibt bekannte Psychothriller wie „Die Therapie“?|Sebastian Fitzek|Frank Schätzing|Andreas Eschbach|Nele Neuhaus|2
+In welcher Buchreihe gibt es die Distrikte und die Hungerspiele?|Die Tribute von Panem|Divergent|Maze Runner|Twilight|1
+In welcher Buchreihe verliebt sich Bella in einen Vampir?|Twilight (Bis(s))|Vampire Diaries|Dracula|Shadowhunters|1
+Wer schrieb „Gregs Tagebuch“?|Jeff Kinney|Rachel Renée Russell|Dav Pilkey|Roald Dahl|2
+Wer schrieb „Charlie und die Schokoladenfabrik“?|Roald Dahl|Lewis Carroll|Mark Twain|Enid Blyton|2
+Wie heißt der Detektiv mit Pfeife aus London?|Sherlock Holmes|Hercule Poirot|Miss Marple|Columbo|1
+TF|„Momo“ handelt von grauen Herren, die Zeit stehlen.|W|2
+TF|„Krieg und Frieden“ wurde von Goethe geschrieben.|F|2|Es ist von Leo Tolstoi.`,
 wahr:`Wie hoch ist die Wahrscheinlichkeit, beim Münzwurf „Kopf“ zu werfen?|50 %|25 %|33 %|100 %|1
 Wie hoch ist die Wahrscheinlichkeit, mit einem Würfel eine 6 zu würfeln?|1/6|1/3|1/2|1/12|1
 Wie hoch ist die Wahrscheinlichkeit, mit einem Würfel eine gerade Zahl zu würfeln?|1/2|1/3|1/6|2/3|1
@@ -1147,7 +1372,29 @@ ORD|Sortiere nach Größe (klein → groß)|Ameise;Maus;Hund;Elefant|1
 ORD|Sortiere nach Geschwindigkeit (langsam → schnell)|Schnecke;Mensch;Pferd;Gepard|1
 MULTI|Welche dieser Tiere sind Säugetiere?|Wal;Fledermaus;Delfin|Hai;Pinguin;Krokodil|1
 GAP|Ein junger Hund heißt ___.|Welpe;Hundewelpe|1
-GAP|Das Junge einer Kuh heißt ___.|Kalb|1`,
+GAP|Das Junge einer Kuh heißt ___.|Kalb|1
+Welches Tier ist das größte Landtier?|Afrikanischer Elefant|Giraffe|Nashorn|Nilpferd|1
+Welches Tier ist das höchste Tier?|Giraffe|Elefant|Strauß|Kamel|1
+Wie heißt ein männliches Huhn?|Hahn|Henne|Küken|Kapaun|1
+Wie heißt ein weibliches Pferd?|Stute|Hengst|Wallach|Fohlen|1
+Wie heißt ein männliches Pferd?|Hengst|Stute|Fohlen|Pony|1
+Wie heißt ein weibliches Schaf?|Aue|Bock|Lamm|Widder|3|Weibliche Schafe heißen Aue oder Mutterschaf.
+Wie heißt ein männliches Rind?|Stier bzw. Bulle|Kuh|Kalb|Färse|1
+Was fressen Pandas hauptsächlich?|Bambus|Fisch|Eukalyptus|Gras|1
+Was fressen Koalas hauptsächlich?|Eukalyptusblätter|Bambus|Insekten|Beeren|1
+Wie viele Beine hat eine Spinne?|8|6|10|12|1
+Wie viele Beine hat ein Insekt?|6|8|4|10|1
+Welches Tier legt Eier, obwohl es ein Säugetier ist?|Schnabeltier|Delfin|Fledermaus|Wal|2
+In welchem Land leben Kängurus wild?|Australien|Afrika|Südamerika|Indien|1
+Welches Tier hat schwarz-weiße Streifen?|Zebra|Panda|Pinguin|Dalmatiner|1
+Was ist eine Gruppe Wölfe?|Rudel|Herde|Schwarm|Kolonie|1
+Was ist eine Gruppe Fische?|Schwarm|Rudel|Herde|Rotte|1
+Was ist eine Gruppe Wildschweine?|Rotte|Rudel|Schwarm|Herde|2
+Wie viele Mägen hat eine Kuh?|4 (bzw. 4 Magenabschnitte)|1|2|6|2
+Welche Farbe hat die Haut eines Eisbären?|Schwarz|Weiß|Rosa|Grau|2|Das Fell ist durchsichtig und wirkt weiß.
+Welcher Vogel kann rückwärts fliegen?|Kolibri|Adler|Spatz|Eule|2
+TF|Delfine schlafen mit einer Gehirnhälfte.|W|2
+TF|Strauße stecken bei Gefahr den Kopf in den Sand.|F|2|Mythos – sie legen sich höchstens flach hin.`,
 space:`Welcher Planet hat die auffälligsten Ringe?|Saturn|Mars|Venus|Merkur|1
 Welcher Planet ist am weitesten von der Sonne entfernt?|Neptun|Uranus|Pluto|Saturn|2|Pluto gilt seit 2006 nur als Zwergplanet.
 Wie heißt der nächste Stern nach der Sonne?|Proxima Centauri|Sirius|Polarstern|Beteigeuze|2
@@ -1175,7 +1422,28 @@ ORD|Sortiere nach Größe (klein → groß)|Mond;Erde;Jupiter;Sonne|1
 ORD|Sortiere nach Entfernung zur Sonne (nah → fern)|Venus;Mars;Saturn;Neptun|1
 MULTI|Welche dieser Planeten sind Gasriesen?|Jupiter;Saturn|Mars;Venus;Merkur|2
 GAP|Neil ___ war der erste Mensch auf dem Mond.|Armstrong|1
-GAP|Der Planet, auf dem wir leben, heißt ___.|Erde;die Erde|1`,
+GAP|Der Planet, auf dem wir leben, heißt ___.|Erde;die Erde|1
+Wie heißt unsere Galaxie?|Milchstraße|Andromeda|Sombrero|Orion|1
+Wie heißt der nächste Stern zur Erde?|Sonne|Proxima Centauri|Sirius|Polarstern|2|Die Sonne ist ein Stern! Der nächste andere Stern ist Proxima Centauri.
+Wie lange braucht das Sonnenlicht ungefähr bis zur Erde?|ca. 8 Minuten|ca. 8 Sekunden|ca. 1 Stunde|ca. 1 Tag|2
+Wie lange braucht der Mond für eine Umrundung der Erde ungefähr?|ca. 27 Tage|ca. 7 Tage|ca. 365 Tage|ca. 1 Tag|2
+Welcher Planet hat die meisten bekannten Monde (Stand 2025)?|Saturn|Jupiter|Uranus|Neptun|3
+Welcher Planet ist der heißeste?|Venus|Merkur|Mars|Jupiter|2|Wegen ihrer dicken CO₂-Atmosphäre ist Venus heißer als Merkur.
+Welcher Planet wird „Roter Planet“ genannt?|Mars|Venus|Jupiter|Merkur|1
+Welcher Planet hat den großen roten Fleck (ein Sturm)?|Jupiter|Saturn|Mars|Neptun|1
+Wie heißt der erste Mensch auf dem Mond?|Neil Armstrong|Buzz Aldrin|Juri Gagarin|Michael Collins|1
+Wer war der erste Mensch im All?|Juri Gagarin|Neil Armstrong|John Glenn|Alan Shepard|1
+Wie heißt die US-Raumfahrtbehörde?|NASA|ESA|SpaceX|Roskosmos|1
+Wie heißt die europäische Raumfahrtagentur?|ESA|NASA|DLR|JAXA|1
+Wie heißt die Firma von Elon Musk für Raketen?|SpaceX|Blue Origin|Tesla Space|Virgin Galactic|1
+Was ist ein Lichtjahr?|Eine Entfernung|Eine Zeit|Eine Helligkeit|Ein Gewicht|2
+Was ist ein Komet hauptsächlich?|Eis, Staub und Gestein|Ein brennender Stern|Ein Planet|Eine Rakete|2
+Was ist eine Sternschnuppe?|Ein kleiner Stein, der in der Atmosphäre verglüht|Ein fallender Stern|Ein Satellit|Ein Komet|1
+Wie heißt das Weltraumteleskop, das 2021 gestartet ist?|James-Webb-Teleskop|Hubble-Teleskop|Kepler|Spitzer|2
+Wie heißt die Raumstation, die um die Erde kreist?|ISS|Mir|Skylab|Gateway|1
+Seit 2006 gilt Pluto als …|Zwergplanet|Planet|Mond|Komet|1
+TF|Im Weltall kann man Geräusche hören.|F|1|Es gibt keine Luft, die den Schall überträgt.
+TF|Ein Tag auf der Venus ist länger als ein Venus-Jahr.|W|3`,
 myth:`Wer ist der Göttervater der griechischen Mythologie?|Zeus|Poseidon|Hades|Apollon|1
 Wer ist der griechische Gott des Meeres?|Poseidon|Zeus|Ares|Hermes|1
 Wer herrscht in der griechischen Sage über die Unterwelt?|Hades|Zeus|Ares|Dionysos|1
@@ -1281,7 +1549,30 @@ ORD|Sortiere nach Geburtsjahr (früher → später)|Johann Sebastian Bach;Wolfga
 EMO|🎸⚡🤘|Welche Musikrichtung ist das?|Rock|Klassik|Jazz|Schlager|1
 EMO|🎻🎹🎩|Welche Musikrichtung ist das?|Klassik|Hip-Hop|Techno|Reggae|1
 MULTI|Welche sind Blasinstrumente?|Trompete;Flöte;Saxofon|Geige;Harfe;Schlagzeug|1
-GAP|Ein großes Orchesterwerk in mehreren Sätzen heißt ___.|Sinfonie;Symphonie|2`,
+GAP|Ein großes Orchesterwerk in mehreren Sätzen heißt ___.|Sinfonie;Symphonie|2
+Wie viele Saiten hat eine normale Gitarre?|6|4|5|8|1
+Wie viele Saiten hat ein normaler E-Bass?|4|6|5|3|1
+Wie viele Linien hat ein Notensystem?|5|4|6|7|1
+Wie heißt der Schlüssel für hohe Töne in der Musik?|Violinschlüssel|Bassschlüssel|Altschlüssel|Notenschlüssel C|1
+Wie heißen die Noten der C-Dur-Tonleiter?|C D E F G A H C|C D E F G A B C|A B C D E F G A|C E G C E G C E|2|Im Deutschen heißt der Ton H, nicht B.
+Wer ist der „King of Pop“?|Michael Jackson|Elvis Presley|Prince|Justin Bieber|1
+Wer ist der „King of Rock 'n' Roll“?|Elvis Presley|Michael Jackson|Chuck Berry|Little Richard|1
+Aus welchem Land kommen ABBA?|Schweden|Norwegen|Dänemark|Finnland|1
+Aus welcher Stadt kamen die Beatles?|Liverpool|London|Manchester|Birmingham|1
+Welche Band sang „Bohemian Rhapsody“?|Queen|The Beatles|Pink Floyd|AC/DC|1
+Wie hieß der Sänger von Queen?|Freddie Mercury|Brian May|Mick Jagger|Bono|1
+Welche K-Pop-Band hat die Mitglieder RM, Jin, Suga, J-Hope, Jimin, V und Jungkook?|BTS|Blackpink|Stray Kids|EXO|1
+Wie heißt der Musikpreis der USA, eine goldene Grammophon-Figur?|Grammy|Oscar|Emmy|Echo|1
+Welche Sängerin hat die „Eras Tour“ gemacht?|Taylor Swift|Beyoncé|Adele|Billie Eilish|1
+Welche Rapperin stammt aus Trinidad und ist bekannt für „Super Bass“?|Nicki Minaj|Cardi B|Megan Thee Stallion|Doja Cat|2
+Welcher Komponist wurde taub, komponierte aber weiter?|Ludwig van Beethoven|Mozart|Bach|Chopin|1
+Woher kam Wolfgang Amadeus Mozart?|Salzburg|Wien|Berlin|München|2
+Welches Land gewinnt sehr oft den Eurovision Song Contest (Rekord, 7 Siege)?|Irland und Schweden|Deutschland|Frankreich|Italien|2|Irland und Schweden haben je 7 Siege.
+Wie viele Tasten in Weiß hat eine Oktave auf dem Klavier?|7|5|8|12|2
+Was bedeutet „forte“ in den Noten?|laut|leise|schnell|langsam|2
+Was bedeutet „piano“ in den Noten?|leise|laut|schnell|fröhlich|2
+TF|Ein Schlagzeug gehört zu den Schlaginstrumenten.|W|1
+TF|Die Gitarre ist ein Blasinstrument.|F|1`,
 beruf:`Wer repariert Wasserleitungen und Heizungen?|Anlagenmechaniker (Installateur)|Elektriker|Dachdecker|Schreiner|1
 Wer verlegt Stromleitungen im Haus?|Elektroniker|Maurer|Maler|Fliesenleger|1
 Wie nennt man den Tischler in Süddeutschland oft?|Schreiner|Zimmerer|Steinmetz|Glaser|2
@@ -1333,7 +1624,30 @@ EST|Wie alt wurde der älteste nachweislich dokumentierte Mensch?|122|100|150|1|
 ORD|Sortiere nach Höhe (niedrig → hoch)|Kölner Dom;Eiffelturm;Empire State Building;Burj Khalifa|2
 ORD|Sortiere nach Fläche (klein → groß)|Vatikanstadt;Monaco;Luxemburg;Deutschland|2
 MULTI|Welche Länder sind flächenmäßig größer als Deutschland?|Frankreich;Spanien;Schweden|Italien;Polen;Österreich|2
-NUM|Wie viele Tore schoss Miroslav Klose bei Weltmeisterschaften?|16|3`,
+NUM|Wie viele Tore schoss Miroslav Klose bei Weltmeisterschaften?|16|3
+Was ist das höchste Gebäude der Welt (Stand 2026)?|Burj Khalifa|Shanghai Tower|One World Trade Center|Taipei 101|1
+In welcher Stadt steht der Burj Khalifa?|Dubai|Abu Dhabi|Doha|Riad|1
+Was ist das schnellste Landtier?|Gepard|Löwe|Antilope|Pferd|1
+Was ist der schnellste Vogel im Sturzflug?|Wanderfalke|Adler|Kolibri|Albatros|2
+Was ist das größte Tier, das je gelebt hat?|Blauwal|Brachiosaurus|Megalodon|Mammut|1
+Wie heißt der schnellste Mensch über 100 m (Weltrekord 9,58 s)?|Usain Bolt|Carl Lewis|Tyson Gay|Yohan Blake|1
+Was ist der längste Fluss der Welt (meist genannt)?|Nil|Amazonas|Jangtse|Mississippi|2|Je nach Messung streiten Nil und Amazonas um Platz 1.
+Was ist die größte Wüste der Welt?|Antarktis|Sahara|Gobi|Kalahari|3|Wüste = wenig Niederschlag. Die größte heiße Wüste ist die Sahara.
+Was ist der größte Planet im Sonnensystem?|Jupiter|Saturn|Neptun|Uranus|1
+Was ist das kleinste Land der Welt?|Vatikanstadt|Monaco|San Marino|Liechtenstein|1
+Welches Land hat die meisten Einwohner in Europa (komplett in Europa)?|Deutschland|Frankreich|Großbritannien|Italien|2|Russland und die Türkei liegen nur teilweise in Europa.
+Was ist der tiefste Punkt im Meer?|Marianengraben|Bermuda-Dreieck|Tongagraben|Puerto-Rico-Graben|1
+Wie tief ist der Marianengraben ungefähr?|11.000 m|3.000 m|25.000 m|6.000 m|2
+Was ist das größte Organ des Menschen?|Haut|Leber|Lunge|Darm|1
+Was ist der größte Ozean?|Pazifik|Atlantik|Indischer Ozean|Südpolarmeer|1
+Was ist die größte Insel der Welt?|Grönland|Australien|Madagaskar|Borneo|2|Australien gilt als Kontinent.
+Was ist das langsamste Säugetier?|Faultier|Koala|Schildkröte|Seekuh|1
+Welches Tier wird am ältesten?|Grönlandhai|Elefant|Papagei|Mensch|3|Grönlandhaie können über 250 Jahre alt werden.
+Welcher Fußballer hat die meisten Ballon-d'Or-Titel?|Lionel Messi|Cristiano Ronaldo|Michel Platini|Johan Cruyff|1
+Was ist die meistgesprochene Sprache der Welt (Muttersprache + Zweitsprache)?|Englisch|Chinesisch (Mandarin)|Spanisch|Hindi|2
+Welches Land hat die meisten Zeitzonen (inkl. Überseegebiete)?|Frankreich|Russland|USA|China|3
+TF|Der Mount Everest wird jedes Jahr ein kleines Stück höher.|W|3|Durch die Plattentektonik wächst er wenige Millimeter pro Jahr.
+TF|Der Amazonas-Regenwald ist der größte Regenwald der Erde.|W|1`,
 fun:`Welches Tier hat blaues Blut?|Oktopus|Hai|Frosch|Krokodil|2
 Welches Organ kann sich beim Menschen teilweise nachbilden?|Leber|Herz|Gehirn|Auge|2
 Wie viel Prozent ihrer DNA teilen Menschen ungefähr mit Schimpansen?|etwa 98 %|etwa 50 %|etwa 75 %|etwa 30 %|2
@@ -1357,7 +1671,33 @@ EST|Wie viele Liter Wasser trinkt ein Elefant ungefähr pro Tag?|150|20|400|50|L
 EST|Wie alt ist die Erde ungefähr?|4.5|1|10|0.3|Mrd. Jahre|2
 ORD|Sortiere nach Lebensdauer (kurz → lang)|Eintagsfliege;Hamster;Hund;Grönlandwal|2
 MULTI|Welche dieser Früchte sind botanisch Beeren?|Banane;Tomate;Weintraube|Erdbeere;Himbeere;Apfel|3
-GAP|Die Angst vor Spinnen heißt ___.|Arachnophobie|2`,
+GAP|Die Angst vor Spinnen heißt ___.|Arachnophobie|2
+Wie viele Herzen hat ein Oktopus?|3|1|2|8|2
+Welche Farbe hat das Blut eines Oktopus?|Blau|Rot|Grün|Gelb|2
+Welches Tier kann nicht rückwärts laufen?|Känguru|Hund|Pferd|Katze|2
+Wie lange schläft ein Koala ungefähr pro Tag?|bis zu 20 Stunden|8 Stunden|12 Stunden|4 Stunden|2
+Welches Organ kann sich beim Menschen teilweise selbst nachbilden?|Leber|Herz|Gehirn|Lunge|2
+Wie viele Knochen hat ein Baby ungefähr bei der Geburt?|ca. 300|ca. 206|ca. 150|ca. 500|3|Viele wachsen später zusammen – Erwachsene haben 206.
+Welches Lebensmittel verdirbt praktisch nie?|Honig|Brot|Milch|Käse|2
+Was können Flamingos nur, weil sie bestimmte Nahrung fressen?|Rosa werden|Fliegen|Schwimmen|Singen|1
+Wie viele Augen hat eine Biene?|5|2|4|8|3|2 große Facettenaugen und 3 kleine Punktaugen.
+Welches Tier hat die größten Augen aller Tiere?|Koloss-Kalmar|Elefant|Blauwal|Strauß|3
+Was ist die einzige Zahl, die man mit Buchstaben in alphabetischer Reihenfolge schreibt (auf Englisch)?|forty|eight|six|four|3|f-o-r-t-y – alle Buchstaben stehen in alphabetischer Reihenfolge.
+Welches Tier schläft im Stehen?|Pferd|Hund|Katze|Hase|1
+Wie viel Prozent der Erde sind ungefähr mit Wasser bedeckt?|71 %|50 %|90 %|60 %|1
+Was haben Schnecken ungewöhnlich viele?|Zähne|Augen|Beine|Herzen|3|Manche Schnecken haben über 10.000 winzige Zähne auf der Raspelzunge.
+Welche Frucht hat ihre Samen außen?|Erdbeere|Kiwi|Banane|Apfel|1
+Wie viele Liter Speichel produziert ein Mensch ungefähr pro Tag?|1–1,5 Liter|5 Liter|0,1 Liter|3 Liter|2
+Was ist ein Haufen Krähen auf Englisch?|a murder|a party|a gang|a crowd|3
+Welches Tier kann seinen Magen nach außen stülpen, um zu fressen?|Seestern|Qualle|Krake|Hai|3
+Was ist schwerer: ein Kilo Federn oder ein Kilo Steine?|Beides gleich schwer|Steine|Federn|Kommt aufs Wetter an|1
+Wie viele Mal pro Minute blinzelt ein Mensch ungefähr?|15–20 Mal|2 Mal|60 Mal|100 Mal|2
+Was passiert mit Gummibärchen in Wasser über Nacht?|Sie werden größer|Sie lösen sich sofort auf|Sie werden kleiner|Sie verfärben das Wasser schwarz|1
+Welches Säugetier kann fliegen?|Fledermaus|Flughörnchen|Pinguin|Strauß|1|Flughörnchen gleiten nur – echte Flieger sind Fledermäuse.
+TF|Kühe haben beste Freunde und sind gestresst, wenn sie getrennt werden.|W|2
+TF|Goldfische haben nur ein 3-Sekunden-Gedächtnis.|F|2|Mythos – sie können sich monatelang erinnern.
+TF|Ein Blitz ist heißer als die Oberfläche der Sonne.|W|2
+TF|Bananen sind leicht radioaktiv.|W|3|Durch natürliches Kalium – völlig harmlos.`,
 anime:`Wie heißt der Ninja, in dem ein Fuchsgeist versiegelt ist?|Naruto|Goku|Ruffy|Ichigo|1
 In welchem Anime will Ruffy König der Piraten werden?|One Piece|Naruto|Bleach|Fairy Tail|1
 Wie heißt die Hauptfigur in „Dragon Ball“?|Son Goku|Vegeta|Piccolo|Krillin|1
@@ -1387,7 +1727,32 @@ EMO|👒🏴‍☠️🍖|Welcher Anime ist das?|One Piece|Naruto|Pokémon|Fairy
 EMO|🐉🟠⭐|Welcher Anime ist das?|Dragon Ball|Pokémon|Yu-Gi-Oh!|Digimon|1
 EMO|📓✍️💀|Welcher Anime ist das?|Death Note|Bleach|Tokyo Ghoul|Another|1
 EMO|🧱👹🗡️|Welcher Anime ist das?|Attack on Titan|Demon Slayer|Berserk|Inuyasha|2
-GAP|Japanische Comics nennt man ___.|Manga;Mangas|1`,
+GAP|Japanische Comics nennt man ___.|Manga;Mangas|1
+Wie heißt der Ninja mit dem Neunschwänzigen Fuchs in sich?|Naruto|Sasuke|Kakashi|Itachi|1
+In welchem Anime will jemand König der Piraten werden?|One Piece|Naruto|Bleach|Fairy Tail|1
+Wie heißt der Kapitän der Strohhutpiraten?|Ruffy|Zorro|Sanji|Lysop|1
+Welche Kraft hat Ruffy durch die Gum-Gum-Frucht?|Sein Körper ist aus Gummi|Er kann fliegen|Er kontrolliert Feuer|Er ist unsichtbar|1
+In welchem Anime kämpft die Menschheit hinter Mauern gegen Titanen?|Attack on Titan|Demon Slayer|Tokyo Ghoul|Death Note|1
+Wie heißt der Hauptcharakter in Attack on Titan?|Eren Jäger|Levi|Armin|Mikasa|1
+Wie heißt das Notizbuch, mit dem Light Menschen tötet?|Death Note|Black Note|Shinigami Book|Kira Notes|1
+Wie heißt der Saiyajin-Held in Dragon Ball?|Son Goku|Vegeta|Piccolo|Krillin|1
+In welchem Anime kämpft Tanjiro gegen Dämonen?|Demon Slayer|Jujutsu Kaisen|Bleach|Chainsaw Man|1
+Wie heißt Tanjiros Schwester, die zum Dämon wurde?|Nezuko|Kanao|Shinobu|Mitsuri|2
+In welchem Anime gibt es „Fluchtechniken“ und Satoru Gojo?|Jujutsu Kaisen|Bleach|Naruto|My Hero Academia|2
+Wie heißt der Held in My Hero Academia?|Izuku Midoriya|All Might|Bakugo|Shoto Todoroki|2
+Wie heißt das berühmte Anime-Studio von „Chihiros Reise ins Zauberland“?|Studio Ghibli|Toei Animation|MAPPA|Kyoto Animation|1
+Wie heißt der große graue Waldgeist aus einem Ghibli-Film?|Totoro|Kodama|Ponyo|Jiji|1
+Was bedeutet „Senpai“?|Ältere Person bzw. Vorbild|Freund|Lehrer|Feind|1
+Was bedeutet „Kawaii“?|Niedlich|Gruselig|Stark|Lecker|1
+Wie heißen japanische Comics?|Manga|Manhwa|Anime|Webtoon|1
+Wie heißen koreanische Comics?|Manhwa|Manga|Manhua|Kawaii|2
+In welchem Anime sammelt man die Dragon Balls?|Dragon Ball|One Piece|Naruto|Fullmetal Alchemist|1
+Wie heißt das Pokémon von Ash, das nicht in den Pokéball will?|Pikachu|Evoli|Glurak|Mauzi|1
+In welchem Anime gibt es die Brüder Edward und Alphonse Elric?|Fullmetal Alchemist|Hunter x Hunter|Black Clover|Soul Eater|2
+Wie heißt der Typ mit der Kettensägen-Kraft im Anime „Chainsaw Man“?|Denji|Power|Aki|Makima|2
+Was bedeutet „Nani?“|Was?|Wer?|Ja!|Danke|1
+Wie heißt das Ninja-Dorf von Naruto?|Konoha|Suna|Kiri|Ame|2
+TF|Anime ist das japanische Wort für Zeichentrick bzw. Animation.|W|1`,
 social:`Zu welchem Konzern gehört Instagram?|Meta|Google|Microsoft|Apple|1
 Welche Firma steckt hinter YouTube?|Google|Meta|Amazon|Apple|1
 Wie hieß X früher?|Twitter|Tumblr|Threads|Telegram|1
@@ -1416,7 +1781,33 @@ EST|In welchem Jahr wurde Facebook gegründet?|2004|1995|2015|1|Jahr|2
 EST|In welchem Jahr erschien Instagram?|2010|2000|2020|1|Jahr|2
 ORD|Sortiere nach Gründungsjahr (alt → neu)|Facebook;YouTube;Instagram;TikTok|2
 MULTI|Welche Apps gehören zu Meta?|Instagram;WhatsApp;Facebook|TikTok;Snapchat;YouTube|1
-GAP|Ein Schlagwort mit # nennt man ___.|Hashtag|1`,
+GAP|Ein Schlagwort mit # nennt man ___.|Hashtag|1
+Welche Farbe hat das Logo von Snapchat?|Gelb|Blau|Rot|Grün|1
+Wie heißt die Kurzvideo-Funktion von Instagram?|Reels|Shorts|Stories|Clips|1
+Wie heißt die Kurzvideo-Funktion von YouTube?|Shorts|Reels|Snaps|Moments|1
+Wie heißt das Feuer-Symbol bei Snapchat für tägliches Schreiben?|Snapstreak|Flame|Hotline|Burnout|1
+Wie heißt die Plattform von Elon Musk, die früher Twitter hieß?|X|Threads|Bluesky|Mastodon|1
+Welche Plattform gehört zu Meta?|Instagram|TikTok|Snapchat|Discord|1
+Wie heißt die Streaming-Plattform mit dem lila Logo für Live-Gaming?|Twitch|Kick|YouTube Gaming|Trovo|1
+Was bedeutet „FYP“ auf TikTok?|For You Page|Follow Your Passion|Free Your Phone|Find Your People|1
+Was bedeutet „DM“?|Direct Message|Deine Mutter|Dark Mode|Daily Meme|1
+Was bedeutet „IRL“?|In Real Life|I Really Love|Instant Reply Later|In Ruhe lassen|1
+Was bedeutet „OMG“?|Oh my God|Oh mein Geld|Only my Game|Online Meme Group|1
+Was bedeutet „BRB“?|Be right back|Bro real bad|Bring rice back|Bye, real buddy|1
+Was bedeutet „GG“ beim Gaming?|Good Game|Go Go|Great Goal|Get Gold|1
+Was bedeutet „AFK“?|Away from keyboard|Always friendly kid|Ab für Kaffee|All for king|1
+Was bedeutet „NPC“ als Beleidigung?|Jemand ohne eigene Meinung, wie eine Spielfigur|Ein guter Spieler|Ein Cheater|Ein Streamer|1
+Was bedeutet „Cringe“?|Fremdschämen|Cool|Traurig|Mutig|1
+Was bedeutet „lost“ als Jugendwort?|Ahnungslos bzw. planlos|Verloren im Wald|Reich|Verliebt|1
+Was bedeutet „sus“?|Verdächtig|Süß|Super|Langweilig|1
+Was bedeutet „Rizz“?|Ausstrahlung bzw. Flirt-Talent|Hunger|Ärger|Müdigkeit|1
+Was ist ein „Influencer“?|Jemand, der mit Social Media andere beeinflusst und oft Werbung macht|Ein Hacker|Ein Programmierer|Ein Moderator im Fernsehen|1
+Was ist „Phishing“?|Betrug, um an Passwörter oder Daten zu kommen|Angeln als Hobby|Ein Social-Media-Trend|Ein Videospiel|1
+Was solltest du bei einer unbekannten Nachricht mit Link „Du hast gewonnen!“ tun?|Nicht draufklicken und löschen|Sofort draufklicken|An alle weiterleiten|Mit Passwort antworten|1
+Was ist ein „Story“-Beitrag bei Instagram?|Ein Beitrag, der nach 24 Stunden verschwindet|Ein langer Text|Ein Live-Video|Ein Gruppenchat|1
+Wie viele Zeichen hatte ein Tweet ursprünglich maximal?|140|280|160|500|2
+TF|Bei WhatsApp bedeuten zwei blaue Haken, dass die Nachricht gelesen wurde.|W|1
+TF|Was einmal im Internet gepostet wurde, kann man immer komplett löschen.|F|1`,
 hilfe:`Welche Notrufnummer gilt in ganz Europa?|112|110|911|999|1
 Welche Nummer hat die Polizei in Deutschland?|110|112|116|19222|1
 Wie oft drückt man bei der Wiederbelebung, bevor man zweimal beatmet (Erwachsene)?|30-mal|15-mal|5-mal|10-mal|2
@@ -1440,7 +1831,24 @@ ORD|Sortiere die Rettungskette|Absichern;Notruf;Erste Hilfe;Rettungsdienst über
 MULTI|Welche Fragen gehören zum Notruf?|Wo ist es passiert?;Was ist passiert?;Wie viele Verletzte?|Wie alt ist das Auto?;Was gibt es zu Mittag?;Wie wird das Wetter?|1
 NUM|Welche Nummer wählst du für Rettungsdienst und Feuerwehr?|112|1
 NUM|Welche Nummer hat die Polizei?|110|1
-GAP|Eine bewusstlose Person, die atmet, bringt man in die stabile ___.|Seitenlage|1`,
+GAP|Eine bewusstlose Person, die atmet, bringt man in die stabile ___.|Seitenlage|1
+Was ist die erste Aufgabe am Unfallort?|Unfallstelle absichern|Fotos machen|Weiterfahren|Auf die Polizei warten|1
+Wie oft drückt man bei der Herzdruckmassage pro Minute?|100–120 Mal|30 Mal|60 Mal|200 Mal|2
+Wie ist das Verhältnis von Herzdruckmassage zu Beatmung bei Erwachsenen?|30 : 2|15 : 1|10 : 5|50 : 2|2
+Wie tief drückt man bei Erwachsenen den Brustkorb ein?|5–6 cm|1–2 cm|10 cm|3 cm|2
+Was ist ein AED?|Ein Defibrillator für Laien|Ein Blutdruckmessgerät|Ein Verbandkasten|Ein Notrufknopf|1
+Wie bringt man eine bewusstlose Person, die normal atmet, in Position?|Stabile Seitenlage|Auf den Bauch|Aufrecht hinsetzen|Beine hoch, Kopf runter|1
+Was macht man bei einer kleinen Verbrennung zuerst?|Mit handwarmem Wasser kühlen|Butter drauf|Eis direkt auflegen|Mehl drüberstreuen|2
+Was sind die W-Fragen beim Notruf? Welche gehört dazu?|Wo ist es passiert?|Wie ist das Wetter?|Wer ist schuld?|Wann gibt es Essen?|1
+Was macht man bei Nasenbluten?|Kopf nach vorne beugen und Nase zudrücken|Kopf in den Nacken legen|Hinlegen|Schnell rennen|1
+Was tut man bei einem Insektenstich im Mund oder Hals?|Notruf wählen und kühlen (Eis lutschen)|Nichts tun|Viel essen|Warm trinken|2
+Was ist das Zeichen für einen Schlaganfall laut FAST-Test?|Hängender Mundwinkel|Rote Ohren|Schluckauf|Kalte Füße|2
+Wie lange sollte man eine Brandwunde ungefähr kühlen?|ca. 10 Minuten|1 Stunde|10 Sekunden|gar nicht|2
+Was gehört nicht in einen Verbandkasten?|Schmerztabletten|Dreiecktuch|Rettungsdecke|Mullbinden|2
+Welche Seite der Rettungsdecke zeigt bei Unterkühlung zum Körper?|Silber|Gold|egal|Keine – man legt sie daneben|3|Silber nach innen hält warm – im Notfall ist aber jede Seite besser als keine Decke.
+Was tut man, wenn jemand sich verschluckt hat und nicht mehr husten kann?|Kräftige Schläge zwischen die Schulterblätter|Wasser geben|Hinlegen lassen|Warten|2
+TF|Ersthelfer können für Fehler bei der Hilfe in Deutschland normalerweise nicht bestraft werden.|W|2|Nicht helfen (unterlassene Hilfeleistung) ist strafbar – Fehler beim Helfen meist nicht.
+TF|Bei einem Zeckenbiss sollte man die Zecke mit Öl beträufeln.|F|2|Lieber mit Zeckenzange oder Karte vorsichtig herausziehen.`,
 koerper:`Wie viel sollte ein Erwachsener ungefähr pro Tag trinken?|1,5 bis 2 Liter|0,2 Liter|8 Liter|Gar nichts|1
 Welcher ist der größte Muskel des Menschen?|Der große Gesäßmuskel|Der Bizeps|Das Herz|Die Zunge|2
 Welcher ist der längste Knochen?|Oberschenkelknochen|Schienbein|Oberarmknochen|Wirbelsäule|2
@@ -1467,7 +1875,27 @@ EST|Wie oft schlägt das Herz eines Erwachsenen in Ruhe ungefähr pro Minute?|70
 EST|Wie viele Muskeln hat der Mensch ungefähr?|650|100|1500|100|Muskeln|3
 ORD|Sortiere den Weg der Nahrung|Mund;Speiseröhre;Magen;Darm|1
 MULTI|Welche davon sind Sinnesorgane?|Auge;Ohr;Nase|Leber;Niere;Milz|1
-GAP|Das Organ, das das Blut pumpt, heißt ___.|Herz;das Herz|1`,
+GAP|Das Organ, das das Blut pumpt, heißt ___.|Herz;das Herz|1
+Wie viele Knochen hat ein erwachsener Mensch?|206|186|256|300|1
+Wie heißt der größte Knochen im Körper?|Oberschenkelknochen|Schienbein|Oberarmknochen|Becken|2
+Wie heißt der kleinste Knochen?|Steigbügel (im Ohr)|Zehenknochen|Fingerknochen|Steißbein|2
+Wie viele Liter Blut hat ein Erwachsener ungefähr?|5–6 Liter|2 Liter|10 Liter|3 Liter|1
+Wie oft schlägt ein gesundes Herz in Ruhe ungefähr pro Minute?|60–80 Mal|20 Mal|120 Mal|200 Mal|1
+Welches Organ filtert das Blut und bildet Urin?|Niere|Leber|Milz|Magen|1
+Wo wird Insulin gebildet?|Bauchspeicheldrüse|Leber|Niere|Herz|2
+Welches Vitamin bildet der Körper mit Sonnenlicht?|Vitamin D|Vitamin C|Vitamin A|Vitamin B12|1
+Welches Vitamin steckt viel in Zitrusfrüchten?|Vitamin C|Vitamin D|Vitamin K|Vitamin E|1
+Wie viel Prozent des Körpers bestehen ungefähr aus Wasser?|ca. 60 %|ca. 20 %|ca. 90 %|ca. 40 %|1
+Wie viele Muskeln hat der Mensch ungefähr?|über 600|ca. 100|ca. 50|über 5000|2
+Was transportiert Sauerstoff im Blut?|Rote Blutkörperchen|Weiße Blutkörperchen|Blutplättchen|Plasma|1
+Wofür sind weiße Blutkörperchen zuständig?|Abwehr von Krankheiten|Sauerstofftransport|Blutgerinnung|Verdauung|1
+Wie viel Schlaf brauchen Erwachsene ungefähr?|7–9 Stunden|4 Stunden|12 Stunden|5 Stunden|1
+Wie viele Geschmacksrichtungen gibt es (klassisch + umami)?|5|4|6|3|2|Süß, sauer, salzig, bitter und umami.
+Wie heißt der farbige Teil des Auges?|Iris|Pupille|Netzhaut|Linse|2
+Was ist die Pupille?|Das schwarze Loch in der Mitte des Auges|Das Augenlid|Die Tränendrüse|Der Sehnerv|1
+Wie viele Rippenpaare hat der Mensch normalerweise?|12|10|14|8|2
+TF|Der Mensch nutzt nur 10 % seines Gehirns.|F|2|Mythos – wir nutzen alle Bereiche, nur nicht alle gleichzeitig.
+TF|Fingernägel wachsen schneller als Fußnägel.|W|2`,
 natur:`An welchem Baum wachsen Eicheln?|Eiche|Buche|Ahorn|Birke|1
 An welchem Baum wachsen Bucheckern?|Buche|Eiche|Kastanie|Linde|1
 Welcher Nadelbaum verliert im Winter seine Nadeln?|Lärche|Fichte|Tanne|Kiefer|2
@@ -1493,7 +1921,27 @@ EST|Wie hoch wird der höchste bekannte Küstenmammutbaum?|115|40|200|10|m|3
 ORD|Sortiere die Jahreszeiten ab Januar|Winter;Frühling;Sommer;Herbst|1
 ORD|Sortiere das Wachstum einer Pflanze|Samen;Keimling;Pflanze;Blüte|1
 MULTI|Welche davon sind Laubbäume?|Eiche;Buche;Ahorn|Fichte;Tanne;Kiefer|1
-GAP|Die Pflanze mit der „Pusteblume“ heißt ___.|Löwenzahn|1`,
+GAP|Die Pflanze mit der „Pusteblume“ heißt ___.|Löwenzahn|1
+Welches Gas nehmen Pflanzen zur Photosynthese auf?|Kohlendioxid|Sauerstoff|Stickstoff|Helium|1
+Was geben Pflanzen bei der Photosynthese ab?|Sauerstoff|Kohlendioxid|Methan|Wasserstoff|1
+Welcher Baum verliert im Winter als Nadelbaum seine Nadeln?|Lärche|Fichte|Tanne|Kiefer|3
+Welcher Baum trägt Eicheln?|Eiche|Buche|Ahorn|Linde|1
+Von welchem Baum stammen die Flugsamen, die man sich als „Nasen“ aufklebt?|Ahorn|Eiche|Birke|Kastanie|1
+Welcher Baum hat eine weiße Rinde?|Birke|Eiche|Fichte|Buche|1
+Welche Pflanze brennt bei Berührung auf der Haut?|Brennnessel|Löwenzahn|Klee|Gänseblümchen|1
+Was wird aus der Blüte des Löwenzahns?|Pusteblume|Klee|Rose|Tulpe|1
+Welche Blume ist das Symbol der Niederlande?|Tulpe|Rose|Lilie|Sonnenblume|1
+Wie heißt der grüne Farbstoff in Blättern?|Chlorophyll|Karotin|Melanin|Hämoglobin|2
+Warum werden Blätter im Herbst bunt?|Das grüne Chlorophyll wird abgebaut|Sie werden angemalt|Wegen der Kälte frieren sie ein|Wegen Regen|2
+Welche Pflanze ist giftig?|Fingerhut|Basilikum|Petersilie|Minze|2
+Welcher Pilz ist bekannt als sehr giftig?|Knollenblätterpilz|Champignon|Pfifferling|Steinpilz|2
+Wo wachsen Kakteen meistens?|In Wüsten|Im Regenwald|In der Arktis|Im Meer|1
+Welche Jahreszeit beginnt am 21. Dezember auf der Nordhalbkugel (ungefähr)?|Winter|Herbst|Frühling|Sommer|1
+Was ist Humus?|Fruchtbare Erde aus zersetzten Pflanzen|Ein Stein|Ein Dünger aus Plastik|Ein Wurm|2
+Welches Tier hilft wichtig beim Bestäuben von Blüten?|Biene|Ameise|Schnecke|Regenwurm|1
+Wie heißt ein Gebiet mit dauerhaft nassem, torfigem Boden?|Moor|Steppe|Savanne|Wüste|2
+TF|Bambus ist ein Gras.|W|2
+TF|Sonnenblumen drehen sich als junge Pflanzen mit der Sonne.|W|2`,
 logik:`Welche Zahl folgt: 3, 6, 9, 12, …?|15|14|16|18|1
 Welche Zahl folgt: 1, 4, 9, 16, …?|25|20|24|36|2|Das sind Quadratzahlen.
 Welche Zahl folgt: 2, 3, 5, 7, 11, …?|13|12|14|15|2|Das sind Primzahlen.
@@ -1611,6 +2059,149 @@ const Q=[];CATS.forEach(c=>{RAW[c.k].split('\n').map(l=>l.trim()).filter(Boolean
  else if(p[0]==='FLAG')o={type:'flag',emo:p[1],q:'Welches Land hat diese Flagge?',a:[p[2],p[3],p[4],p[5]],d:+p[6]||1,info:''};
  else o={type:'mc',q:p[0],a:[p[1],p[2],p[3],p[4]],d:+p[5]||1,info:p[6]||''};
  o.id=id;o.cat=c.k;Q.push(o)})});
+/* ====================== Fragen-Generatoren (A) ====================== */
+(function(){
+const R=rng(20261113);const ri=(a,b)=>a+Math.floor(R()*(b-a+1));const pick=a=>a[Math.floor(R()*a.length)];
+const nf=v=>Number(v).toLocaleString('de-DE');const seenQ=new Set(Q.map(q=>q.q+'§'+(q.emo||'')));
+function add(cat,key,q,right,wrong,d,extra){const k=q+'§'+((extra&&extra.emo)||'');if(seenQ.has(k))return;const w=[...new Set(wrong.map(String))].filter(x=>x!==String(right)).slice(0,3);if(w.length<3)return;seenQ.add(k);
+ Q.push({type:(extra&&extra.type)||'mc',q,a:[String(right),...w],d:d||1,info:(extra&&extra.info)||'',emo:(extra&&extra.emo)||'',id:'g'+cat+':'+key,cat,gen:1})}
+function others(list,right,n=3){const o=shuffle(list.filter(x=>x!==right),R);return o.slice(0,n)}
+function numW(ans,cands){const s=new Set();cands.forEach(c=>{if(c!==ans&&c>=0&&Number.isFinite(c))s.add(c)});let k=1;while(s.size<3){[ans+k,ans-k].forEach(c=>{if(c!==ans&&c>=0)s.add(c)});k++}return shuffle([...s],R).slice(0,3)}
+const has=c=>RAW[c]!==undefined;
+
+/* ---------- Mathe ---------- */
+if(has('mathe')){let n=0,guard=0;while(n<450&&guard++<5000){const t=ri(0,9);let q,a,w,d;
+ if(t===0){d=ri(1,3);const m=[0,50,500,5000][d];const x=ri(m/5,m),y=ri(m/5,m);q=`Wie viel ist ${nf(x)} + ${nf(y)}?`;a=x+y;w=numW(a,[a+10,a-10,a+1,a-1,a+100])}
+ else if(t===1){d=ri(1,3);const m=[0,60,600,6000][d];const x=ri(m/3,m),y=ri(2,x-1);q=`Wie viel ist ${nf(x)} − ${nf(y)}?`;a=x-y;w=numW(a,[a+10,a-10,a+1,a-1])}
+ else if(t===2){d=ri(1,3);let x,y;if(d===1){x=ri(2,10);y=ri(2,10)}else if(d===2){x=ri(11,20);y=ri(3,9)}else{x=ri(12,25);y=ri(12,25)}q=`Wie viel ist ${x} × ${y}?`;a=x*y;w=numW(a,[a+x,a-x,a+y,a-y,a+10])}
+ else if(t===3){d=ri(1,2);const y=ri(2,d===1?10:15),r=ri(2,d===1?10:20);const x=y*r;q=`Wie viel ist ${nf(x)} : ${y}?`;a=r;w=numW(a,[a+1,a-1,a+2,a*2])}
+ else if(t===4){const p=pick([10,20,25,50,75,5,15,30,40]);const b=pick([20,40,60,80,100,120,200,240,300,400,500,800,1000]);if(b*p%100)continue;d=p%25===0?1:2;q=`Wie viel sind ${p} % von ${nf(b)}?`;a=b*p/100;w=numW(a,[a*2,a/2,a+10,a-10,b-a].map(Math.round))}
+ else if(t===5){d=2;const x=ri(2,9),y=ri(2,9),z=ri(2,9);q=`Wie viel ist ${x} + ${y} × ${z}?`;a=x+y*z;w=numW(a,[(x+y)*z,a+1,a-1,x*y+z])}
+ else if(t===6){d=ri(1,2);const x=ri(2,d===1?12:20);q=`Wie viel ist ${x}²?`;a=x*x;w=numW(a,[x*2,a+x,a-x,(x+1)*(x+1)])}
+ else if(t===7){d=2;const x=ri(2,15);q=`Was ist die Wurzel aus ${x*x}?`;a=x;w=numW(a,[a+1,a-1,a+2,Math.round(x*x/2)])}
+ else if(t===8){d=1;const u=pick([['Meter','Zentimeter',100],['Kilometer','Meter',1000],['Kilogramm','Gramm',1000],['Stunden','Minuten',60],['Minuten','Sekunden',60],['Liter','Milliliter',1000],['Tage','Stunden',24]]);const v=pick([2,3,4,5,1.5,2.5,6,10]);q=`Wie viele ${u[1]} sind ${nf(v)} ${u[0]}?`;a=v*u[2];w=numW(a,[a*10,a/10,a+u[2],a-u[2]].map(x=>Math.round(x*10)/10))}
+ else{d=3;const x=ri(2,9),y=ri(2,9),z=ri(1,9);q=`Wie viel ist (${x} + ${y}) × ${z} − ${x}?`;a=(x+y)*z-x;w=numW(a,[x+y*z-x,a+x,a-z,a+1])}
+ const before=Q.length;add('mathe','m'+n,q,nf(a),w.map(nf),d);if(Q.length>before)n++}}
+
+/* ---------- Geometrie ---------- */
+if(has('geom')){let n=0,guard=0;const T=[[3,4,5],[6,8,10],[5,12,13],[8,15,17],[9,12,15],[12,16,20],[7,24,25],[15,20,25]];while(n<280&&guard++<5000){const t=ri(0,9);let q,a,w,d=1,u='';
+ if(t===0){const x=ri(2,15),y=ri(2,15);q=`Ein Rechteck ist ${x} cm lang und ${y} cm breit. Wie groß ist die Fläche?`;a=x*y;u=' cm²';w=numW(a,[2*(x+y),a+x,a-y,x+y])}
+ else if(t===1){const x=ri(2,20),y=ri(2,20);q=`Ein Rechteck ist ${x} cm lang und ${y} cm breit. Wie groß ist der Umfang?`;a=2*(x+y);u=' cm';w=numW(a,[x*y,x+y,a+2,a-2])}
+ else if(t===2){const x=ri(2,15);q=`Ein Quadrat hat die Seitenlänge ${x} cm. Wie groß ist die Fläche?`;a=x*x;u=' cm²';w=numW(a,[4*x,2*x,a+x])}
+ else if(t===3){const g=ri(2,12)*2,h=ri(2,12);d=2;q=`Ein Dreieck hat die Grundseite ${g} cm und die Höhe ${h} cm. Wie groß ist die Fläche?`;a=g*h/2;u=' cm²';w=numW(a,[g*h,g+h,a+h])}
+ else if(t===4){const r=ri(1,10);d=2;q=`Wie groß ist der Umfang eines Kreises mit Radius ${r} cm? (π ≈ 3,14)`;a=Math.round(2*3.14*r*100)/100;u=' cm';w=[Math.round(3.14*r*100)/100,Math.round(3.14*r*r*100)/100,Math.round(2*3.14*r*100)/100+2,Math.round(4*3.14*r*100)/100].filter(x=>x!==a)}
+ else if(t===5){const r=ri(1,10);d=3;q=`Wie groß ist die Fläche eines Kreises mit Radius ${r} cm? (π ≈ 3,14)`;a=Math.round(3.14*r*r*100)/100;u=' cm²';w=[Math.round(2*3.14*r*100)/100,Math.round(3.14*2*r*2*r*100)/100,Math.round(3.14*r*100)/100,Math.round(3.14*r*r*100)/100+3.14].filter(x=>x!==a)}
+ else if(t===6){const x=ri(2,10);d=2;q=`Ein Würfel hat die Kantenlänge ${x} cm. Wie groß ist sein Volumen?`;a=x*x*x;u=' cm³';w=numW(a,[x*x,6*x*x,3*x,a+x])}
+ else if(t===7){const x=ri(2,10),y=ri(2,10),z=ri(2,10);d=2;q=`Ein Quader ist ${x} cm lang, ${y} cm breit und ${z} cm hoch. Wie groß ist das Volumen?`;a=x*y*z;u=' cm³';w=numW(a,[x+y+z,x*y,a+x*y,a-z])}
+ else if(t===8){const x=ri(3,12)*5,y=ri(3,12)*5;if(x+y>=170)continue;q=`Ein Dreieck hat die Winkel ${x}° und ${y}°. Wie groß ist der dritte Winkel?`;a=180-x-y;u='°';w=numW(a,[360-x-y,a+10,a-10,90])}
+ else{const k=pick(T);d=3;q=`Ein rechtwinkliges Dreieck hat die Katheten ${k[0]} cm und ${k[1]} cm. Wie lang ist die Hypotenuse?`;a=k[2];u=' cm';w=numW(a,[k[0]+k[1],a+1,a-1,a+2])}
+ const before=Q.length;add('geom','g'+n,q,nf(a)+u,w.map(x=>nf(x)+u),d);if(Q.length>before)n++}}
+
+/* ---------- Wahrscheinlichkeit ---------- */
+if(has('wahr')){const gcd=(a,b)=>b?gcd(b,a%b):a;const fr=(z,n)=>{const g=gcd(z,n);return n/g===1?String(z/g):`${z/g}/${n/g}`};
+ const fw=(right,cands)=>{const s=new Set(cands.filter(x=>x!==right));const pool=['1/2','1/3','1/4','1/6','1/8','1/12','1/36','5/36','1/9','2/3','3/4','5/6','1/16','1/32'];while(s.size<3)s.add(pick(pool));s.delete(right);return [...s]};let n=0;
+ const P1=(q,z,nn,c,d)=>{const r=fr(z,nn);add('wahr','w'+(n++),q,r,fw(r,c),d)};
+ for(let k=1;k<=6;k++)P1(`Ein Würfel wird einmal geworfen. Wie wahrscheinlich ist eine ${k}?`,1,6,['1/3','1/2','1/12'],1);
+ for(let k=1;k<=5;k++)P1(`Ein Würfel wird geworfen. Wie wahrscheinlich ist eine Zahl größer als ${k}?`,6-k,6,[fr(k,6),fr(7-k,6),'1/6'],2);
+ for(let k=2;k<=5;k++)P1(`Ein Würfel wird geworfen. Wie wahrscheinlich ist höchstens eine ${k}?`,k,6,[fr(k-1,6),fr(6-k,6),'1/6'],2);
+ const ways=s=>{let c=0;for(let a=1;a<=6;a++)for(let b=1;b<=6;b++)if(a+b===s)c++;return c};
+ for(let s=2;s<=12;s++)P1(`Zwei Würfel werden geworfen. Wie wahrscheinlich ist die Augensumme ${s}?`,ways(s),36,[fr(ways(s)+1,36),'1/6','1/12',fr(1,s)],3);
+ for(let k=2;k<=6;k++)P1(`Eine Münze wird ${k}-mal geworfen. Wie wahrscheinlich ist ${k}-mal Kopf?`,1,2**k,[fr(1,2*k),fr(1,k),fr(1,2**(k+1)),'1/2'],2);
+ for(let i=0;i<60;i++){const r=ri(1,8),b=ri(1,8),g=ri(0,6),t=r+b+g;const col=pick([['rote',r],['blaue',b]]);P1(`In einer Box sind ${r} rote, ${b} blaue${g?` und ${g} grüne`:''} Kugeln. Du ziehst blind eine. Wie wahrscheinlich ist eine ${col[0]}?`,col[1],t,[fr(col[1],t+1),fr(t-col[1],t),fr(1,t),fr(col[1]+1,t)],2)}
+ [['ein Ass',4],['eine Herz-Karte',13],['eine rote Karte',26],['eine Bildkarte (Bube, Dame, König)',12],['das Herz-Ass',1],['eine Kreuz-Dame',1],['ein König',4]].forEach(([t,z])=>P1(`Aus einem Kartenspiel mit 52 Karten wird eine gezogen. Wie wahrscheinlich ist ${t}?`,z,52,[fr(z,32),fr(1,4),fr(1,13),fr(1,52),fr(1,2)],3));
+ for(let i=0;i<25;i++){const f=pick([4,5,6,8,10,12,20]),g=ri(1,f-1);P1(`Ein Glücksrad hat ${f} gleich große Felder, ${g} davon gewinnen. Wie hoch ist die Gewinnchance?`,g,f,[fr(1,f),fr(f-g,f),fr(g,f+1)],1)}
+ for(let k=3;k<=6;k++){const a=[1,1,2,6,24,120,720][k];add('wahr','w'+(n++),`Auf wie viele verschiedene Arten können sich ${k} Personen in eine Reihe stellen?`,String(a),numW(a,[k*k,k*2,a/2,a+k]).map(String),3)}
+ for(let i=0;i<20;i++){const h=ri(2,6),s=ri(2,6),j=ri(1,4);const a=h*s*j;add('wahr','w'+(n++),`Du hast ${h} Hosen, ${s} Shirts und ${j} Paar Schuhe. Wie viele verschiedene Outfits sind möglich?`,String(a),numW(a,[h+s+j,h*s,a+h,a-s]).map(String),2)}
+ [[3,1000],[4,10000],[2,100]].forEach(([k,a])=>add('wahr','w'+(n++),`Wie viele verschiedene Codes hat ein Zahlenschloss mit ${k} Rädchen (je Ziffer 0–9)?`,nf(a),[nf(a/10),nf(k*10),nf(a-1)],2))}
+
+/* ---------- Logik: Zahlenfolgen & römische Zahlen ---------- */
+if(has('logik')){let n=0,guard=0;while(n<260&&guard++<4000){const t=ri(0,6);let s,d;
+ if(t===0){const a=ri(1,30),st=ri(2,12);s=[0,1,2,3,4].map(i=>a+i*st);d=1}else if(t===1){const a=ri(60,120),st=ri(3,11);s=[0,1,2,3,4].map(i=>a-i*st);d=1}
+ else if(t===2){const a=ri(1,5),f=pick([2,3]);s=[0,1,2,3,4].map(i=>a*f**i);d=2}else if(t===3){const o=ri(1,6);s=[0,1,2,3,4].map(i=>(i+o)**2);d=2}
+ else if(t===4){const a=ri(1,10);s=[a];for(let i=1;i<5;i++)s.push(s[i-1]+i);d=2}else if(t===5){const a=ri(1,5),b=ri(1,5);s=[a,b];for(let i=2;i<5;i++)s.push(s[i-1]+s[i-2]);d=3}
+ else{const a=ri(10,30),x=ri(4,9),y=ri(1,3);s=[a];for(let i=1;i<5;i++)s.push(i%2?s[i-1]+x:s[i-1]-y);d=3}
+ const a=s[4];const q=`Welche Zahl kommt als Nächstes? ${s.slice(0,4).join(', ')}, …`;const before=Q.length;add('logik','l'+n,q,String(a),numW(a,[a+1,a-1,a+2,s[3]+(s[3]-s[2])+1,a*2]).map(String),d);if(Q.length>before)n++}
+ const rom=v=>{const m=[[1000,'M'],[900,'CM'],[500,'D'],[400,'CD'],[100,'C'],[90,'XC'],[50,'L'],[40,'XL'],[10,'X'],[9,'IX'],[5,'V'],[4,'IV'],[1,'I']];let r='';m.forEach(([x,c])=>{while(v>=x){r+=c;v-=x}});return r};
+ const nums=new Set();while(nums.size<70)nums.add(ri(1,60)<45?ri(1,100):ri(1000,2026));[...nums].forEach(v=>{const d=v<=20?1:v<=100?2:3;add('logik','r'+v,`Welche Zahl ist die römische Zahl ${rom(v)}?`,String(v),numW(v,[v+1,v-1,v+10,v-10,v+5]).map(String),d)});
+ [...nums].slice(0,30).forEach(v=>add('logik','rr'+v,`Wie schreibt man ${v} als römische Zahl?`,rom(v),[rom(v+1),rom(Math.max(1,v-1)),rom(v+10),rom(v+5)],v<=20?1:2))}
+
+/* ---------- Länder: Hauptstädte, Kontinente, Flaggen ---------- */
+const CTRY=`Deutschland/Berlin/EU/🇩🇪/1;Österreich/Wien/EU/🇦🇹/1;Schweiz/Bern/EU/🇨🇭/1;Frankreich/Paris/EU/🇫🇷/1;Italien/Rom/EU/🇮🇹/1;Spanien/Madrid/EU/🇪🇸/1;Portugal/Lissabon/EU/🇵🇹/1;Niederlande/Amsterdam/EU/🇳🇱/1;Belgien/Brüssel/EU/🇧🇪/1;Luxemburg/-/EU/🇱🇺/2;Dänemark/Kopenhagen/EU/🇩🇰/1;Norwegen/Oslo/EU/🇳🇴/1;Schweden/Stockholm/EU/🇸🇪/1;Finnland/Helsinki/EU/🇫🇮/2;Island/Reykjavík/EU/🇮🇸/2;Irland/Dublin/EU/🇮🇪/2;Vereinigtes Königreich/London/EU/🇬🇧/1;Polen/Warschau/EU/🇵🇱/1;Tschechien/Prag/EU/🇨🇿/1;Slowakei/Bratislava/EU/🇸🇰/2;Ungarn/Budapest/EU/🇭🇺/2;Slowenien/Ljubljana/EU/🇸🇮/3;Kroatien/Zagreb/EU/🇭🇷/2;Serbien/Belgrad/EU/🇷🇸/2;Bosnien und Herzegowina/Sarajevo/EU/🇧🇦/3;Montenegro/Podgorica/EU/🇲🇪/3;Albanien/Tirana/EU/🇦🇱/3;Nordmazedonien/Skopje/EU/🇲🇰/3;Griechenland/Athen/EU/🇬🇷/1;Bulgarien/Sofia/EU/🇧🇬/2;Rumänien/Bukarest/EU/🇷🇴/2;Moldau/Chișinău/EU/🇲🇩/3;Ukraine/Kiew/EU/🇺🇦/1;Belarus/Minsk/EU/🇧🇾/2;Litauen/Vilnius/EU/🇱🇹/3;Lettland/Riga/EU/🇱🇻/3;Estland/Tallinn/EU/🇪🇪/3;Russland/Moskau/-/🇷🇺/1;Türkei/Ankara/-/🇹🇷/2;Malta/Valletta/EU/🇲🇹/3;Liechtenstein/Vaduz/EU/🇱🇮/3;Andorra/Andorra la Vella/EU/🇦🇩/3;Georgien/Tiflis/-/🇬🇪/3;Aserbaidschan/Baku/-/🇦🇿/3;USA/Washington D.C./NA/🇺🇸/1;Kanada/Ottawa/NA/🇨🇦/2;Mexiko/Mexiko-Stadt/NA/🇲🇽/1;Kuba/Havanna/NA/🇨🇺/2;Jamaika/Kingston/NA/🇯🇲/2;Guatemala/Guatemala-Stadt/NA/🇬🇹/3;Costa Rica/San José/NA/🇨🇷/3;Panama/Panama-Stadt/NA/🇵🇦/2;Dominikanische Republik/Santo Domingo/NA/🇩🇴/3;Haiti/Port-au-Prince/NA/🇭🇹/3;Honduras/Tegucigalpa/NA/🇭🇳/3;Nicaragua/Managua/NA/🇳🇮/3;Brasilien/Brasília/SA/🇧🇷/2;Argentinien/Buenos Aires/SA/🇦🇷/1;Chile/Santiago de Chile/SA/🇨🇱/2;Peru/Lima/SA/🇵🇪/2;Kolumbien/Bogotá/SA/🇨🇴/2;Venezuela/Caracas/SA/🇻🇪/2;Ecuador/Quito/SA/🇪🇨/3;Paraguay/Asunción/SA/🇵🇾/3;Uruguay/Montevideo/SA/🇺🇾/3;Bolivien/-/SA/🇧🇴/3;China/Peking/AS/🇨🇳/1;Japan/Tokio/AS/🇯🇵/1;Südkorea/Seoul/AS/🇰🇷/1;Nordkorea/Pjöngjang/AS/🇰🇵/2;Indien/Neu-Delhi/AS/🇮🇳/2;Pakistan/Islamabad/AS/🇵🇰/3;Bangladesch/Dhaka/AS/🇧🇩/3;Nepal/Kathmandu/AS/🇳🇵/3;Thailand/Bangkok/AS/🇹🇭/1;Vietnam/Hanoi/AS/🇻🇳/2;Kambodscha/Phnom Penh/AS/🇰🇭/3;Laos/Vientiane/AS/🇱🇦/3;Malaysia/Kuala Lumpur/AS/🇲🇾/2;Singapur/-/AS/🇸🇬/2;Philippinen/Manila/AS/🇵🇭/2;Mongolei/Ulaanbaatar/AS/🇲🇳/3;Kasachstan/Astana/-/🇰🇿/3;Usbekistan/Taschkent/AS/🇺🇿/3;Afghanistan/Kabul/AS/🇦🇫/2;Iran/Teheran/AS/🇮🇷/2;Irak/Bagdad/AS/🇮🇶/2;Saudi-Arabien/Riad/AS/🇸🇦/2;Vereinigte Arabische Emirate/Abu Dhabi/AS/🇦🇪/2;Katar/Doha/AS/🇶🇦/2;Jordanien/Amman/AS/🇯🇴/3;Libanon/Beirut/AS/🇱🇧/3;Syrien/Damaskus/AS/🇸🇾/2;Oman/Maskat/AS/🇴🇲/3;Ägypten/Kairo/AF/🇪🇬/1;Marokko/Rabat/AF/🇲🇦/2;Algerien/Algier/AF/🇩🇿/2;Tunesien/Tunis/AF/🇹🇳/2;Libyen/Tripolis/AF/🇱🇾/3;Nigeria/Abuja/AF/🇳🇬/3;Ghana/Accra/AF/🇬🇭/3;Senegal/Dakar/AF/🇸🇳/3;Kenia/Nairobi/AF/🇰🇪/2;Äthiopien/Addis Abeba/AF/🇪🇹/3;Tansania/Dodoma/AF/🇹🇿/3;Uganda/Kampala/AF/🇺🇬/3;Ruanda/Kigali/AF/🇷🇼/3;Südafrika/-/AF/🇿🇦/1;Namibia/Windhoek/AF/🇳🇦/3;Botswana/Gaborone/AF/🇧🇼/3;Simbabwe/Harare/AF/🇿🇼/3;Sambia/Lusaka/AF/🇿🇲/3;Angola/Luanda/AF/🇦🇴/3;Mosambik/Maputo/AF/🇲🇿/3;Madagaskar/Antananarivo/AF/🇲🇬/3;Kamerun/Jaunde/AF/🇨🇲/3;Mali/Bamako/AF/🇲🇱/3;Somalia/Mogadischu/AF/🇸🇴/3;DR Kongo/Kinshasa/AF/🇨🇩/3;Australien/Canberra/OZ/🇦🇺/2;Neuseeland/Wellington/OZ/🇳🇿/2;Fidschi/Suva/OZ/🇫🇯/3;Papua-Neuguinea/Port Moresby/OZ/🇵🇬/3`.split(';').map(x=>x.split('/'));
+const KON={EU:'Europa',AS:'Asien',AF:'Afrika',NA:'Nordamerika',SA:'Südamerika',OZ:'Ozeanien'};
+if(has('geo')){const caps=CTRY.filter(c=>c[1]!=='-');caps.forEach(c=>{const same=caps.filter(x=>x[2]===c[2]&&x!==c);const pool=same.length>=3?same:caps.filter(x=>x!==c);
+  add('geo','cap'+c[0],`Hauptstadt gesucht: ${c[0]}`,c[1],others(pool.map(x=>x[1]),c[1]),+c[4]);
+  add('geo','cty'+c[0],`${c[1]} ist die Hauptstadt von welchem Land?`,c[0],others(pool.map(x=>x[0]),c[0]),Math.min(3,+c[4]+1))});
+ CTRY.filter(c=>c[2]!=='-').forEach(c=>add('geo','kon'+c[0],`Auf welchem Kontinent liegt das Land „${c[0]}“?`,KON[c[2]],others(Object.values(KON),KON[c[2]]),Math.max(1,+c[4]-1)))}
+if(has('flag')){const used=new Set(Q.filter(q=>q.type==='flag').map(q=>q.emo));CTRY.forEach(c=>{if(used.has(c[3]))return;const same=CTRY.filter(x=>x[2]===c[2]&&x!==c);add('flag','f'+c[0],'Welches Land hat diese Flagge?',c[0],others((same.length>=3?same:CTRY).map(x=>x[0]),c[0]),+c[4],{type:'flag',emo:c[3]})})}
+
+/* ---------- Deutschland ---------- */
+const BL=[['Baden-Württemberg','Stuttgart'],['Bayern','München'],['Brandenburg','Potsdam'],['Hessen','Wiesbaden'],['Mecklenburg-Vorpommern','Schwerin'],['Niedersachsen','Hannover'],['Nordrhein-Westfalen','Düsseldorf'],['Rheinland-Pfalz','Mainz'],['Saarland','Saarbrücken'],['Sachsen','Dresden'],['Sachsen-Anhalt','Magdeburg'],['Schleswig-Holstein','Kiel'],['Thüringen','Erfurt']];
+const STADT='Köln/Nordrhein-Westfalen;Frankfurt am Main/Hessen;Nürnberg/Bayern;Leipzig/Sachsen;Rostock/Mecklenburg-Vorpommern;Lübeck/Schleswig-Holstein;Freiburg/Baden-Württemberg;Heidelberg/Baden-Württemberg;Dortmund/Nordrhein-Westfalen;Augsburg/Bayern;Regensburg/Bayern;Würzburg/Bayern;Kassel/Hessen;Darmstadt/Hessen;Göttingen/Niedersachsen;Braunschweig/Niedersachsen;Osnabrück/Niedersachsen;Wolfsburg/Niedersachsen;Oldenburg/Niedersachsen;Jena/Thüringen;Weimar/Thüringen;Halle (Saale)/Sachsen-Anhalt;Cottbus/Brandenburg;Trier/Rheinland-Pfalz;Koblenz/Rheinland-Pfalz;Ludwigshafen/Rheinland-Pfalz;Flensburg/Schleswig-Holstein;Chemnitz/Sachsen;Ulm/Baden-Württemberg;Karlsruhe/Baden-Württemberg;Mannheim/Baden-Württemberg;Münster/Nordrhein-Westfalen;Aachen/Nordrhein-Westfalen;Bonn/Nordrhein-Westfalen;Stralsund/Mecklenburg-Vorpommern;Greifswald/Mecklenburg-Vorpommern;Ingolstadt/Bayern;Paderborn/Nordrhein-Westfalen;Bielefeld/Nordrhein-Westfalen;Lüneburg/Niedersachsen;Cuxhaven/Niedersachsen;Neumünster/Schleswig-Holstein;Frankfurt (Oder)/Brandenburg;Dessau-Roßlau/Sachsen-Anhalt;Zwickau/Sachsen;Garmisch-Partenkirchen/Bayern'.split(';').map(x=>x.split('/'));
+if(has('de')){BL.forEach(b=>{add('de','blh'+b[0],`Was ist die Landeshauptstadt von ${b[0]}?`,b[1],others(BL.map(x=>x[1]),b[1]),b[0].length>12?2:1);add('de','bl'+b[1],`${b[1]} ist die Landeshauptstadt von …`,b[0],others(BL.map(x=>x[0]),b[0]),2)});
+ const bls=[...new Set(STADT.map(s=>s[1]))];STADT.forEach(s=>add('de','st'+s[0],`In welchem Bundesland liegt ${s[0]}?`,s[1],others(bls,s[1]),2))}
+
+/* ---------- Autos ---------- */
+const KZ='B/Berlin;HH/Hamburg;M/München;K/Köln;F/Frankfurt am Main;S/Stuttgart;D/Düsseldorf;DO/Dortmund;E/Essen;HB/Bremen;H/Hannover;L/Leipzig;DD/Dresden;N/Nürnberg;KI/Kiel;HL/Lübeck;HRO/Rostock;A/Augsburg;BO/Bochum;BN/Bonn;MS/Münster;AC/Aachen;KA/Karlsruhe;MA/Mannheim;FR/Freiburg;HD/Heidelberg;UL/Ulm;R/Regensburg;WÜ/Würzburg;ER/Erlangen;IN/Ingolstadt;KS/Kassel;DA/Darmstadt;WI/Wiesbaden;MZ/Mainz;SB/Saarbrücken;TR/Trier;KO/Koblenz;MD/Magdeburg;EF/Erfurt;J/Jena;WE/Weimar;C/Chemnitz;CB/Cottbus;P/Potsdam;SN/Schwerin;OL/Oldenburg;OS/Osnabrück;BS/Braunschweig;WOB/Wolfsburg;GÖ/Göttingen;PB/Paderborn;BI/Bielefeld;GE/Gelsenkirchen;DU/Duisburg;OB/Oberhausen;W/Wuppertal;HA/Hagen;SG/Solingen;FL/Flensburg;PI/Pinneberg;SE/Bad Segeberg;OD/Bad Oldesloe (Stormarn);RZ/Ratzeburg (Hzgt. Lauenburg);LG/Lüneburg;STD/Stade;CUX/Cuxhaven;WHV/Wilhelmshaven;EMD/Emden;GAP/Garmisch-Partenkirchen;BGL/Berchtesgadener Land;TÖL/Bad Tölz;NMS/Neumünster;HG/Bad Homburg;LEV/Leverkusen;KR/Krefeld;MG/Mönchengladbach;RE/Recklinghausen;HAM/Hamm;GT/Gütersloh;SI/Siegen;ROW/Rotenburg (Wümme);WL/Winsen (Luhe)'.split(';').map(x=>x.split('/'));
+const MARKE='VW/Deutschland;BMW/Deutschland;Mercedes-Benz/Deutschland;Audi/Deutschland;Porsche/Deutschland;Opel/Deutschland;Ferrari/Italien;Lamborghini/Italien;Fiat/Italien;Alfa Romeo/Italien;Maserati/Italien;Lancia/Italien;Renault/Frankreich;Peugeot/Frankreich;Citroën/Frankreich;Bugatti/Frankreich;Alpine/Frankreich;Toyota/Japan;Honda/Japan;Nissan/Japan;Mazda/Japan;Subaru/Japan;Mitsubishi/Japan;Suzuki/Japan;Lexus/Japan;Hyundai/Südkorea;Kia/Südkorea;Ford/USA;Chevrolet/USA;Tesla/USA;Jeep/USA;Dodge/USA;Cadillac/USA;Volvo/Schweden;Saab/Schweden;Koenigsegg/Schweden;Škoda/Tschechien;Seat/Spanien;Cupra/Spanien;Dacia/Rumänien;Aston Martin/Vereinigtes Königreich;Bentley/Vereinigtes Königreich;Rolls-Royce/Vereinigtes Königreich;McLaren/Vereinigtes Königreich;Jaguar/Vereinigtes Königreich;Land Rover/Vereinigtes Königreich;Lotus/Vereinigtes Königreich;BYD/China;Nio/China;Tata/Indien'.split(';').map(x=>x.split('/'));
+const MODELL='Golf/VW;Polo/VW;Passat/VW;Käfer/VW;up!/VW;Corsa/Opel;Astra/Opel;Manta/Opel;Twingo/Renault;Clio/Renault;Mégane/Renault;911/Porsche;Cayenne/Porsche;Panamera/Porsche;Supra/Toyota;Corolla/Toyota;Yaris/Toyota;Civic/Honda;Jazz/Honda;GT-R/Nissan;Micra/Nissan;Qashqai/Nissan;MX-5/Mazda;Impreza/Subaru;Lancer Evolution/Mitsubishi;Swift/Suzuki;i30/Hyundai;Ceed/Kia;Mustang/Ford;Fiesta/Ford;Focus/Ford;Model 3/Tesla;Octavia/Škoda;Fabia/Škoda;Ibiza/Seat;Leon/Seat;Duster/Dacia;Sandero/Dacia;Panda/Fiat;500/Fiat;Punto/Fiat;Huracán/Lamborghini;Aventador/Lamborghini;Giulia/Alfa Romeo;Camaro/Chevrolet;Corvette/Chevrolet;Wrangler/Jeep;Challenger/Dodge;A4/Audi;TT/Audi;R8/Audi;M3/BMW;Z4/BMW;G-Klasse/Mercedes-Benz;SLK/Mercedes-Benz;XC90/Volvo;208/Peugeot;2CV/Citroën;Chiron/Bugatti;Veyron/Bugatti;Defender/Land Rover;F40/Ferrari;Testarossa/Ferrari;Delta Integrale/Lancia;Escort/Ford;Calibra/Opel;Scirocco/VW;Celica/Toyota;S2000/Honda;Skyline/Nissan;RX-7/Mazda'.split(';').map(x=>x.split('/'));
+if(has('auto')){const cities=KZ.map(k=>k[1]);KZ.forEach(k=>{const d=k[0].length===1||['HH','HB','DD','KI','HL','HRO'].includes(k[0])?1:k[0].length===2?2:3;add('auto','kz'+k[0],`Für welche Stadt bzw. welchen Kreis steht das Kennzeichen „${k[0]}“?`,k[1],others(cities,k[1]),d)});
+ const lands=[...new Set(MARKE.map(m=>m[1]))];MARKE.forEach(m=>add('auto','mk'+m[0],`Aus welchem Land stammt die Automarke ${m[0]}?`,m[1],others(lands,m[1]),['VW','BMW','Ferrari','Toyota','Ford','Audi','Porsche','Fiat','Renault','Mercedes-Benz','Opel'].includes(m[0])?1:2));
+ const brands=[...new Set(MODELL.map(m=>m[1]))];MODELL.forEach(m=>add('auto','md'+m[0],`Welche Marke baut bzw. baute das Modell „${m[0]}“?`,m[1],others(brands,m[1]),['Golf','Polo','Corsa','911','Mustang','Twingo','Käfer','Model 3','Fiesta','A4'].includes(m[0])?1:2))}
+
+/* ---------- Englisch ---------- */
+const VOK='Hund/dog;Katze/cat;Pferd/horse;Vogel/bird;Fisch/fish;Maus/mouse;Kuh/cow;Schwein/pig;Schaf/sheep;Huhn/chicken;Apfel/apple;Birne/pear;Banane/banana;Erdbeere/strawberry;Kartoffel/potato;Zwiebel/onion;Brot/bread;Käse/cheese;Butter/butter;Milch/milk;Wasser/water;Saft/juice;Ei/egg;Fleisch/meat;Zucker/sugar;Salz/salt;Haus/house;Wohnung/flat;Küche/kitchen;Schlafzimmer/bedroom;Badezimmer/bathroom;Fenster/window;Tür/door;Tisch/table;Stuhl/chair;Bett/bed;Schrank/cupboard;Lampe/lamp;Schlüssel/key;Auto/car;Fahrrad/bike;Zug/train;Flugzeug/plane;Schiff/ship;Straße/street;Brücke/bridge;Stadt/city;Dorf/village;Land/country;Wald/forest;Berg/mountain;Fluss/river;See/lake;Meer/sea;Strand/beach;Himmel/sky;Sonne/sun;Mond/moon;Stern/star;Regen/rain;Schnee/snow;Wind/wind;Wolke/cloud;Wetter/weather;Baum/tree;Blume/flower;Gras/grass;Rot/red;Blau/blue;Grün/green;Gelb/yellow;Schwarz/black;Weiß/white;Grau/grey;Braun/brown;Lila/purple;Kopf/head;Auge/eye;Ohr/ear;Nase/nose;Mund/mouth;Zahn/tooth;Hand/hand;Fuß/foot;Bein/leg;Arm/arm;Herz/heart;Haar/hair;Mutter/mother;Vater/father;Bruder/brother;Schwester/sister;Oma/grandma;Freund/friend;Kind/child;Lehrer/teacher;Schule/school;Buch/book;Stift/pen;Heft/exercise book;Tafel/board;Hausaufgaben/homework;Montag/Monday;Dienstag/Tuesday;Mittwoch/Wednesday;Donnerstag/Thursday;Freitag/Friday;Samstag/Saturday;Sonntag/Sunday;Januar/January;März/March;Mai/May;Juli/July;Oktober/October;Dezember/December;Frühling/spring;Sommer/summer;Herbst/autumn;Winter/winter;groß/big;klein/small;schnell/fast;langsam/slow;alt/old;neu/new;jung/young;heiß/hot;kalt/cold;glücklich/happy;traurig/sad;müde/tired;hungrig/hungry;stark/strong;schwach/weak;teuer/expensive;billig/cheap;laut/loud;leise/quiet;schön/beautiful;hässlich/ugly;leicht/easy;schwer/difficult;früh/early;spät/late;laufen/to run;gehen/to go;schwimmen/to swim;essen/to eat;trinken/to drink;schlafen/to sleep;lesen/to read;schreiben/to write;sprechen/to speak;hören/to hear;sehen/to see;kaufen/to buy;verkaufen/to sell;fahren/to drive;fliegen/to fly;singen/to sing;tanzen/to dance;lachen/to laugh;weinen/to cry;helfen/to help;finden/to find;vergessen/to forget;erinnern/to remember;gewinnen/to win;verlieren/to lose;Geburtstag/birthday;Geschenk/present;Urlaub/holiday;Arbeit/work;Geld/money;Zeit/time;Uhr/clock;Woche/week;Monat/month;Jahr/year;heute/today;morgen/tomorrow;gestern/yesterday;immer/always;nie/never;oft/often;manchmal/sometimes;Spiel/game;Mannschaft/team;Tor/goal;Rechnung/bill;Fahrkarte/ticket;Bahnhof/station;Flughafen/airport;Krankenhaus/hospital;Apotheke/pharmacy;Bäckerei/bakery;Kirche/church;Brille/glasses;Regenschirm/umbrella;Handschuhe/gloves;Schal/scarf;Mütze/cap;Hose/trousers;Kleid/dress;Schuhe/shoes;Jacke/jacket;Werkzeug/tool;Schraube/screw;Hammer/hammer;Leiter/ladder;Kabel/cable;Steckdose/socket;Glühbirne/light bulb;Schalter/switch'.split(';').map(x=>x.split('/'));
+if(has('engl')){const de=VOK.map(v=>v[0]),en=VOK.map(v=>v[1]);VOK.forEach((v,i)=>{const d=i<100?1:i<190?2:3;add('engl','de'+v[0],`Was heißt „${v[0]}“ auf Englisch?`,v[1],others(en,v[1]),d);add('engl','en'+v[1],`Was heißt „${v[1]}“ auf Deutsch?`,v[0],others(de,v[0]),d)})}
+
+/* ---------- Geschichte: Jahreszahlen ---------- */
+const JAHR='Die Berliner Mauer fällt/1989;Die Deutsche Wiedervereinigung/1990;Der Bau der Berliner Mauer/1961;Die Gründung der Bundesrepublik Deutschland/1949;Das Ende des Zweiten Weltkriegs in Europa/1945;Der Beginn des Zweiten Weltkriegs/1939;Der Beginn des Ersten Weltkriegs/1914;Das Ende des Ersten Weltkriegs/1918;Die erste bemannte Mondlandung/1969;Kolumbus erreicht Amerika/1492;Luther veröffentlicht seine 95 Thesen/1517;Der Sturm auf die Bastille/1789;Die Unabhängigkeitserklärung der USA/1776;Der Untergang der Titanic/1912;Die Gründung des Deutschen Kaiserreichs/1871;Die Anschläge vom 11. September/2001;Der Euro wird als Bargeld eingeführt/2002;Das erste iPhone wird vorgestellt/2007;Die Reaktorkatastrophe von Tschernobyl/1986;Die Reaktorkatastrophe von Fukushima/2011;Das Brexit-Referendum/2016;Großbritannien verlässt die EU/2020;Die Gründung von Google/1998;Die Gründung von Facebook/2004;Die Gründung von YouTube/2005;Die erste Fußball-WM/1930;Das „Wunder von Bern“ – Deutschland wird erstmals Weltmeister/1954;Der erste Motorflug der Brüder Wright/1903;Carl Benz meldet sein Automobil zum Patent an/1886;Die Kubakrise/1962;Die Ermordung von John F. Kennedy/1963;Nelson Mandela wird Präsident Südafrikas/1994;Die Eroberung Konstantinopels durch die Osmanen/1453;Die Entdeckung des Penicillins/1928;Der Vertrag von Maastricht tritt in Kraft (EU gegründet)/1993;Der Start von Sputnik 1/1957;Juri Gagarin fliegt als erster Mensch ins All/1961;Die ersten Olympischen Spiele der Neuzeit in Athen/1896;Die Olympischen Spiele in München/1972;Die Fußball-WM in Deutschland („Sommermärchen“)/2006;Das Ende des Dreißigjährigen Kriegs (Westfälischer Frieden)/1648;Die Schlacht bei Waterloo/1815;Der „Schwarze Donnerstag“ an der New Yorker Börse/1929;Die Berliner Luftbrücke beginnt/1948;Barack Obama wird zum US-Präsidenten gewählt/2008;Der erste Harry-Potter-Band erscheint auf Englisch/1997;Die Gründung von Apple/1976;Die Gründung von Microsoft/1975;Minecraft erscheint als Vollversion/2011;Der Game Boy kommt auf den Markt/1989;Pokémon Rot und Grün erscheinen in Japan/1996;Queen Elizabeth II. stirbt/2022;Russland beginnt den großen Angriff auf die Ukraine/2022;Die WHO erklärt Corona zur Pandemie/2020;Die Gründung der DDR/1949;Der Volksaufstand in der DDR/1953;Die Gründung der Vereinten Nationen/1945;Der erste Weltraumflug eines Deutschen (Sigmund Jähn)/1978;Das erste Android-Smartphone erscheint/2008;Das Ende der Sowjetunion/1991;Martin Luther Kings Rede „I Have a Dream“/1963;Die Erfindung des Telefons durch Bell (Patent)/1876;Die Eröffnung des Eiffelturms/1889;Die Gründung von Amazon/1994;Die erste Folge der Simpsons als Serie/1989;Napoleon wird Kaiser der Franzosen/1804;Das Ende des Amerikanischen Bürgerkriegs/1865;Die Hindenburg-Katastrophe/1937;Die Einführung der D-Mark in Westdeutschland/1948;Das Grundgesetz tritt in Kraft/1949'.split(';').map(x=>x.split('/'));
+if(has('hist')){JAHR.forEach(([e,y])=>{y=+y;const w=new Set();const offs=shuffle([1,2,3,4,5,6,8,10,12,15,-1,-2,-3,-4,-5,-6,-8,-10,-12,-15],R);for(const o of offs){if(w.size>=3)break;const v=y+o;if(v<=2026&&v!==y)w.add(v)}add('hist','y'+e,`In welchem Jahr? ${e}`,String(y),[...w].map(String),y>=1940?1:y>=1800?2:3)})}
+
+/* ---------- Naturwissenschaft: Elemente ---------- */
+const EL='H/Wasserstoff;He/Helium;Li/Lithium;C/Kohlenstoff;N/Stickstoff;O/Sauerstoff;F/Fluor;Ne/Neon;Na/Natrium;Mg/Magnesium;Al/Aluminium;Si/Silicium;P/Phosphor;S/Schwefel;Cl/Chlor;Ar/Argon;K/Kalium;Ca/Calcium;Fe/Eisen;Cu/Kupfer;Zn/Zink;Ag/Silber;Au/Gold;Hg/Quecksilber;Pb/Blei;Sn/Zinn;Ni/Nickel;U/Uran;Pt/Platin;I/Iod;Co/Cobalt;Cr/Chrom;Mn/Mangan;Ti/Titan;W/Wolfram;Rn/Radon;Kr/Krypton;Xe/Xenon;Br/Brom'.split(';').map(x=>x.split('/'));
+if(has('sci')){EL.forEach(([s,n],i)=>{const d=i<24?1:2;add('sci','es'+s,`Für welches chemische Element steht das Symbol „${s}“?`,n,others(EL.map(x=>x[1]),n),d);add('sci','en'+s,`Welches chemische Symbol hat ${n}?`,s,others(EL.map(x=>x[0]),s),d+1)})}
+
+/* ---------- Weltall: Planeten ---------- */
+const PL=['Merkur','Venus','Erde','Mars','Jupiter','Saturn','Uranus','Neptun'];
+if(has('space')){PL.forEach((p,i)=>{add('space','pn'+p,`Der wievielte Planet von der Sonne aus ist ${p}?`,`${i+1}.`,others([1,2,3,4,5,6,7,8].map(x=>x+'.'),`${i+1}.`),i===2?1:2);add('space','pp'+p,`Welcher Planet ist der ${i+1}. von der Sonne aus?`,p,others(PL,p),i===2?1:2)})}
+
+/* ---------- Tiere ---------- */
+const KIND='Pferd/Fohlen;Kuh/Kalb;Schaf/Lamm;Ziege/Zicklein;Schwein/Ferkel;Hund/Welpe;Katze/Kätzchen;Reh/Kitz;Huhn/Küken;Frosch/Kaulquappe;Schmetterling/Raupe;Känguru/Joey;Gans/Gössel'.split(';').map(x=>x.split('/'));
+const KLASSE='Wal/Säugetier;Delfin/Säugetier;Fledermaus/Säugetier;Schnabeltier/Säugetier;Koala/Säugetier;Pinguin/Vogel;Strauß/Vogel;Kiwi/Vogel;Flamingo/Vogel;Krokodil/Reptil;Schildkröte/Reptil;Schlange/Reptil;Eidechse/Reptil;Chamäleon/Reptil;Frosch/Amphibie;Salamander/Amphibie;Axolotl/Amphibie;Molch/Amphibie;Hai/Fisch;Seepferdchen/Fisch;Lachs/Fisch;Aal/Fisch;Spinne/Spinnentier;Skorpion/Spinnentier;Zecke/Spinnentier;Biene/Insekt;Ameise/Insekt;Marienkäfer/Insekt;Libelle/Insekt'.split(';').map(x=>x.split('/'));
+const LAUT='Hund/bellt;Katze/miaut;Kuh/muht;Pferd/wiehert;Schaf/blökt;Esel/iaht;Schwein/grunzt;Löwe/brüllt;Wolf/heult;Schlange/zischt;Ente/quakt;Huhn/gackert;Hahn/kräht;Taube/gurrt;Biene/summt;Elefant/trompetet;Maus/piepst;Hirsch/röhrt;Gans/schnattert'.split(';').map(x=>x.split('/'));
+if(has('tier')){KIND.forEach(k=>add('tier','tk'+k[0],`Wie heißt das Junge bzw. die Jugendform vom Tier „${k[0]}“?`,k[1],others(KIND.map(x=>x[1]),k[1]),k[0]==='Känguru'||k[0]==='Gans'?3:1));
+ const gr=[...new Set(KLASSE.map(x=>x[1]))];KLASSE.forEach(k=>add('tier','tg'+k[0],`Zu welcher Tiergruppe gehört: ${k[0]}?`,k[1],others(gr,k[1]),['Wal','Delfin','Fledermaus','Schnabeltier','Pinguin','Spinne','Axolotl','Seepferdchen'].includes(k[0])?2:1));
+ LAUT.forEach(k=>add('tier','tl'+k[0],`Welches Geräusch macht das Tier „${k[0]}“? Es …`,k[1],others(LAUT.map(x=>x[1]),k[1]),['Hirsch','Esel','Gans','Taube'].includes(k[0])?2:1))}
+
+/* ---------- Essen ---------- */
+const GER='Pizza/Italien;Risotto/Italien;Lasagne/Italien;Tiramisu/Italien;Sushi/Japan;Ramen/Japan;Tempura/Japan;Paella/Spanien;Churros/Spanien;Gazpacho/Spanien;Tapas/Spanien;Croissant/Frankreich;Crêpes/Frankreich;Ratatouille/Frankreich;Tacos/Mexiko;Burrito/Mexiko;Nachos/Mexiko;Gyros/Griechenland;Moussaka/Griechenland;Tzatziki/Griechenland;Currywurst/Deutschland;Sauerkraut/Deutschland;Brezel/Deutschland;Apfelstrudel/Österreich;Kaiserschmarrn/Österreich;Wiener Schnitzel/Österreich;Fondue/Schweiz;Rösti/Schweiz;Raclette/Schweiz;Gulasch/Ungarn;Pierogi/Polen;Fish and Chips/Vereinigtes Königreich;Kimchi/Südkorea;Bibimbap/Südkorea;Pad Thai/Thailand;Pho/Vietnam;Butter Chicken/Indien;Samosa/Indien;Peking-Ente/China;Dim Sum/China;Ceviche/Peru;Feijoada/Brasilien;Poutine/Kanada;Köttbullar/Schweden;Smørrebrød/Dänemark;Pastéis de Nata/Portugal;Borschtsch/Ukraine'.split(';').map(x=>x.split('/'));
+if(has('food')){const ls=[...new Set(GER.map(x=>x[1]))];GER.forEach(g=>add('food','gl'+g[0],`Aus welchem Land stammt ursprünglich: ${g[0]}?`,g[1],others(ls,g[1]),['Pizza','Sushi','Paella','Tacos','Gyros','Currywurst','Croissant','Döner'].includes(g[0])?1:2))}
+
+/* ---------- Marken ---------- */
+const BR='Ikea/Schweden;H&M/Schweden;Spotify/Schweden;Volvo/Schweden;Lego/Dänemark;Pandora/Dänemark;Carlsberg/Dänemark;Nokia/Finnland;Samsung/Südkorea;LG/Südkorea;Sony/Japan;Nintendo/Japan;Canon/Japan;Uniqlo/Japan;Apple/USA;Nike/USA;Coca-Cola/USA;McDonald\'s/USA;Netflix/USA;Adidas/Deutschland;Puma/Deutschland;Haribo/Deutschland;Nivea/Deutschland;Bosch/Deutschland;Ritter Sport/Deutschland;Zara/Spanien;Nestlé/Schweiz;Rolex/Schweiz;Lindt/Schweiz;Toblerone/Schweiz;Victorinox/Schweiz;Red Bull/Österreich;Swarovski/Österreich;Gucci/Italien;Prada/Italien;Ferrero/Italien;Barilla/Italien;Chanel/Frankreich;Louis Vuitton/Frankreich;L\'Oréal/Frankreich;Philips/Niederlande;Heineken/Niederlande;Huawei/China;Xiaomi/China;Lenovo/China;Asus/Taiwan;Acer/Taiwan;Burberry/Vereinigtes Königreich;Dr. Martens/Vereinigtes Königreich'.split(';').map(x=>x.split('/'));
+if(has('brand')){const ls=[...new Set(BR.map(x=>x[1]))];BR.forEach(b=>add('brand','bl'+b[0],`Aus welchem Land stammt die Marke ${b[0]}?`,b[1],others(ls,b[1]),['Ikea','Lego','Apple','Nike','Adidas','Samsung','Nintendo','Coca-Cola','Haribo','Red Bull','Gucci'].includes(b[0])?1:2))}
+
+/* ---------- Mythologie ---------- */
+const GOT='Zeus/Jupiter;Hera/Juno;Poseidon/Neptun;Hades/Pluto;Ares/Mars;Aphrodite/Venus;Athene/Minerva;Hermes/Merkur;Artemis/Diana;Hephaistos/Vulcanus;Demeter/Ceres;Dionysos/Bacchus;Eros/Amor;Hestia/Vesta'.split(';').map(x=>x.split('/'));
+if(has('myth')){GOT.forEach(g=>{add('myth','gr'+g[0],`Wie heißt der griechische Gott bzw. die Göttin ${g[0]} bei den Römern?`,g[1],others(GOT.map(x=>x[1]),g[1]),2);add('myth','rg'+g[1],`Wie heißt die römische Gottheit ${g[1]} bei den Griechen?`,g[0],others(GOT.map(x=>x[0]),g[0]),2)})}
+
+/* ---------- Musik ---------- */
+const INS='Geige/Streichinstrument;Bratsche/Streichinstrument;Cello/Streichinstrument;Kontrabass/Streichinstrument;Trompete/Blechblasinstrument;Posaune/Blechblasinstrument;Tuba/Blechblasinstrument;Waldhorn/Blechblasinstrument;Querflöte/Holzblasinstrument;Klarinette/Holzblasinstrument;Oboe/Holzblasinstrument;Fagott/Holzblasinstrument;Saxophon/Holzblasinstrument;Pauke/Schlaginstrument;Xylophon/Schlaginstrument;Triangel/Schlaginstrument;Schlagzeug/Schlaginstrument;Klavier/Tasteninstrument;Orgel/Tasteninstrument;Cembalo/Tasteninstrument;Harfe/Zupfinstrument;Gitarre/Zupfinstrument;Banjo/Zupfinstrument;Ukulele/Zupfinstrument;Mandoline/Zupfinstrument'.split(';').map(x=>x.split('/'));
+if(has('musik')){const gr=[...new Set(INS.map(x=>x[1]))];INS.forEach(i=>add('musik','in'+i[0],`Zu welcher Instrumentengruppe gehört: ${i[0]}?`,i[1],others(gr,i[1]),i[0]==='Saxophon'||i[0]==='Querflöte'?3:i[0]==='Cembalo'||i[0]==='Fagott'?2:1,{info:i[0]==='Saxophon'?'Obwohl es aus Metall ist: Der Ton entsteht wie bei der Klarinette mit einem Holzblatt.':i[0]==='Querflöte'?'Flöten zählen zu den Holzblasinstrumenten – auch wenn sie heute meist aus Metall sind.':''}))}
+
+/* ---------- PC & Technik ---------- */
+const ENDG='mp3/Musik bzw. Audio;wav/Musik bzw. Audio;flac/Musik bzw. Audio;mp4/Video;mov/Video;mkv/Video;jpg/Bild;png/Bild;gif/Bild;svg/Bild;pdf/Dokument;docx/Dokument;txt/Dokument;xlsx/Tabelle;csv/Tabelle;pptx/Präsentation;zip/Gepacktes Archiv;rar/Gepacktes Archiv;7z/Gepacktes Archiv;exe/Programm;apk/Programm;html/Webseite'.split(';').map(x=>x.split('/'));
+const ABK='CPU/Hauptprozessor;GPU/Grafikprozessor;RAM/Arbeitsspeicher;SSD/Flash-Speicherlaufwerk;HDD/Festplatte mit Magnetscheiben;PSU/Netzteil;OS/Betriebssystem;LAN/Kabel-Netzwerk;WLAN/Funk-Netzwerk;URL/Internetadresse;VPN/Verschlüsselter Tunnel ins Netz;FPS/Bilder pro Sekunde;Ping/Reaktionszeit der Verbindung;USB/Universeller Anschluss für Geräte;HDMI/Anschluss für Bild und Ton;DPI/Punkte pro Zoll;Hz (Monitor)/Bildwiederholungen pro Sekunde;KI/Künstliche Intelligenz'.split(';').map(x=>x.split('/'));
+if(has('pc')){const gr=[...new Set(ENDG.map(x=>x[1]))];ENDG.forEach(e=>add('pc','ex'+e[0],`Was steckt meistens in einer Datei mit der Endung .${e[0]}?`,e[1],others(gr,e[1]),['mp3','mp4','jpg','pdf','zip','exe'].includes(e[0])?1:2));
+ ABK.forEach(a=>add('pc','ab'+a[0],`Was bedeutet „${a[0]}“?`,a[1],others(ABK.map(x=>x[1]),a[1]),['CPU','RAM','WLAN','FPS','USB','KI'].includes(a[0])?1:2))}
+
+/* ---------- Berufe ---------- */
+const WZ='Kelle/Maurer;Schere und Kamm/Friseur;Stethoskop/Arzt;Pinsel und Farbrolle/Maler;Hobel/Tischler;Rohrzange/Installateur;Lötkolben/Elektroniker;Spannungsprüfer/Elektriker;Drehmomentschlüssel/Kfz-Mechatroniker;Teigschaber/Bäcker;Feuerwehrschlauch/Feuerwehrmann;Handschellen/Polizist;Zahnbohrer/Zahnarzt;Kamera/Fotograf;Gießkanne/Gärtner;Melkmaschine/Landwirt;Kehrbesen und Kugel/Schornsteinfeger;Steuerhorn/Pilot;Kreide/Lehrer;Hufeisen/Hufschmied;Nähmaschine/Schneider;Mikroskop/Laborant'.split(';').map(x=>x.split('/'));
+if(has('beruf')){WZ.forEach(w=>add('beruf','wz'+w[0],`Wer benutzt bei der Arbeit typischerweise: ${w[0]}?`,w[1],others(WZ.map(x=>x[1]),w[1]),['Hufeisen','Kehrbesen und Kugel','Teigschaber','Hobel','Drehmomentschlüssel'].includes(w[0])?2:1))}
+
+/* ---------- Redewendungen: Sprichwörter ---------- */
+const SPR='Wer zuletzt lacht,/lacht am besten.;Morgenstund/hat Gold im Mund.;Ohne Fleiß/kein Preis.;Übung/macht den Meister.;Lügen/haben kurze Beine.;Der Apfel fällt/nicht weit vom Stamm.;Wer anderen eine Grube gräbt,/fällt selbst hinein.;Reden ist Silber,/Schweigen ist Gold.;Hunde, die bellen,/beißen nicht.;Viele Köche/verderben den Brei.;Aller Anfang/ist schwer.;Wer A sagt,/muss auch B sagen.;Was du heute kannst besorgen,/das verschiebe nicht auf morgen.;In der Kürze/liegt die Würze.;Ende gut,/alles gut.;Kleider/machen Leute.;Wo ein Wille ist,/ist auch ein Weg.;Wie man in den Wald hineinruft,/so schallt es heraus.;Der frühe Vogel/fängt den Wurm.;Wer nicht wagt,/der nicht gewinnt.;Doppelt genäht/hält besser.;Gut Ding/will Weile haben.;Stille Wasser/sind tief.;Es ist nicht alles Gold,/was glänzt.;Wer im Glashaus sitzt,/sollte nicht mit Steinen werfen.;Den Letzten/beißen die Hunde.;Rom wurde nicht/an einem Tag erbaut.;Neue Besen/kehren gut.;Ein Unglück kommt/selten allein.;Wer rastet,/der rostet.;Geteiltes Leid/ist halbes Leid.;Andere Länder,/andere Sitten.;Die Katze lässt/das Mausen nicht.;Kommt Zeit,/kommt Rat.;Was Hänschen nicht lernt,/lernt Hans nimmermehr.;Steter Tropfen/höhlt den Stein.;Besser spät/als nie.;Probieren/geht über Studieren.;Hochmut/kommt vor dem Fall.;Lieber den Spatz in der Hand/als die Taube auf dem Dach.;Wenn zwei sich streiten,/freut sich der Dritte.;Zeit/ist Geld.;Der Klügere/gibt nach.;Ordnung/ist das halbe Leben.;Wer suchet,/der findet.'.split(';').map(x=>x.split('/'));
+if(has('rede')){SPR.forEach((s,i)=>add('rede','sp'+i,`Wie geht das Sprichwort weiter? „${s[0]} …“`,s[1],others(SPR.map(x=>x[1]),s[1]),i<20?1:2))}
+})();
 const OPT4=['mc','emo','flag'],QUICKT=['mc','emo','flag','tf'];
 const WHOQ=WHORAW.split('\n').map(l=>l.trim()).filter(Boolean).map((l,i)=>{const p=l.split('|');return{id:'who'+i,a:[p[1],p[2],p[3],p[4]],clues:p[5].split(';'),d:+p[6]||1}});
 const isOpt=q=>OPT4.includes(q.type)||q.type==='tf';
@@ -1658,7 +2249,7 @@ function rng(seed){let s=seed>>>0;return()=>{s=(s*1664525+1013904223)>>>0;return
 function shuffle(a,r=Math.random){for(let i=a.length-1;i>0;i--){const j=Math.floor(r()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
 function draw(n,{cat=null,d=null,excl=[],r=Math.random,types=null,mixWrong=true}={}){const base=Q.filter(q=>!P.hidden[q.id]&&(!cat||q.cat===cat)&&(!d||d.includes(q.d))&&!excl.includes(q.id)&&(!types||types.includes(q.type)));
  let out=[];if(mixWrong&&r===Math.random){const recent=P.seen.slice(-20);const wr=base.filter(q=>P.wrong[q.id]&&!recent.includes(q.id));out=shuffle([...wr]).slice(0,Math.min(Math.floor(n*.25),wr.length))}
- let pool=base.filter(q=>!out.includes(q));const fresh=pool.filter(q=>!P.seen.includes(q.id));if(fresh.length>=n-out.length)pool=fresh;return shuffle([...out,...shuffle([...pool],r).slice(0,n-out.length)],r)}
+ let pool=base.filter(q=>!out.includes(q));const SEEN=new Set(P.seen);let fresh=pool.filter(q=>!SEEN.has(q.id));if(fresh.length<n-out.length&&r===Math.random){const ids=new Set(pool.map(q=>q.id));P.seen=P.seen.filter(id=>!ids.has(id));fresh=pool}if(fresh.length>=n-out.length)pool=fresh;return shuffle([...out,...shuffle([...pool],r).slice(0,n-out.length)],r)}
 function prep(q,r=Math.random){if(q.type==='multi'){const all=shuffle([...q.right.map(t=>[t,1]),...q.wrong.map(t=>[t,0])],r);return{...q,opts:all.map(x=>x[0]),okSet:all.map((x,i)=>x[1]?i:-1).filter(i=>i>=0)}}if(q.type==='gap'||q.type==='num')return{...q};if(q.type==='tf')return{...q,opts:['✔ Wahr','✘ Falsch'],ok:q.tf?0:1};if(q.type==='est')return{...q};if(q.type==='ord')return{...q,disp:shuffle([0,1,2,3].slice(0,q.items.length),r)};
  const order=shuffle([0,1,2,3],r);return{...q,opts:order.map(i=>q.a[i]),ok:order.indexOf(0)}}
 /* ---- Fragetypen: Darstellung & Auswertung ---- */
@@ -1670,14 +2261,14 @@ function ansHTML(q,act){
   return`<div class="card" style="text-align:center"><input class="txt" id="${k==='gap'?'gi':'ni'}" ${k==='num'?'type="number" inputmode="numeric"':'type="text" autocomplete="off" autocapitalize="off" spellcheck="false"'} placeholder="${k==='gap'?'Antwort eintippen…':'Zahl eintippen…'}" style="font-size:20px;text-align:center" onkeydown="if(event.key==='Enter')dispatchAns('${act}','${k}')">${hint}
   <button class="btn" style="width:100%;margin-top:10px" id="eb" data-a="${act}|${k}">✔ Antwort prüfen</button><div id="res"></div></div>`}
  if(q.type==='multi'){G.msel=[];G.mAct=act;return`<div class="xs mut" style="margin-bottom:6px">Mehrere Antworten sind richtig – wähle alle passenden aus:</div><div class="ans">${q.opts.map((o,i)=>`<button class="a" id="m${i}" data-a="mtog|${i}"><span class="l" id="ml${i}">☐</span>${esc(o)}</button>`).join('')}</div><button class="btn" style="width:100%;margin-top:10px" id="eb" data-a="${act}|multi">✔ Auswahl prüfen</button><div id="res"></div>`}
- if(q.type==='est'){const mid=Math.round(((q.min+q.max)/2)/stepOf(q))*stepOf(q);return`<div class="card" style="text-align:center"><div class="big" id="ev" style="font-size:36px">${fmtN(mid)} <span style="font-size:18px">${esc(q.unit)}</span></div>
+ if(q.type==='est'){const mid=Math.round(((q.min+q.max)/2)/stepOf(q))*stepOf(q);return`<div class="card" style="text-align:center"><div class="big" id="ev" style="font-size:36px">${fmtE(mid,q.unit)} <span style="font-size:18px">${esc(q.unit)}</span></div>
   <input type="range" id="er" min="${q.min}" max="${q.max}" step="${stepOf(q)}" value="${mid}" style="width:100%;accent-color:var(--acc)" oninput="estUpd()">
-  <div class="line xs mut"><span>${fmtN(q.min)}</span><span>${fmtN(q.max)}</span></div>
+  <div class="line xs mut"><span>${fmtE(q.min,q.unit)}</span><span>${fmtE(q.max,q.unit)}</span></div>
   <div class="row" style="justify-content:center;margin-top:6px"><button class="btn alt s" data-a="estd|-10">−−</button><button class="btn alt s" data-a="estd|-1">−</button><button class="btn alt s" data-a="estd|1">+</button><button class="btn alt s" data-a="estd|10">++</button></div>
   <button class="btn" style="width:100%;margin-top:10px" id="eb" data-a="${act}|est">🎯 Tipp abgeben</button><div id="res"></div></div>`}
  if(q.type==='ord'){G.ordSel=[];G.ordAct=act;return`<div class="xs mut" style="margin-bottom:6px">Tippe die Antworten in der richtigen Reihenfolge an:</div><div class="ans">${q.disp.map(i=>`<button class="a" id="o${i}" data-a="ordp|${i}"><span class="l" id="ol${i}">?</span>${esc(q.items[i])}</button>`).join('')}</div><button class="btn alt s" style="margin-top:8px" data-a="ordr">↺ Neu sortieren</button><div id="res"></div>`}
  return`<div class="ans" ${q.type==='tf'?'style="grid-template-columns:1fr 1fr"':''}>${q.opts.map((o,i)=>`<button class="a" id="a${i}" data-a="${act}|${i}" ${q.type==='tf'?'style="justify-content:center;font-size:18px;padding:20px"':''}>${q.type==='tf'?'':`<span class="l">${'ABCD'[i]}</span>`}${esc(o)}</button>`).join('')}</div>`}
-function estUpd(){const q=curQ();if(!q||!$('er'))return;$('ev').innerHTML=`${fmtN($('er').value)} <span style="font-size:18px">${esc(q.unit)}</span>`}
+function estUpd(){const q=curQ();if(!q||!$('er'))return;$('ev').innerHTML=`${fmtE($('er').value,q.unit)} <span style="font-size:18px">${esc(q.unit)}</span>`}
 function curQ(){if(!G||!G.qs)return null;return G.mode==='party'?G.qs[G.turn]:G.qs[G.i]}
 function readVal(q,raw){if(raw==='gap')return($('gi')&&$('gi').value)||'';if(raw==='num'){const v=$('ni')&&$('ni').value;return v===''||v==null?'':parseFloat(String(v).replace(',','.'))}if(raw==='multi')return[...G.msel].sort((a,b)=>a-b);if(raw==='est')return parseFloat($('er').value);if(raw==='ord')return G.ordSel.slice();return +raw}
 function norm(t){return String(t).toLowerCase().trim().replace(/ß/g,'ss').replace(/ä/g,'ae').replace(/ö/g,'oe').replace(/ü/g,'ue').replace(/[.,!?„“"'’]/g,'').replace(/\s+/g,' ')}
@@ -1687,14 +2278,14 @@ function ansText(q,v){if(v==null||v===-1||v===''||(Array.isArray(v)&&!v.length))
 function markAns(q,v,right){
  if(q.type==='gap'||q.type==='num'){const inp=$('gi')||$('ni');if(inp)inp.disabled=true;if($('eb'))$('eb').disabled=true;const r=$('res');if(r)r.innerHTML=`<div style="margin-top:10px" class="${right?'pos':'neg'}"><b>${right?'Richtig!':'Richtig wäre: '+esc(corrText(q))}</b></div>`;return}
  if(q.type==='multi'){if($('eb'))$('eb').disabled=true;q.opts.forEach((_,i)=>{const b=$('m'+i);if(!b)return;b.disabled=true;const ok=q.okSet.includes(i),sel=(v||[]).includes(i);if(ok&&sel)b.classList.add('ok');else if(!ok&&sel)b.classList.add('no');else if(ok)b.style.borderColor='#4ade80'});const r=$('res');if(r&&!right)r.innerHTML=`<div class="info">Richtig wären: <b>${q.right.map(esc).join(', ')}</b></div>`;return}
- if(q.type==='est'){const er=$('er');if(er)er.disabled=true;document.querySelectorAll('[data-a^="estd"],#eb').forEach(b=>b.disabled=true);const r=$('res');if(r)r.innerHTML=`<div style="margin-top:10px" class="${right?'pos':'neg'}"><b>Richtig: ${fmtN(q.ans)} ${esc(q.unit)}</b>${v!=null&&v!==-1?`<br><span class="sm mut">Dein Tipp: ${fmtN(v)} · ${right?'nah genug dran!':'daneben um '+fmtN(Math.abs(v-q.ans))}</span>`:''}</div>`;return}
+ if(q.type==='est'){const er=$('er');if(er)er.disabled=true;document.querySelectorAll('[data-a^="estd"],#eb').forEach(b=>b.disabled=true);const r=$('res');if(r)r.innerHTML=`<div style="margin-top:10px" class="${right?'pos':'neg'}"><b>Richtig: ${fmtE(q.ans,q.unit)} ${esc(q.unit)}</b>${v!=null&&v!==-1?`<br><span class="sm mut">Dein Tipp: ${fmtE(v,q.unit)} · ${right?'nah genug dran!':'daneben um '+fmtN(Math.abs(v-q.ans))}</span>`:''}</div>`;return}
  if(q.type==='ord'){document.querySelectorAll('[data-a^="ordp"],[data-a="ordr"]').forEach(b=>b.disabled=true);(v||[]).forEach((x,i)=>{const b=$('o'+x);if(b)b.classList.add(x===i?'ok':'no')});const r=$('res');if(r&&!right)r.innerHTML=`<div class="info">Richtige Reihenfolge: <b>${q.items.map(esc).join(' → ')}</b></div>`;return}
  document.querySelectorAll('.a').forEach(b=>b.disabled=true);$('a'+q.ok).classList.add('ok');if(v>=0&&v!==q.ok&&$('a'+v))$('a'+v).classList.add('no')}
 function ordPick(i){const q=curQ();if(!q||G.answered||G.ordSel.includes(i))return;G.ordSel.push(i);$('ol'+i).textContent=G.ordSel.length;$('o'+i).style.borderColor='var(--acc)';if(G.ordSel.length===q.items.length){const act=G.ordAct;setTimeout(()=>dispatchAns(act,'ord'),250)}}
 function mToggle(i){const q=curQ();if(!q||G.answered)return;const k=G.msel.indexOf(i);if(k>=0)G.msel.splice(k,1);else G.msel.push(i);$('ml'+i).textContent=k>=0?'☐':'☑';$('m'+i).style.borderColor=k>=0?'':'var(--acc)'}
 function ordReset(){const q=curQ();if(!q||G.answered)return;G.ordSel=[];q.items.forEach((_,i)=>{$('ol'+i).textContent='?';$('o'+i).style.borderColor=''})}
 function dispatchAns(act,raw){if(act==='ans')answer(raw);else if(act==='dans')duelAns(raw);else if(act==='pans')partyAns(raw)}
-function markSeen(id){P.seen.push(id);if(P.seen.length>Math.min(220,Q.length*.7))P.seen.splice(0,P.seen.length-Math.round(Q.length*.7))}
+function markSeen(id){if(!P.seen.includes(id))P.seen.push(id);if(P.seen.length>Q.length)P.seen.splice(0,P.seen.length-Q.length)}
 
 /* ====================== Spielzustand ====================== */
 let G=null,TIMER=null;
@@ -1705,8 +2296,8 @@ function streakCheck(){if(G.streak>P.bestStreak)P.bestStreak=G.streak;if(G.strea
 /* ====================== Screens ====================== */
 function view(h){stopTimer();$('app').innerHTML=h;window.scrollTo(0,0)}
 function home(){G=null;const L=lvlInfo();const today=dkey();const dd=P.daily.last===today;
- view(`<div class="card prof"><div class="ava">${P.ava}</div><div style="flex:1"><div class="line"><b style="font-size:17px">${esc(P.name||'Quiz-Champion')}</b><span class="chip">🪙 ${P.coins}</span></div>
- <div class="xs mut" style="margin:3px 0">Level ${L.l} · ${P.cor}/${P.tot} richtig${P.tot?' ('+Math.round(P.cor/P.tot*100)+'%)':''}</div><div class="bar"><i style="width:${L.x/L.need*100}%"></i></div></div></div>
+ const RK=rankOf(L.l);view(`<div class="card prof"><div class="ava" style="${FRM[P.frame]||''}">${P.ava}</div><div style="flex:1"><div class="line"><b style="font-size:17px;${COLM[P.ncol]||''}">${esc(P.name||'Quiz-Champion')}</b><span class="chip">🪙 ${P.coins}</span></div>
+ <div class="xs mut" style="margin:3px 0">${RK[0]} ${RK[1]}${P.title?' · „'+esc(P.title)+'“':''} · Level ${L.l} · ${P.cor}/${P.tot} richtig${P.tot?' ('+Math.round(P.cor/P.tot*100)+'%)':''}</div><div class="bar"><i style="width:${L.x/L.need*100}%"></i></div></div></div>
  <div class="modes">
   ${modeBtn('quick','⚡','Schnelle Runde','10 Fragen, wähle Kategorie','#7c3aed','#4c1d95')}
   ${modeBtn('mill','💰','Millionen-Leiter','15 Fragen bis zur Million',  '#d97706','#92400e',P.best.mill?'Best: '+eur(P.best.mill):'')}
@@ -1781,13 +2372,14 @@ function finish(){stopTimer();const g=G;G=null;const n=g.log.length,r=g.right;le
  if(g.mode==='surv'){xp=r*12;coins=r*4;if(r>P.best.surv){P.best.surv=r;extra='🏆 Neuer Rekord!'}if(r>=20)unlock('surv20')}
  if(g.mode==='blitz'){xp=r*8;coins=r*3;if(r>P.best.blitz){P.best.blitz=r;extra='🏆 Neuer Rekord!'}if(r>=20)unlock('blitz20')}
  if(g.mode==='daily'){const y=new Date();y.setDate(y.getDate()-1);P.daily.streak=P.daily.last===dkey(y)?P.daily.streak+1:1;P.daily.last=dkey();coins+=40+P.daily.streak*10;xp+=50;extra=`📅 Tagesbonus +${40+P.daily.streak*10} 🪙 · 🔥 ${P.daily.streak} Tage in Folge`;if(P.daily.streak>=7)unlock('daily7')}
- const L0=lvlInfo().l;P.xp+=xp;P.coins+=coins;unlock('first');const L1=lvlInfo().l;if(L1>L0){extra+=(extra?'<br>':'')+`⬆️ Level ${L1}! +${L1*20} 🪙`;P.coins+=L1*20}
+ const L0=lvlInfo().l;P.xp+=xp;P.coins+=coins;unlock('first');const L1=lvlInfo().l;if(L1>L0){extra+=(extra?'<br>':'')+`⬆️ Level ${L1}! +${L1*20} 🪙`;P.coins+=L1*20;if(rankOf(L1)[1]!==rankOf(L0)[1])extra+=`<br>🎖️ Neuer Rang: ${rankOf(L1)[0]} ${rankOf(L1)[1]}!`}
+ if(g.mode==='daily')P.dres={d:dkey(),r:g.log.map(x=>x.right?1:0)};
  checkAch();save();const pct=n?r/n:0;if(pct>=.8||extra.includes('Rekord'))confetti();sfx(pct>=.5?'win':'no');
  const title={learn:'🎯 Lernmodus',quick:'⚡ Schnelle Runde',surv:'❤️ Überleben',blitz:'⏱️ Blitz',daily:'📅 Tages-Challenge'}[g.mode];
  view(`<div class="top"><h2>${title}</h2></div><div class="card" style="text-align:center"><div class="stars">${'⭐'.repeat(pct>=.9?3:pct>=.6?2:pct>=.3?1:0)||'😅'}</div>
  <div class="big">${g.mode==='surv'||g.mode==='blitz'?r:g.score}</div><div class="mut">${g.mode==='learn'?`${r} von ${n} jetzt gewusst`:g.mode==='surv'?'Fragen überlebt':g.mode==='blitz'?'Richtige in 60 Sekunden':`Punkte · ${r} von ${n} richtig`}</div>
  <div class="row" style="justify-content:center;margin-top:10px"><span class="chip">+${xp} XP</span><span class="chip">+${coins} 🪙</span></div>${extra?`<div class="gold sm" style="margin-top:8px">${extra}</div>`:''}</div>
- <div class="row"><button class="btn" style="flex:1" data-a="again|${g.mode}|${g.cat||'mix'}">🔁 Nochmal</button><button class="btn alt" style="flex:1" data-a="home">🏠 Menü</button></div>
+ ${g.mode==='daily'?'<button class="btn gold" style="width:100%;margin-bottom:8px" data-a="dshare">📤 Ergebnis mit Freunden teilen</button>':''}<div class="row"><button class="btn" style="flex:1" data-a="again|${g.mode}|${g.cat||'mix'}">🔁 Nochmal</button><button class="btn alt" style="flex:1" data-a="home">🏠 Menü</button></div>
  ${review(g.log)}`);G={mode:'done'}}
 function review(log){const w=log.filter(x=>!x.right);if(!w.length)return'<div class="card sm pos" style="text-align:center;margin-top:12px">Keine Fehler – stark! 💪</div>';
  return`<div class="card" style="margin-top:12px"><h3>📖 Das waren die Fehler</h3>${w.map(x=>`<div class="it sm"><b>${esc(x.q.q)}</b><br><span class="pos">✔ ${esc(corrText(x.q))}</span>${ansText(x.q,x.i)!=null?`<br><span class="neg">✘ ${esc(ansText(x.q,x.i))}</span>`:'<br><span class="neg">⏰ keine Antwort</span>'}${x.q.info?`<div class="xs mut">💡 ${esc(x.q.info)}</div>`:''}</div>`).join('')}</div>`}
@@ -1914,89 +2506,295 @@ function music(on){if(!on){if(MUS){clearInterval(MUS.iv);MUS=null}return}try{AC=
   const f=440*Math.pow(2,(m-69)/12);const n=AC.currentTime;const o=AC.createOscillator(),g=AC.createGain();o.type='triangle';o.frequency.value=f;o.connect(g);g.connect(AC.destination);g.gain.setValueAtTime(.0001,n);g.gain.exponentialRampToValueAtTime(.035,n+.03);g.gain.exponentialRampToValueAtTime(.0001,n+.55);o.start(n);o.stop(n+.6);
   if(k%8===1){const b=AC.createOscillator(),bg=AC.createGain();b.type='sine';b.frequency.value=440*Math.pow(2,(ch[0]-12-69)/12);b.connect(bg);bg.connect(AC.destination);bg.gain.setValueAtTime(.0001,n);bg.gain.exponentialRampToValueAtTime(.05,n+.05);bg.gain.exponentialRampToValueAtTime(.0001,n+2.2);b.start(n);b.stop(n+2.3)}},300)}}
 document.addEventListener('pointerdown',()=>{if(P.music&&!MUS)music(true)},{once:false});
+/* ---------- Ränge, Rahmen, Namensfarben, Titel ---------- */
+const RANKS=[[1,'🐣','Rookie'],[3,'🙂','Anfänger'],[5,'📘','Schlaukopf'],[8,'🎯','Profi'],[12,'🧠','Genie'],[16,'🦉','Weiser'],[20,'💎','Meister'],[25,'🔥','Großmeister'],[30,'🏆','Champion'],[40,'👑','Legende'],[50,'🌌','Quizgott']];
+function rankOf(l){let r=RANKS[0];RANKS.forEach(x=>{if(l>=x[0])r=x});return[r[1],r[2],r[0]]}
+const GT='-webkit-background-clip:text;background-clip:text;color:transparent';
+const FRAMES=[['none','Kein Rahmen',0,''],['silber','Silber',100,'box-shadow:0 0 0 3px #cbd5e1'],['schatten','Schatten',150,'box-shadow:0 0 0 4px #000,0 4px 10px #000'],['pink','Neon-Pink',200,'box-shadow:0 0 0 3px #ec4899,0 0 12px #ec4899'],['eis','Eisblau',200,'box-shadow:0 0 0 3px #38bdf8,0 0 12px #7dd3fc'],['gold','Gold',250,'box-shadow:0 0 0 3px #facc15,0 0 10px #facc15'],['toxic','Toxisch',250,'box-shadow:0 0 0 3px #84cc16,0 0 14px #a3e635'],['herz','Herzchen',300,'box-shadow:0 0 0 3px #f472b6,0 0 0 6px #fbcfe8'],['feuer','Feuer',350,'box-shadow:0 0 0 3px #f97316,0 0 10px #ef4444,0 0 18px #facc15'],['galaxie','Galaxie',450,'box-shadow:0 0 0 3px #7c3aed,0 0 16px #a78bfa,0 0 28px #4c1d95'],['regen','Regenbogen',500,'box-shadow:0 0 0 2px #ef4444,0 0 0 4px #f59e0b,0 0 0 6px #22c55e,0 0 0 8px #3b82f6,0 0 0 10px #a855f7'],['diamant','Diamant',600,'box-shadow:0 0 0 3px #e0f2fe,0 0 0 5px #22d3ee,0 0 16px #a5f3fc'],['disco','Disco',700,'box-shadow:0 0 0 3px #f0f,0 0 14px #0ff;animation:disco 1.2s linear infinite'],['doppelgold','Doppel-Gold',800,'box-shadow:0 0 0 3px #facc15,0 0 0 6px #78350f,0 0 0 9px #facc15']];
+const COLS=[['std','Standard',0,''],['rot','Rot',80,'color:#f87171'],['orange','Orange',80,'color:#fb923c'],['gelb','Gelb',80,'color:#facc15'],['gruen','Grün',80,'color:#4ade80'],['blau','Blau',80,'color:#60a5fa'],['tuerkis','Türkis',100,'color:#2dd4bf'],['lila','Lila',100,'color:#c084fc'],['pink','Pink',100,'color:#f472b6'],['gold','Gold',300,'background:linear-gradient(90deg,#fde68a,#f59e0b,#fde68a);'+GT],['feuer','Feuer',350,'background:linear-gradient(90deg,#facc15,#f97316,#ef4444);'+GT],['eis','Eis',350,'background:linear-gradient(90deg,#e0f2fe,#38bdf8,#818cf8);'+GT],['toxic','Toxisch',350,'background:linear-gradient(90deg,#d9f99d,#22c55e,#14b8a6);'+GT],['galaxie','Galaxie',450,'background:linear-gradient(90deg,#f0abfc,#a855f7,#6366f1);'+GT],['regen','Regenbogen',600,'background:linear-gradient(90deg,#ef4444,#f59e0b,#eab308,#22c55e,#3b82f6,#a855f7);'+GT]];
+const TITLES=[['',0],['Quiz-Neuling',0],['NPC',50],['Schaut nur zu',50],['Hat nur geraten',60],['Spätzünder',60],['Pechvogel',60],['Lost',60],['Ratefuchs',80],['Glückspilz',80],['Kopfnuss',80],['Kein Plan, aber Spaß',80],['Schlaumeier',100],['Lass mich raten…',100],['Nur wegen Snacks hier',100],['Kaffee-betrieben ☕',100],['Besserwisser',120],['Bauchgefühl-Profi',120],['Schnellklicker',120],['Teamplayer',120],['Klugscheißer',150],['Zufallsgenie',150],['Denker vom Dienst',150],['Partylöwe',150],['Joker-König',200],['Mathe-Monster',200],['Weiß alles besser',200],['Gehirnakrobat',200],['Elektro-Genie ⚡',200],['Quizmaschine',250],['Sigma',250],['Wikipedia auf Beinen',300],['Professor Dr. Rate',300],['Main Character',300],['Aura +1000',350],['Allwissend (fast)',350],['Lebendes Lexikon',400],['Endgegner',400],['Die Legende',500],['GOAT 🐐',600],['Quiz-Royalty 👑',800]];
+const FRM=Object.fromEntries(FRAMES.map(f=>[f[0],f[3]])),COLM=Object.fromEntries(COLS.map(c=>[c[0],c[3]])),TSET=new Set(TITLES.map(t=>t[0])),RSET=new Set(RANKS.map(r=>r[1]));
+function myLook(){return{r:rankOf(lvlInfo().l)[0],t:P.title||'',f:P.frame||'none',c:P.ncol||'std'}}
+function cleanLook(l){l=l||{};return{r:RSET.has(l.r)?l.r:'',t:TSET.has(l.t)?l.t:'',f:FRM[l.f]!==undefined?l.f:'none',c:COLM[l.c]!==undefined?l.c:'std'}}
+function headH(p,sz=28){const l=p.look||{};return`<span class="hd" style="width:${sz}px;height:${sz}px;font-size:${Math.round(sz*.66)}px;${FRM[l.f]||''}">${p.ava||'🙂'}</span>`}
+function nameH(p){const l=p.look||{};return`<span style="font-weight:700;${COLM[l.c]||''}">${esc(p.name||'')}</span>${l.r?` <span class="xs">${l.r}</span>`:''}`}
+function buyLook(kind,id){const L={frame:[FRAMES,'frame'],col:[COLS,'ncol'],title:[TITLES,'title']}[kind];if(!L)return;const it=L[0].find(x=>x[0]===id);if(!it)return;const cost=kind==='title'?it[1]:it[2];
+ P.owned[kind]=P.owned[kind]||[];if(!P.owned[kind].includes(id)&&cost>0){if(P.coins<cost){toast('Nicht genug Münzen');return}P.coins-=cost;P.owned[kind].push(id);sfx('ok')}P[L[1]]=id;save();shop()}
+function lookShop(){const own=(k,id,c)=>c===0||(P.owned[k]||[]).includes(id);const me={ava:P.ava,name:P.name||'Du',look:myLook()};const L=lvlInfo();const rk=rankOf(L.l);const nx=RANKS.find(r=>r[0]>L.l);
+ return`<div class="card" style="text-align:center"><div class="xs mut">So sehen dich andere</div><div style="margin:8px 0">${headH(me,56)}</div><div style="font-size:18px">${nameH(me)}</div>${P.title?`<div class="xs mut">„${esc(P.title)}“</div>`:''}<div class="sm" style="margin-top:6px">${rk[0]} Rang: <b>${rk[1]}</b>${nx?` · nächster: ${nx[1]} ${nx[2]} ab Level ${nx[0]}`:' · höchster Rang!'}</div></div>
+ <div class="card"><h3>🖼️ Rahmen</h3><div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px">${FRAMES.map(f=>{const o=own('frame',f[0],f[2]);return`<button class="btn s ${(P.frame||'none')===f[0]?'':'alt'}" style="padding:10px 4px" data-a="look|frame|${f[0]}" ${!o&&P.coins<f[2]?'disabled':''}>${headH({ava:P.ava,look:{f:f[0]}},34)}<div class="xs" style="margin-top:6px">${f[1]}</div><div class="xs">${o?'':'🪙'+f[2]}</div></button>`}).join('')}</div></div>
+ <div class="card"><h3>🌈 Namensfarbe</h3><div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px">${COLS.map(c=>{const o=own('col',c[0],c[2]);return`<button class="btn s ${(P.ncol||'std')===c[0]?'':'alt'}" style="padding:10px 4px" data-a="look|col|${c[0]}" ${!o&&P.coins<c[2]?'disabled':''}><span style="font-weight:800;${c[3]}">${esc(P.name||'Name')}</span><div class="xs">${c[1]}${o?'':' · 🪙'+c[2]}</div></button>`}).join('')}</div></div>
+ <div class="card"><h3>🏷️ Titel</h3><div class="xs mut" style="margin-bottom:6px">Steht im Online-Raum unter deinem Namen.</div><div class="row" style="gap:6px">${TITLES.map(t=>{const o=own('title',t[0],t[1]);return`<button class="btn s ${(P.title||'')===t[0]?'':'alt'}" data-a="look|title|${t[0]}" ${!o&&P.coins<t[1]?'disabled':''}>${t[0]?esc(t[0]):'Kein Titel'}${o?'':` <span class="xs">🪙${t[1]}</span>`}</button>`}).join('')}</div></div>
+ <div class="card"><h3>🎖️ Ränge</h3><div class="xs mut" style="margin-bottom:6px">Steigen automatisch mit deinem Level.</div>${RANKS.map(r=>`<div class="line it sm" style="opacity:${L.l>=r[0]?1:.45}"><span>${r[1]} ${r[2]}</span><span class="xs">ab Level ${r[0]}${L.l>=r[0]?' ✔':''}</span></div>`).join('')}</div>`}
+/* ---------- Spielstand-Code ---------- */
+function backupCode(){const o={...P,seen:[]};return'QA1:'+btoa(unescape(encodeURIComponent(JSON.stringify(o))))}
+function backupCard(){return`<div class="card"><b class="sm">💾 Spielstand sichern & übertragen</b><div class="xs mut" style="margin:4px 0 8px">Dein Fortschritt (Level, Münzen, Shop-Sachen, Statistik) wird automatisch in diesem Browser gespeichert. Mit dem Code kannst du ihn sichern oder auf ein anderes Handy mitnehmen. Tipp: Schick dir den Code selbst per WhatsApp oder speicher ihn in den Notizen.</div>
+ <div class="row"><button class="btn s" style="flex:1" data-a="bkshare">📤 Code teilen</button><button class="btn alt s" style="flex:1" data-a="bkcopy">📋 Kopieren</button></div>
+ <textarea class="txt" id="bkin" rows="3" style="margin-top:8px;font-size:12px" placeholder="Code hier einfügen, um einen Spielstand zu laden…"></textarea><button class="btn alt s" style="width:100%;margin-top:6px" data-a="bkload">📥 Spielstand laden</button>
+ <div class="xs mut" style="margin-top:6px">ℹ️ Safari löscht Website-Daten manchmal, wenn man eine Seite wochenlang nicht öffnet. Auf dem Home-Bildschirm (Teilen → Zum Home-Bildschirm) passiert das nicht.</div></div>`}
+function backupLoad(){const t=($('bkin').value||'').trim();try{if(!t.startsWith('QA1:'))throw 0;const o=JSON.parse(decodeURIComponent(escape(atob(t.slice(4)))));if(typeof o.xp!=='number'||typeof o.coins!=='number')throw 0;
+ const np=newProfile();P=Object.assign(np,o,{owned:Object.assign(np.owned,o.owned||{})});P.seen=[];save();toast('✅ Spielstand geladen!');setTimeout(()=>location.reload(),700)}catch(e){toast('❌ Der Code ist ungültig')}}
+function shareText(t){if(navigator.share)navigator.share({text:t}).catch(()=>{});else if(navigator.clipboard){navigator.clipboard.writeText(t);toast('📋 Kopiert')}}
+function dailyShare(){const r=P.dres;if(!r)return;const [y,m,d]=r.d.split('-');const ok=r.r.filter(Boolean).length;const link=/^https?:/.test(location.href)?'\n'+location.href.split('#')[0]:'';
+ shareText(`📅 Quiz-Arena Tages-Challenge ${d}.${m}.\n${r.r.map(x=>x?'🟩':'🟥').join('')} ${ok}/${r.r.length}\n🔥 ${P.daily.streak} Tage in Folge\nSchaffst du mehr?${link}`)}
 /* ---------- Online-Party (Raumcode, WebRTC über PeerJS) ---------- */
 const ICE={iceServers:[{urls:'stun:stun.l.google.com:19302'},{urls:'stun:stun1.l.google.com:19302'},{urls:'stun:global.stun.twilio.com:3478'},
  {urls:'turn:openrelay.metered.ca:80',username:'openrelayproject',credential:'openrelayproject'},{urls:'turn:openrelay.metered.ca:443',username:'openrelayproject',credential:'openrelayproject'},{urls:'turn:openrelay.metered.ca:443?transport=tcp',username:'openrelayproject',credential:'openrelayproject'}]};
 let ON=null;const rint=(a,b)=>a+Math.floor(Math.random()*(b-a+1));
+const OMODES={klass:{ic:'🎯',n:'Klassisch',d:'Schnell & richtig = mehr Punkte'},turbo:{ic:'⚡',n:'Turbo',d:'Halbe Zeit, 1,5-fache Punkte'},ko:{ic:'💀',n:'K.-o.',d:'Falsch = raus! Wer bleibt übrig?'},team:{ic:'⚔️',n:'Team-Duell',d:'🔵 Blau gegen 🔴 Rot'}};
+const KH=['#e21b3c','#1368ce','#d89e00','#26890c'],KS=['▲','◆','●','■'],EMOS=['😂','🔥','😮','👏','😭','🤯','😏','💀'],TEAMS=[['🔵','Blau','#2563eb'],['🔴','Rot','#dc2626']];
+const QUIPS=['GG 🤝','Nochmal! 🔁','Glück gehabt 😏','Zu leicht 😎','Was?! 😳','Ich wusste es! 🧠','Nächstes Mal… 😤','Haha 😂'];
+const OSET={n:[5,10,15,20,30],t:[10,15,20,30,45],diff:['mix',1,2,3],catm:['host','wheel','vote']};
+const OLBL={diff:{mix:'🎲 Gemischt',1:'🟢 Leicht',2:'🟡 Mittel',3:'🔴 Schwer'},catm:{host:'👑 Host wählt',wheel:'🎡 Glücksrad',vote:'🗳️ Abstimmung'}};
+const OTYPES=[['mc','🎯','Quiz'],['tf','✅','Wahr/Falsch'],['est','📏','Schätzen'],['who','🕵️','Wer bin ich?']];
+function defCfg(){return{cat:'mix',n:10,mode:'klass',t:20,diff:'mix',catm:'host',types:{mc:true,tf:true,est:false,who:false},streak:true,fin:true,wett:false,jok:false,speed:true,pen:false,change:true,auto:true}}
 function loadPeer(){return new Promise((res,rej)=>{if(window.Peer)return res();const srcs=['https://unpkg.com/peerjs@1.5.4/dist/peerjs.min.js','https://cdn.jsdelivr.net/npm/peerjs@1.5.4/dist/peerjs.min.js'];let k=0;
  const next=()=>{if(window.Peer)return res();if(k>=srcs.length)return rej(new Error('load'));const sc=document.createElement('script');sc.src=srcs[k++];sc.onload=()=>window.Peer?res():next();sc.onerror=next;document.head.appendChild(sc)};next()})}
 function myName(){const n=($('oname')&&$('oname').value.trim())||P.name||'';if(n&&n!==P.name){P.name=n;save()}return n||('Spieler '+rint(10,99))}
+function mkP(id,name,ava,look){return{id,name,ava:ava||'🙂',look:look||{},score:0,last:null,st:0,best:0,cor:0,ms:0,mv:0,out:false,outAt:0,team:0,jk:{fifty:1,dbl:1,shield:1}}}
+function resetP(p){Object.assign(p,{score:0,last:null,st:0,best:0,cor:0,ms:0,mv:0,out:false,outAt:0,jk:{fifty:1,dbl:1,shield:1}})}
+function meId(){return ON.role==='host'?'host':ON.me}
+function meP(){return ON.players.find(p=>p.id===meId())}
 function onlineMenu(){if(ON)leaveOnline(true);view(`<div class="top"><button class="back" data-a="home">←</button><h2>🌐 Online-Party</h2></div>
- <div class="card"><b class="sm">Dein Name</b><input class="txt" id="oname" style="margin-top:6px" maxlength="16" value="${esc(P.name)}" placeholder="Wie heißt du?"></div>
- <div class="card"><h3>🎤 Raum erstellen</h3><div class="sm mut" style="margin-bottom:8px">Du bist der Host: Du wählst die Kategorie, und deine Freunde kommen mit dem Raumcode rein.</div><button class="btn" style="width:100%" data-a="ohost">Raum erstellen</button></div>
+ <div class="card"><div style="text-align:center;margin-bottom:8px">${headH({ava:P.ava,look:myLook()},44)}<div>${nameH({name:P.name||'Du',look:myLook()})}</div><div class="xs mut">${myLook().r} ${rankOf(lvlInfo().l)[1]}${P.title?' · „'+esc(P.title)+'“':''}</div></div>
+ <b class="sm">Dein Name</b><input class="txt" id="oname" style="margin-top:6px" maxlength="16" value="${esc(P.name)}" placeholder="Wie heißt du?">
+ <b class="sm" style="display:block;margin-top:10px">Dein Kopf</b><div class="row" style="margin-top:6px;gap:6px">${P.owned.ava.map(a=>`<button class="btn s ${P.ava===a?'':'alt'}" style="font-size:22px;padding:6px 10px" data-a="oava|${a}">${a}</button>`).join('')}</div><div class="xs mut" style="margin-top:4px">Mehr Köpfe, Rahmen, Namensfarben und Titel gibt's im 🛒 Shop.</div></div>
+ <div class="card"><h3>🎤 Raum erstellen</h3><div class="sm mut" style="margin-bottom:8px">Du bist der Host: Du stellst alles ein, deine Freunde kommen mit dem Raumcode rein.</div><button class="btn" style="width:100%" data-a="ohost">Raum erstellen</button></div>
  <div class="card"><h3>🔑 Raum beitreten</h3><input class="txt" id="ocode" inputmode="numeric" maxlength="4" placeholder="Raumcode, z. B. 4821" style="font-size:22px;text-align:center;letter-spacing:6px"><button class="btn" style="width:100%;margin-top:8px" data-a="ojoin">Beitreten</button></div>
- <div class="card xs mut">ℹ️ Alle brauchen Internet. Die Handys verbinden sich direkt miteinander (über einen kostenlosen Vermittlungsdienst). Bis zu 12 Leute, egal wo sie wohnen. Klappt es über mobile Daten nicht, hilft oft WLAN – oder umgekehrt.</div><div id="onet" class="sm" style="text-align:center"></div>`)}
+ <div class="card xs mut">ℹ️ Alle brauchen Internet. Bis zu 12 Leute, egal wo sie wohnen. Klappt es über mobile Daten nicht, hilft oft WLAN – oder umgekehrt.</div><div id="onet" class="sm" style="text-align:center"></div>`)}
 function netMsg(t,bad){const e=$('onet');if(e)e.innerHTML=`<div class="card ${bad?'neg':''}">${t}</div>`;else toast(t)}
-function leaveOnline(silent){if(!ON)return;try{clearTimeout(ON.timer);clearTimeout(ON.auto);clearTimeout(ON.joinTO);if(ON.conn)ON.conn.close();Object.values(ON.conns||{}).forEach(c=>{try{c.send({t:'bye'});c.close()}catch(e){}});ON.peer&&ON.peer.destroy()}catch(e){}ON=null;stopTimer();if(!silent)home()}
-async function hostRoom(){const name=myName();netMsg('⏳ Raum wird erstellt…');try{await loadPeer()}catch(e){netMsg('❌ Die Online-Funktion konnte nicht geladen werden. Bist du online? (Im Claude-Vorschaufenster ist sie oft blockiert – öffne die Datei direkt im Browser.)',true);return}
+function clearT(){if(!ON)return;['timer','auto','allT','phT'].forEach(k=>clearTimeout(ON[k]))}
+function leaveOnline(silent){if(!ON)return;try{clearT();clearTimeout(ON.joinTO);if(ON.conn)ON.conn.close();Object.values(ON.conns||{}).forEach(c=>{try{c.send({t:'bye'});c.close()}catch(e){}});ON.peer&&ON.peer.destroy()}catch(e){}ON=null;stopTimer();if(!silent)home()}
+const LOADERR='❌ Die Online-Funktion konnte nicht geladen werden. Bist du online? (Im Claude-Vorschaufenster und in der iPhone-Dateivorschau ist sie blockiert – öffne den Link im Browser.)';
+async function hostRoom(){const name=myName();netMsg('⏳ Raum wird erstellt…');try{await loadPeer()}catch(e){netMsg(LOADERR,true);return}
  const code=String(rint(1000,9999));const peer=new Peer('quizarena-'+code,{config:ICE,debug:0});
- ON={role:'host',code,peer,me:'host',players:[{id:'host',name,score:0}],conns:{},state:'lobby',cfg:{cat:'mix',n:10},qi:-1};
+ let cfg=defCfg();try{const s=JSON.parse(localStorage.getItem('quizarena_ocfg')||'null');if(s)cfg={...cfg,...s,types:{...cfg.types,...(s.types||{})}}}catch(e){}
+ ON={role:'host',code,peer,me:'host',players:[mkP('host',name,P.ava,myLook())],conns:{},state:'lobby',cfg,qi:-1,emoT:{}};
  peer.on('open',()=>{if(ON&&ON.peer===peer)renderLobby()});
  peer.on('error',e=>{if(!ON||ON.peer!==peer)return;if(e.type==='unavailable-id'){peer.destroy();ON=null;hostRoom();return}if(e.type==='peer-unavailable')return;netMsg('❌ Verbindungsproblem: '+(e.type||e.message||e),true)});
  peer.on('connection',conn=>{conn.on('data',d=>hostData(conn,d));conn.on('close',()=>dropPlayer(conn.peer));conn.on('error',()=>dropPlayer(conn.peer))})}
-function hostData(conn,d){if(!ON||ON.role!=='host'||!d)return;const id=conn.peer;
- if(d.t==='hello'){if(ON.players.length>=12){conn.send({t:'full'});setTimeout(()=>conn.close(),300);return}let nm=String(d.name||'Gast').slice(0,16);if(ON.players.some(p=>p.name===nm))nm+=' '+(ON.players.length+1);
-  ON.conns[id]=conn;if(!ON.players.some(p=>p.id===id))ON.players.push({id,name:nm,score:0});conn.send({t:'welcome',code:ON.code,you:id,players:pubPlayers()});sfx('ok');toast(`👋 ${nm} ist beigetreten`);
-  hostBroadcast({t:'lobby',players:pubPlayers()});if(ON.state==='lobby')renderLobby();return}
- if(d.t==='ans'){if(d.i!==ON.qi||ON.state!=='q'||ON.ans[id])return;ON.ans[id]={v:d.v,ms:Math.max(0,+d.ms||20000)};afterAnswer();return}}
-function dropPlayer(id){if(!ON||ON.role!=='host')return;const p=ON.players.find(x=>x.id===id);if(!p)return;ON.players=ON.players.filter(x=>x.id!==id);delete ON.conns[id];toast(`🚪 ${p.name} hat den Raum verlassen`);hostBroadcast({t:'lobby',players:pubPlayers()});if(ON.state==='lobby')renderLobby();else if(ON.state==='q')afterAnswer()}
-function pubPlayers(){return ON.players.map(p=>({id:p.id,name:p.name,score:p.score,last:p.last||null}))}
+function hostData(conn,d){if(!ON||ON.role!=='host'||!d)return;const id=conn.peer;const p=ON.players.find(x=>x.id===id);
+ if(d.t==='hello'){if(ON.players.length>=12&&!p){conn.send({t:'full'});setTimeout(()=>conn.close(),300);return}let nm=String(d.name||'Gast').slice(0,16);if(ON.players.some(x=>x.name===nm&&x.id!==id))nm+=' '+(ON.players.length+1);
+  ON.conns[id]=conn;let q=p;if(!q){q=mkP(id,nm,String(d.ava||'🙂').slice(0,8),cleanLook(d.look));ON.players.push(q);
+   if(ON.state!=='lobby'){if(ON.cfg.mode==='ko'){q.out=true;q.outAt=-1}if(ON.cfg.mode==='team'){const c0=ON.players.filter(x=>x.team===0&&x!==q).length,c1=ON.players.filter(x=>x.team===1).length;q.team=c0<=c1?0:1}}}
+  conn.send({t:'welcome',code:ON.code,you:id,players:pubPlayers(),cfg:ON.cfg,state:ON.state});sfx('ok');toast(`👋 ${q.ava} ${nm} ist beigetreten`);
+  hostBroadcast({t:'lobby',players:pubPlayers(),cfg:ON.cfg});if(ON.state==='lobby')renderLobby();return}
+ if(!p)return;
+ if(d.t==='ans'){hostTakeAns(p,d);return}
+ if(d.t==='jk'){hostJoker(p,d.k,d.i);return}
+ if(d.t==='bet'){if(ON.state==='bet'&&!p.out){ON.bets[id]=clamp(Math.round(+d.v||0),0,betMax(p));hostBetCount()}return}
+ if(d.t==='vote'){if(ON.state==='vote'&&ON.vopts.includes(d.k)){ON.votes[id]=d.k;hostVoteCount()}return}
+ if(d.t==='emo'||d.t==='quip'){const now=Date.now();if(now-(ON.emoT[id]||0)<500)return;if(d.t==='emo'&&!EMOS.includes(d.e))return;if(d.t==='quip'&&!QUIPS.includes(d.e))return;ON.emoT[id]=now;const m={t:d.t,e:d.e,a:p.ava,n:p.name};showFx(m);Object.entries(ON.conns).forEach(([k,c])=>{if(k!==id)try{c.send(m)}catch(e){}})}}
+function hostTakeAns(p,d){if(p.out||d.i!==ON.qi||ON.state!=='q')return;const q=ON.cq;let v=+d.v;if(!Number.isFinite(v))return;if(q.type==='est')v=clamp(v,q.min,q.max);else if(!(v>=0&&v<q.opts.length))return;
+ if(ON.ans[p.id]&&!ON.cfg.change)return;ON.ans[p.id]={v,ms:clamp(+d.ms||ON.dur*1000,0,ON.dur*1000)};afterAnswer()}
+function dropPlayer(id){if(!ON||ON.role!=='host')return;const p=ON.players.find(x=>x.id===id);if(!p)return;ON.players=ON.players.filter(x=>x.id!==id);delete ON.conns[id];toast(`🚪 ${p.name} hat den Raum verlassen`);hostBroadcast({t:'lobby',players:pubPlayers(),cfg:ON.cfg});if(ON.state==='lobby')renderLobby();else if(ON.state==='q')afterAnswer();else if(ON.state==='bet')hostBetCount();else if(ON.state==='vote')hostVoteCount()}
+function hostKick(id){if(!ON||ON.role!=='host'||id==='host')return;const c=ON.conns[id];if(c){try{c.send({t:'kick'})}catch(e){}setTimeout(()=>{try{c.close()}catch(e){}},300)}dropPlayer(id)}
+function pubPlayers(){return ON.players.map(p=>({id:p.id,name:p.name,ava:p.ava,look:p.look,score:p.score,last:p.last,st:p.st,best:p.best,mv:p.mv,out:p.out,outAt:p.outAt,team:p.team,cor:p.cor,jk:p.jk}))}
 function hostBroadcast(m){Object.values(ON.conns).forEach(c=>{try{c.open!==false&&c.send(m)}catch(e){}})}
-function shareCode(){const t=`Komm in meine Quiz-Arena! 🎉 Öffne das Quiz → 🌐 Online-Party → Raumcode: ${ON.code}`;if(navigator.share)navigator.share({text:t}).catch(()=>{});else if(navigator.clipboard){navigator.clipboard.writeText(t);toast('📋 Einladung kopiert')}else toast('Raumcode: '+ON.code)}
-function lobbyList(){return ON.players.map(p=>`<div class="line it sm"><span>${p.id===(ON.role==='host'?'host':ON.me)?'⭐ ':''}${esc(p.name)}${p.id==='host'?' <span class="xs mut">(Host)</span>':''}</span></div>`).join('')}
-function renderLobby(){if(!ON)return;G=null;ON.state='lobby';
+function hostCfg(){if(!ON||ON.role!=='host')return;try{localStorage.setItem('quizarena_ocfg',JSON.stringify(ON.cfg))}catch(e){}hostBroadcast({t:'lobby',players:pubPlayers(),cfg:ON.cfg});renderLobby()}
+function cycCfg(k,dir){const a=OSET[k];let i=a.indexOf(ON.cfg[k]);if(i<0)i=0;ON.cfg[k]=a[(i+dir+a.length)%a.length];hostCfg()}
+function shareCode(){const link=/^https?:/.test(location.href)?location.href.split('#')[0]:'';const t=`Komm in meine Quiz-Arena! 🎉 ${link?link+' → ':''}🌐 Online-Party → Raumcode: ${ON.code}`;if(navigator.share)navigator.share({text:t}).catch(()=>{});else if(navigator.clipboard){navigator.clipboard.writeText(t);toast('📋 Einladung kopiert')}else toast('Raumcode: '+ON.code)}
+function showFx(m){if(m.t==='emo'){const d=document.createElement('div');d.className='femo';d.textContent=m.e;d.style.left=(8+Math.random()*78)+'%';document.body.appendChild(d);setTimeout(()=>d.remove(),2700)}
+ else{const d=document.createElement('div');d.className='fquip';d.innerHTML=`${m.a||''} <b>${esc(m.n||'')}</b>: ${esc(m.e)}`;document.body.appendChild(d);setTimeout(()=>d.remove(),3000)}}
+function sendFx(t,e){if(!ON)return;const now=Date.now();if(now-(ON.myEmo||0)<600)return;ON.myEmo=now;const me=meP()||{};const m={t,e,a:me.ava||P.ava,n:me.name||P.name};showFx(m);if(ON.role==='host')hostBroadcast(m);else try{ON.conn.send({t,e})}catch(x){}}
+function emoBar(){return`<div class="row" style="justify-content:center;gap:5px;margin-top:10px">${EMOS.map(e=>`<button class="btn alt s" style="font-size:19px;padding:5px 8px" data-a="oemo|${e}">${e}</button>`).join('')}</div>
+ <div class="row" style="justify-content:center;gap:5px;margin-top:6px">${QUIPS.map(e=>`<button class="btn alt s xs" style="padding:5px 8px" data-a="oquip|${e}">${e}</button>`).join('')}</div>`}
+function cfgText(c){const m=OMODES[c.mode]||OMODES.klass;const C=c.cat==='mix'?null:catOf(c.cat);const ty=OTYPES.filter(t=>c.types&&c.types[t[0]]).map(t=>t[1]).join('');
+ return`${m.ic} ${m.n} · ${c.catm==='host'?(C?C.ic+' '+C.n:'🎲 Gemischt'):OLBL.catm[c.catm]} · ${c.mode==='ko'?'bis einer übrig ist':c.n+' Fragen'} · ${c.t} s · ${ty}${c.wett?' · 💰':''}${c.jok?' · 🃏':''}${c.diff!=='mix'?' · '+OLBL.diff[c.diff]:''}`}
+function lobbyList(){const host=ON.role==='host';return ON.players.map(p=>`<div class="line it sm"><span>${headH(p,26)} ${p.id===meId()?'<b>':''}${nameH(p)}${p.id===meId()?' (du)</b>':''}${p.id==='host'?' <span class="xs mut">👑</span>':''}${p.look&&p.look.t?` <span class="xs mut">„${esc(p.look.t)}“</span>`:''}</span>${host&&p.id!=='host'?`<button class="btn alt s" style="padding:4px 10px" data-a="okick|${p.id}">✕</button>`:''}</div>`).join('')}
+function setRow(ic,lbl,val,k){return`<div class="line setrow"><span class="sm">${ic} ${lbl}</span><span class="stp"><button class="btn alt s" data-a="ocyc|${k}|-1">‹</button><b class="sm">${val}</b><button class="btn alt s" data-a="ocyc|${k}|1">›</button></span></div>`}
+function togRow(ic,lbl,k,hint){const on=ON.cfg[k];return`<div class="line setrow"><span class="sm">${ic} ${lbl}${hint?`<br><span class="xs mut">${hint}</span>`:''}</span><button class="tgl ${on?'on':''}" data-a="otog|${k}"><i></i></button></div>`}
+function renderLobby(){if(!ON)return;G=null;ON.state='lobby';stopTimer();const c=ON.cfg;
  if(ON.role==='host'){view(`<div class="top"><button class="back" data-a="oleave">✕</button><h2>🌐 Dein Raum</h2></div>
-  <div class="card" style="text-align:center"><div class="mut sm">Raumcode</div><div class="big" style="letter-spacing:10px;font-size:52px">${ON.code}</div><button class="btn alt s" data-a="oshare">📤 Code an Freunde schicken</button></div>
+  <div class="card" style="text-align:center"><div class="mut sm">Raumcode</div><div class="big" style="letter-spacing:10px;font-size:52px">${ON.code}</div><button class="btn alt s" data-a="oshare">📤 Einladung schicken</button></div>
   <div class="card"><div class="line"><h3 style="margin:0">Spieler</h3><span class="chip">${ON.players.length}/12</span></div>${lobbyList()}${ON.players.length<2?'<div class="xs mut" style="margin-top:6px">Warte auf Freunde… Sie geben den Code unter 🌐 Online-Party ein.</div>':''}</div>
-  <div class="card"><b class="sm">Kategorie</b><select id="ocsel" class="txt" style="margin-top:6px" onchange="ON.cfg.cat=this.value"><option value="mix">🎲 Bunt gemischt</option>${CATS.map(c=>`<option value="${c.k}" ${ON.cfg.cat===c.k?'selected':''}>${c.ic} ${c.n}</option>`).join('')}</select>
-  <div class="line" style="margin-top:10px"><b class="sm">Fragen</b><div class="row">${[5,10,15,20].map(n=>`<button class="btn s ${ON.cfg.n===n?'':'alt'}" data-a="onum|${n}">${n}</button>`).join('')}</div></div></div>
-  <button class="btn gold" style="width:100%" data-a="ostart">🚀 Spiel starten</button>`)}
- else view(`<div class="top"><button class="back" data-a="oleave">✕</button><h2>🌐 Raum ${ON.code}</h2></div><div class="card" style="text-align:center;padding:24px"><div style="font-size:40px">⏳</div><b>Du bist drin!</b><div class="sm mut">Warte, bis der Host das Spiel startet…</div></div><div class="card"><div class="line"><h3 style="margin:0">Spieler</h3><span class="chip">${ON.players.length}/12</span></div>${lobbyList()}</div>`)}
+  <div class="card"><h3 style="margin-top:0">🎮 Spielmodus</h3><div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">${Object.entries(OMODES).map(([k,m])=>`<button class="btn ${c.mode===k?'':'alt'}" style="padding:10px;text-align:left;line-height:1.25" data-a="omode|${k}"><b>${m.ic} ${m.n}</b><br><span class="xs" style="opacity:.85">${m.d}</span></button>`).join('')}</div></div>
+  <div class="card"><h3 style="margin-top:0">⚙️ Einstellungen</h3>
+  ${setRow('📂','Kategorie-Wahl',OLBL.catm[c.catm],'catm')}
+  ${c.catm==='host'?`<select id="ocsel" class="txt" style="margin:4px 0 6px;display:block;width:100%" onchange="ON.cfg.cat=this.value;hostCfg()"><option value="mix">🎲 Bunt gemischt</option>${CATS.map(x=>`<option value="${x.k}" ${c.cat===x.k?'selected':''}>${x.ic} ${x.n}</option>`).join('')}</select>`:`<div class="xs mut" style="margin:0 0 6px">${c.catm==='wheel'?'Alle 3 Fragen dreht sich das Glücksrad und wählt die Kategorie.':'Alle 3 Fragen stimmen alle über die nächste Kategorie ab.'}</div>`}
+  ${c.mode==='ko'?'':setRow('❓','Fragen',c.n,'n')}${setRow('⏱️','Zeit pro Frage',c.t+' s','t')}${setRow('🎚️','Schwierigkeit',OLBL.diff[c.diff],'diff')}
+  <div class="sm" style="margin:10px 0 4px">🧩 Fragetypen</div><div style="display:grid;grid-template-columns:1fr 1fr;gap:6px">${OTYPES.map(t=>`<button class="btn s ${c.types[t[0]]?'':'alt'}" data-a="otype|${t[0]}">${t[1]} ${t[2]}</button>`).join('')}</div>
+  <div class="sm" style="margin:12px 0 2px">✨ Extras</div>
+  ${togRow('💰','Wetten','wett','Vor jeder Frage Punkte setzen')}${togRow('🃏','Joker','jok','50:50, Doppelte Punkte, Schild')}${togRow('🔥','Serien-Bonus','streak')}${c.mode==='ko'?'':togRow('🏆','Finale ×2','fin')}
+  ${togRow('⚡','Tempo-Punkte','speed','Schneller = mehr Punkte')}${togRow('➖','Minuspunkte bei falsch','pen','−200 pro falscher Antwort')}${togRow('🔄','Umstimmen erlaubt','change')}${togRow('⏭️','Automatisch weiter','auto')}
+  <button class="btn alt s" style="width:100%;margin-top:8px" data-a="oreset">↺ Standard-Einstellungen</button></div>
+  <button class="btn gold" style="width:100%" data-a="ostart">🚀 Spiel starten</button>${emoBar()}`)}
+ else view(`<div class="top"><button class="back" data-a="oleave">✕</button><h2>🌐 Raum ${ON.code}</h2></div><div class="card" style="text-align:center;padding:20px">${headH(meP()||{ava:'⏳'},52)}<div style="margin-top:6px"><b>Du bist drin!</b></div><div class="sm mut">${ON.state==='wait'?'Das Spiel läuft schon – du steigst bei der nächsten Frage ein.':'Warte, bis der Host das Spiel startet…'}</div>${c?`<div class="chip" style="margin-top:10px;display:inline-block;white-space:normal">${cfgText(c)}</div>`:''}</div><div class="card"><div class="line"><h3 style="margin:0">Spieler</h3><span class="chip">${ON.players.length}/12</span></div>${lobbyList()}</div>${emoBar()}`)}
+/* ----- Host: Spielablauf ----- */
+function qTotal(){return ON.cfg.mode==='ko'?60:ON.cfg.n}
 function hostStart(){if(!ON||ON.role!=='host')return;if(ON.players.length<2&&!ON.soloOk){ON.soloOk=true;toast('Noch niemand da – nochmal tippen, um allein zu testen');return}
- const cat=ON.cfg.cat==='mix'?null:ON.cfg.cat;let qs=draw(ON.cfg.n,{cat,types:QUICKT,mixWrong:false});if(qs.length<ON.cfg.n)qs=[...qs,...draw(ON.cfg.n-qs.length,{types:QUICKT,excl:qs.map(q=>q.id),mixWrong:false})];
- ON.qs=qs.map(q=>prep(q));ON.qi=-1;ON.players.forEach(p=>{p.score=0;p.last=null});P.games++;hostNext()}
-function hostNext(){if(!ON||ON.role!=='host')return;clearTimeout(ON.auto);clearTimeout(ON.timer);ON.qi++;if(ON.qi>=ON.qs.length){hostEnd();return}
- const q=ON.qs[ON.qi];ON.ans={};ON.state='q';const m={t:'q',i:ON.qi,n:ON.qs.length,dur:20,q:{id:q.id,q:q.q,opts:q.opts,cat:q.cat,d:q.d,type:q.type,emo:q.emo||''}};hostBroadcast(m);showOnlineQ(m);ON.timer=setTimeout(hostReveal,21500)}
-function afterAnswer(){if(!ON||ON.state!=='q')return;const n=Object.keys(ON.ans).length;hostBroadcast({t:'cnt',c:n,n:ON.players.length});const e=$('ocnt');if(e)e.textContent=`${n}/${ON.players.length} haben geantwortet`;if(n>=ON.players.length)setTimeout(hostReveal,500)}
-function hostReveal(){if(!ON||ON.state!=='q')return;clearTimeout(ON.timer);ON.state='rev';const q=ON.qs[ON.qi];const counts=q.opts.map(()=>0);
- ON.players.forEach(p=>{const a=ON.ans[p.id];const right=!!a&&a.v===q.ok;const pts=right?Math.round(100+Math.max(0,20-a.ms/1000)*10):0;if(a&&a.v>=0&&a.v<counts.length)counts[a.v]++;p.score+=pts;p.last={right,pts}});
- const m={t:'rev',i:ON.qi,ok:q.ok,info:q.info||'',counts,players:pubPlayers(),last:ON.qi===ON.qs.length-1};hostBroadcast(m);showReveal(m);ON.auto=setTimeout(hostNext,9000)}
-function hostEnd(){ON.state='end';const m={t:'end',players:pubPlayers()};hostBroadcast(m);showEnd(m)}
-function hostLobbyAgain(){if(!ON||ON.role!=='host')return;ON.players.forEach(p=>{p.score=0;p.last=null});hostBroadcast({t:'lobby',players:pubPlayers(),back:true});renderLobby()}
-async function joinRoom(code){const name=myName();netMsg('⏳ Verbinde mit Raum '+code+'…');try{await loadPeer()}catch(e){netMsg('❌ Die Online-Funktion konnte nicht geladen werden. Bist du online? (Im Claude-Vorschaufenster ist sie oft blockiert – öffne die Datei direkt im Browser.)',true);return}
+ if(!OTYPES.some(t=>ON.cfg.types[t[0]]))ON.cfg.types.mc=true;
+ ON.qi=-1;ON.used=[];ON.curCat=ON.cfg.catm==='host'?ON.cfg.cat:'mix';ON.players.forEach(resetP);
+ if(ON.cfg.mode==='team'){const sh=[...ON.players].sort(()=>Math.random()-.5);sh.forEach((p,i)=>p.team=i%2)}P.games++;hostNext()}
+function aliveN(){return ON.players.filter(p=>!p.out).length}
+function hostNext(){if(!ON||ON.role!=='host')return;clearT();
+ if(ON.cfg.mode==='ko'&&ON.qi>=0&&ON.players.length>1&&aliveN()<=1){hostEnd();return}
+ ON.qi++;if(ON.qi>=qTotal()){hostEnd();return}
+ if(ON.cfg.catm!=='host'&&ON.qi%3===0){if(ON.cfg.catm==='wheel')hostWheel();else hostVote()}else afterCat()}
+function afterCat(){if(!ON)return;if(ON.cfg.wett)hostBet();else hostAsk()}
+function okCats(){return CATS.filter(c=>Q.filter(q=>q.cat===c.k&&QUICKT.includes(q.type)).length>=15).map(c=>c.k)}
+function hostWheel(){const cats=shuffle(okCats()).slice(0,8);const win=rint(0,cats.length-1);ON.curCat=cats[win];ON.state='wheel';const m={t:'wheel',cats,win,i:ON.qi};hostBroadcast(m);showWheel(m);ON.phT=setTimeout(afterCat,4300)}
+function hostVote(){ON.vopts=shuffle(okCats()).slice(0,3);ON.votes={};ON.state='vote';const m={t:'vote',opts:ON.vopts,dur:8,i:ON.qi};hostBroadcast(m);showVote(m);ON.phT=setTimeout(hostVoteEnd,8500)}
+function hostVoteCount(){if(!ON||ON.state!=='vote')return;const act=ON.players.filter(p=>!p.out);const n=act.filter(p=>ON.votes[p.id]).length;hostBroadcast({t:'vcnt',votes:ON.votes});showVoteCnt(ON.votes);if(n>=act.length){clearTimeout(ON.phT);ON.phT=setTimeout(hostVoteEnd,800)}}
+function hostVoteEnd(){if(!ON||ON.state!=='vote')return;const cnt={};ON.vopts.forEach(k=>cnt[k]=0);Object.values(ON.votes).forEach(k=>cnt[k]++);const mx=Math.max(...Object.values(cnt));const win=shuffle(ON.vopts.filter(k=>cnt[k]===mx))[0];ON.curCat=win;ON.state='voted';const m={t:'voted',k:win,cnt};hostBroadcast(m);showVoted(m);ON.phT=setTimeout(afterCat,2200)}
+function betMax(p){return 1000}
+function hostBet(){ON.bets={};ON.state='bet';const m={t:'bet',i:ON.qi,cat:ON.curCat,dur:8,players:pubPlayers()};hostBroadcast(m);showBet(m);ON.phT=setTimeout(hostAsk,8500)}
+function hostBetCount(){if(!ON||ON.state!=='bet')return;const act=ON.players.filter(p=>!p.out);if(act.every(p=>ON.bets[p.id]!=null)){clearTimeout(ON.phT);ON.phT=setTimeout(hostAsk,700)}}
+function pickKind(){const k=OTYPES.map(t=>t[0]).filter(t=>ON.cfg.types[t]);return k.length?k[rint(0,k.length-1)]:'mc'}
+function pickQ(){const kind=pickKind();const d=ON.cfg.diff==='mix'?null:[+ON.cfg.diff];
+ if(kind==='who'){let pool=WHOQ.filter(w=>!ON.used.includes(w.id)&&(!d||d.includes(w.d)));if(!pool.length)pool=WHOQ.filter(w=>!ON.used.includes(w.id));if(!pool.length)pool=WHOQ;const w=pool[rint(0,pool.length-1)];const order=shuffle([0,1,2,3]);
+  return{id:w.id,type:'who',q:'Wer bin ich?',clues:w.clues,opts:order.map(i=>w.a[i]),ok:order.indexOf(0),cat:'allg',d:w.d,info:''}}
+ const types=kind==='mc'?['mc','emo','flag']:[kind];const cat=ON.curCat==='mix'?null:ON.curCat;
+ let r=draw(1,{cat,d,types,excl:ON.used,mixWrong:false});if(!r.length)r=draw(1,{cat,types,excl:ON.used,mixWrong:false});if(!r.length)r=draw(1,{types:['mc','emo','flag','tf'],excl:ON.used,mixWrong:false});
+ const q=prep(r[0]);markSeen(q.id);return q}
+function hostAsk(){if(!ON)return;clearT();const q=pickQ();ON.cq=q;ON.used.push(q.id);ON.ans={};ON.state='q';
+ const base=q.type==='who'?Math.max(ON.cfg.t,20):q.type==='est'?Math.max(ON.cfg.t,15):ON.cfg.t;ON.dur=ON.cfg.mode==='turbo'?Math.max(6,Math.round(base/2)):base;
+ const fin=ON.cfg.fin&&ON.cfg.mode!=='ko'&&qTotal()>2&&ON.qi===qTotal()-1;ON.fin=fin;
+ const pub={id:q.id,q:q.q,cat:q.cat,d:q.d,type:q.type,emo:q.emo||''};if(q.type==='est')Object.assign(pub,{min:q.min,max:q.max,unit:q.unit,step:stepOf(q)});else pub.opts=q.opts;if(q.type==='who')pub.clues=q.clues;
+ const m={t:'q',i:ON.qi,n:ON.cfg.mode==='ko'?0:qTotal(),dur:ON.dur,fin,mode:ON.cfg.mode,cfg:ON.cfg,players:pubPlayers(),bets:ON.bets||{},q:pub};
+ hostBroadcast(m);showOnlineQ(m);ON.timer=setTimeout(hostReveal,ON.dur*1000+1500)}
+function afterAnswer(){if(!ON||ON.state!=='q')return;const act=ON.players.filter(p=>!p.out);const n=act.filter(p=>ON.ans[p.id]).length;hostBroadcast({t:'cnt',c:n,n:act.length});const e=$('ocnt');if(e)e.textContent=`${n}/${act.length} haben geantwortet`;
+ clearTimeout(ON.allT);if(n>=act.length){ON.allT=setTimeout(hostReveal,ON.cfg.change?2500:600);hostBroadcast({t:'all'});allMsg()}}
+function allMsg(){const e=$('ocnt');if(e)e.innerHTML='<b>Alle haben geantwortet – gleich wird aufgelöst…</b>'}
+function hostJoker(p,k,i){if(!ON||!ON.cfg.jok||ON.state!=='q'||i!==ON.qi||p.out||!p.jk||!(p.jk[k]>0))return;const q=ON.cq;
+ if(k==='fifty'){if(!['mc','emo','flag','who'].includes(q.type))return;p.jk.fifty--;const rm=shuffle(q.opts.map((_,j)=>j).filter(j=>j!==q.ok)).slice(0,2);sendTo(p.id,{t:'fifty',rm})}
+ else if(k==='dbl'){p.jk.dbl--;p.dbl=ON.qi;sendTo(p.id,{t:'jkok',k})}}
+function sendTo(id,m){if(id==='host')guestData(m,true);else{const c=ON.conns[id];if(c)try{c.send(m)}catch(e){}}}
+function rankOrder(arr){const ko=(ON.cfg||{}).mode==='ko';return[...arr].sort((a,b)=>ko&&a.out!==b.out?(a.out?1:-1):ko&&a.out&&b.outAt!==b.outAt?b.outAt-a.outAt:b.score-a.score)}
+function teamScores(pl){return[0,1].map(t=>{const m=pl.filter(p=>p.team===t);return m.length?Math.round(m.reduce((s,p)=>s+p.score,0)/m.length):0})}
+function hostReveal(){if(!ON||ON.state!=='q')return;clearT();ON.state='rev';const q=ON.cq,c=ON.cfg;const mult=(c.mode==='turbo'?1.5:1)*(ON.fin?2:1);
+ const before=rankOrder(ON.players).map(p=>p.id),picks={};let closest=[];
+ if(q.type==='est'){const errs=ON.players.filter(p=>!p.out&&ON.ans[p.id]).map(p=>Math.abs(ON.ans[p.id].v-q.ans));const mn=errs.length?Math.min(...errs):null;closest=ON.players.filter(p=>!p.out&&ON.ans[p.id]&&Math.abs(ON.ans[p.id].v-q.ans)===mn).map(p=>p.id)}
+ ON.players.forEach(p=>{if(p.out){p.last=null;return}const a=ON.ans[p.id];const v=a?a.v:-1;if(a)picks[p.id]=v;let right=false,pts=0,bonus=0,bet=0;
+  if(q.type==='est'){if(a){const err=Math.abs(v-q.ans);right=err<=q.tol+1e-9||closest.includes(p.id);pts=Math.round(1000*Math.max(0,1-err/((q.max-q.min)/4)));if(closest.includes(p.id))pts+=200}}
+  else{right=!!a&&v===q.ok;if(right){if(q.type==='who'){const k=Math.min(4,Math.floor(a.ms/(ON.dur*1000/4))+1);pts=(5-k)*250}else pts=c.speed?Math.round(500+500*Math.max(0,1-a.ms/(ON.dur*1000))):1000}}
+  pts=Math.round(pts*mult);if(right&&p.dbl===ON.qi)pts*=2;
+  if(right){p.st++;p.best=Math.max(p.best,p.st);p.cor++;p.ms+=a?a.ms:0;if(c.streak&&p.st>=2)bonus=Math.min(500,(p.st-1)*100)}else p.st=0;
+  if(c.wett&&ON.bets&&ON.bets[p.id]){bet=right?ON.bets[p.id]:-ON.bets[p.id]}
+  const pen=c.pen&&!right&&a?-200:0;const tot=pts+bonus+bet+pen;p.score=Math.max(0,p.score+tot);p.last={right,pts:tot,bonus,bet,pen,none:!a,dbl:p.dbl===ON.qi&&right}});
+ let koOut=[],saved=[];if(c.mode==='ko'){const alive=ON.players.filter(p=>!p.out);if(alive.some(p=>p.last&&p.last.right)){alive.filter(p=>!p.last||!p.last.right).forEach(p=>{if(c.jok&&p.jk&&p.jk.shield>0){p.jk.shield--;saved.push(p.id)}else{p.out=true;p.outAt=ON.qi+1;koOut.push(p.id)}})}}
+ const after=rankOrder(ON.players).map(p=>p.id);ON.players.forEach(p=>p.mv=before.indexOf(p.id)-after.indexOf(p.id));
+ const last=ON.qi>=qTotal()-1||(c.mode==='ko'&&ON.players.length>1&&aliveN()<=1);
+ const m={t:'rev',i:ON.qi,kind:q.type,ok:q.type==='est'?q.ans:q.ok,unit:q.unit||'',info:q.info||'',picks,closest,koOut,saved,last,fin:ON.fin,players:pubPlayers()};hostBroadcast(m);showReveal(m);if(c.auto)ON.auto=setTimeout(hostNext,last?7000:10000)}
+function awards(){const pl=ON.players,a=[];const fast=pl.filter(p=>p.cor>0).sort((x,y)=>x.ms/x.cor-y.ms/y.cor)[0];if(fast)a.push(['⚡','Blitzmerker',fast.name,(fast.ms/fast.cor/1000).toFixed(1).replace('.',',')+' s im Schnitt']);
+ const st=[...pl].sort((x,y)=>y.best-x.best)[0];if(st&&st.best>=2)a.push(['🔥','Längste Serie',st.name,st.best+' richtig am Stück']);
+ const ac=[...pl].sort((x,y)=>y.cor-x.cor)[0];if(ac&&ac.cor>0)a.push(['🎯','Treffsicher',ac.name,ac.cor+' richtige Antworten']);
+ const lo=[...pl].sort((x,y)=>x.cor-y.cor)[0];if(lo&&pl.length>2&&lo!==ac)a.push(['🍀','Beim nächsten Mal',lo.name,'Kopf hoch!']);return a}
+function hostEnd(){ON.state='end';clearT();const m={t:'end',players:pubPlayers(),mode:ON.cfg.mode,awards:awards()};hostBroadcast(m);showEnd(m)}
+function hostLobbyAgain(){if(!ON||ON.role!=='host')return;ON.players.forEach(resetP);ON.soloOk=false;hostBroadcast({t:'lobby',players:pubPlayers(),cfg:ON.cfg,back:true});renderLobby()}
+/* ----- Gast ----- */
+async function joinRoom(code){const name=myName();netMsg('⏳ Verbinde mit Raum '+code+'…');try{await loadPeer()}catch(e){netMsg(LOADERR,true);return}
  const peer=new Peer(undefined,{config:ICE,debug:0});ON={role:'guest',code,peer,players:[],state:'join',name};
  peer.on('open',id=>{if(!ON||ON.peer!==peer)return;ON.me=id;const conn=peer.connect('quizarena-'+code,{reliable:true,serialization:'json'});ON.conn=conn;
-  conn.on('open',()=>conn.send({t:'hello',name}));conn.on('data',guestData);conn.on('close',()=>{if(ON&&ON.conn===conn&&ON.state!=='left'){toast('🔌 Verbindung zum Host getrennt');leaveOnline()}});
+  conn.on('open',()=>conn.send({t:'hello',name,ava:P.ava,look:myLook()}));conn.on('data',guestData);conn.on('close',()=>{if(ON&&ON.conn===conn&&ON.state!=='left'){toast('🔌 Verbindung zum Host getrennt');leaveOnline()}});
   ON.joinTO=setTimeout(()=>{if(ON&&ON.state==='join'){netMsg('❌ Keine Verbindung zu Raum '+code+'. Stimmt der Code? Ist der Host noch im Raum? Versuch es nochmal oder wechsle zwischen WLAN und mobilen Daten.',true);try{peer.destroy()}catch(e){}ON=null}},15000)});
  peer.on('error',e=>{if(!ON||ON.peer!==peer)return;if(e.type==='peer-unavailable'){netMsg('❌ Raum '+code+' gibt es nicht (mehr). Code prüfen!',true);clearTimeout(ON.joinTO);try{peer.destroy()}catch(x){}ON=null;return}netMsg('❌ Verbindungsproblem: '+(e.type||e.message||e),true)})}
-function guestData(d){if(!ON||!d)return;
- if(d.t==='welcome'){clearTimeout(ON.joinTO);ON.me=d.you;ON.players=d.players;ON.state='lobby';sfx('ok');renderLobby();return}
+function guestData(d,self){if(!ON||!d)return;
+ if(d.t==='fifty'){(d.rm||[]).forEach(j=>{const b=$('a'+j);if(b){b.classList.add('gone');b.disabled=true}});ON.my&&(ON.my.jk='fifty');jkUsed('fifty');return}
+ if(d.t==='jkok'){jkUsed(d.k);toast('⭐ Doppelte Punkte aktiv!');return}
+ if(self)return;
+ if(d.t==='welcome'){clearTimeout(ON.joinTO);ON.me=d.you;ON.players=d.players;ON.cfg=d.cfg;sfx('ok');ON.state=d.state!=='lobby'?'wait':'lobby';renderLobby();return}
  if(d.t==='full'){netMsg('❌ Der Raum ist voll (12 Spieler).',true);return}
  if(d.t==='bye'){ON.state='left';toast('🚪 Der Host hat den Raum geschlossen');leaveOnline();return}
- if(d.t==='lobby'){ON.players=d.players;if(ON.state==='lobby'||d.back)renderLobby();return}
- if(d.t==='q'){ON.players=ON.players;showOnlineQ(d);return}
+ if(d.t==='kick'){ON.state='left';toast('🚪 Du wurdest aus dem Raum entfernt');leaveOnline();return}
+ if(d.t==='emo'||d.t==='quip'){showFx(d);return}
+ if(d.t==='lobby'){ON.players=d.players;if(d.cfg)ON.cfg=d.cfg;if(ON.state==='lobby'||ON.state==='wait'||d.back){if(d.back)ON.state='lobby';renderLobby()}return}
+ if(d.t==='wheel'){showWheel(d);return}
+ if(d.t==='vote'){showVote(d);return}
+ if(d.t==='vcnt'){showVoteCnt(d.votes);return}
+ if(d.t==='voted'){showVoted(d);return}
+ if(d.t==='bet'){ON.players=d.players;showBet(d);return}
+ if(d.t==='q'){ON.cfg=d.cfg||ON.cfg;showOnlineQ(d);return}
+ if(d.t==='all'){allMsg();return}
  if(d.t==='cnt'){const e=$('ocnt');if(e)e.textContent=`${d.c}/${d.n} haben geantwortet`;return}
- if(d.t==='rev'){ON.players=d.players;showReveal(d);return}
- if(d.t==='end'){ON.players=d.players;showEnd(d)}}
-function showOnlineQ(m){ON.state='q';ON.cur={...m.q,i:m.i};ON.my={v:null,t0:performance.now()};const q=ON.cur;const C=catOf(q.cat)||CATS[0];G={mode:'online',qs:[q],i:0,answered:false};
- view(`<div class="qhead"><button class="back" data-a="oleave">✕</button><span class="chip">Frage ${m.i+1}/${m.n}</span><span style="flex:1"></span><span class="chip">🌐 ${ON.code}</span></div><div class="timer" id="tw"><i id="tb" style="width:100%"></i></div>
- ${qcardHTML(q,C)}${ansHTML(q,'oans')}<div id="after"></div><div id="ocnt" class="xs mut" style="text-align:center;margin-top:10px"></div>`);
- const dur=(m.dur||20)*1000,t0=performance.now();let last=-1;const loop=now=>{if(!ON||!G||G.mode!=='online'||ON.state!=='q')return;const left=(dur-(now-t0))/1000;const tb=$('tb');if(tb){tb.style.width=clamp(left/(dur/1000)*100,0,100)+'%';$('tw').className='timer'+(left<5?' warn':'')}if(left<5&&Math.ceil(left)!==last&&!G.answered){last=Math.ceil(left);sfx('tick')}if(left<=0){if(!G.answered)onlineAnswer(-1);return}TIMER=requestAnimationFrame(loop)};TIMER=requestAnimationFrame(loop)}
-function onlineAnswer(raw){if(!ON||!G||G.answered||ON.state!=='q')return;G.answered=true;const v=raw===-1||raw==='-1'?-1:+raw;const ms=performance.now()-ON.my.t0;ON.my.v=v;
- document.querySelectorAll('.a').forEach(b=>b.disabled=true);if(v>=0&&$('a'+v))$('a'+v).classList.add('lock');sfx('lock');
- $('after').innerHTML=`<div class="info" style="text-align:center">${v<0?'⏰ Zeit abgelaufen':'✔ Antwort abgegeben'} – warte auf die anderen…</div>`;
- if(ON.role==='host'){if(!ON.ans.host)ON.ans.host={v,ms};afterAnswer()}else{try{ON.conn.send({t:'ans',i:ON.cur.i,v,ms})}catch(e){}}}
-function board(players,meId,showLast){return[...players].sort((a,b)=>b.score-a.score).map((p,k)=>`<div class="line it sm"><span>${['🥇','🥈','🥉'][k]||(k+1)+'.'} ${p.id===meId?'<b>':''}${esc(p.name)}${p.id===meId?' (du)</b>':''}</span><span>${showLast&&p.last?`<span class="${p.last.right?'pos':'neg'} xs">${p.last.right?'+'+p.last.pts:'✘'}</span> `:''}<b>${p.score}</b></span></div>`).join('')}
-function showReveal(m){if(!ON||!ON.cur)return;ON.state='rev';stopTimer();const q={...ON.cur,ok:m.ok,info:m.info};G={mode:'online',qs:[q],i:0,answered:true};const v=ON.my?ON.my.v:null;const right=v===m.ok;
- document.querySelectorAll('.a.lock').forEach(b=>b.classList.remove('lock'));if(document.querySelector('.a'))markAns(q,v==null?-1:v,right);if(v!=null&&q.id){const full=Q.find(x=>x.id===q.id);if(full)record(full,right)}sfx(right?'ok':'no');
- const meId=ON.role==='host'?'host':ON.me;const tot=m.counts.reduce((a,b)=>a+b,0)||1;
- $('after').innerHTML=`<div style="text-align:center;margin-top:8px" class="${right?'pos':'neg'}"><b>${right?'Richtig!':v===-1||v==null?'⏰ Keine Antwort':'Leider falsch!'}</b></div>${m.info?`<div class="info">💡 ${esc(m.info)}</div>`:''}
-  <div class="xs mut" style="margin-top:8px">${q.opts.map((o,i)=>`${'ABCD'[i]||''}: ${m.counts[i]}`).join(' · ')} Stimmen</div>
-  <div class="card" style="margin-top:8px">${board(m.players,meId,true)}</div>${ON.role==='host'?`<button class="btn" style="width:100%" data-a="onext">${m.last?'🏁 Zum Ergebnis':'Nächste Frage →'}</button><div class="xs mut" style="text-align:center;margin-top:4px">geht automatisch weiter…</div>`:'<div class="xs mut" style="text-align:center">Gleich geht es weiter…</div>'}`;$('ocnt')&&($('ocnt').textContent='')}
-function showEnd(m){if(!ON)return;ON.state='end';stopTimer();const meId=ON.role==='host'?'host':ON.me;const s=[...m.players].sort((a,b)=>b.score-a.score);const pos=s.findIndex(p=>p.id===meId)+1;
- if(pos===1){confetti(200);sfx('win')}const coins=pos===1?60:pos<=3?30:10;P.coins+=coins;P.xp+=40;unlock('party');checkAch();save();G={mode:'done'};
- view(`<div class="top"><h2>🌐 Online-Ergebnis</h2></div><div class="card" style="text-align:center"><div style="font-size:46px">${pos===1?'🏆':pos<=3?'🎉':'💪'}</div><h2 style="margin:4px 0">${esc(s[0].name)} gewinnt!</h2><div class="sm mut">Du bist auf Platz ${pos} von ${s.length} · +${coins} 🪙</div></div>
- <div class="card">${board(m.players,meId,false)}</div>${ON.role==='host'?'<div class="row"><button class="btn" style="flex:1" data-a="oagain">🔁 Neue Runde</button><button class="btn alt" style="flex:1" data-a="oleave">Raum schließen</button></div>':'<div class="card sm mut" style="text-align:center">Warte, ob der Host eine neue Runde startet…</div><button class="btn alt" style="width:100%" data-a="oleave">Raum verlassen</button>'}`)}
+ if(d.t==='rev'){showReveal(d);return}
+ if(d.t==='end'){showEnd(d)}}
+/* ----- Phasen-Anzeigen ----- */
+function phaseHead(t){return`<div class="qhead"><button class="back" data-a="oleave">✕</button><span class="chip">${t}</span><span style="flex:1"></span><span class="chip">🌐 ${ON.code}</span></div>`}
+function showWheel(m){ON.state='wheel';stopTimer();G={mode:'online'};const cs=m.cats.map(k=>catOf(k)||CATS[0]);
+ view(`${phaseHead('🎡 Glücksrad')}<div class="card" style="text-align:center;padding:28px 12px"><div class="sm mut">Die nächste Kategorie ist…</div><div id="wlab" class="wlab">🎲</div><div class="row" style="justify-content:center;gap:4px;margin-top:10px">${cs.map((c,i)=>`<span class="chip" id="wc${i}" style="background:${c.c[1]}">${c.ic}</span>`).join('')}</div></div>`);
+ let i=0,delay=60;const total=Date.now()+2800;const step=()=>{if(!ON||ON.state!=='wheel'||!$('wlab'))return;const done=Date.now()>=total&&i%cs.length===m.win;const c=cs[i%cs.length];$('wlab').innerHTML=`${c.ic} ${esc(c.n)}`;$('wlab').style.color=c.c[0];document.querySelectorAll('[id^=wc]').forEach((e,j)=>e.style.outline=j===i%cs.length?'2px solid #fff':'none');sfx('tick');
+  if(done){$('wlab').classList.add('win');confetti(60);sfx('ok');return}i++;delay=Date.now()>total-1200?delay*1.18:delay;setTimeout(step,Math.min(delay,320))};step()}
+function showVote(m){ON.state='vote';stopTimer();G={mode:'online'};ON.myVote=null;const me=meP();const spect=!me||me.out;
+ view(`${phaseHead('🗳️ Abstimmung')}<div class="card" style="text-align:center"><b>Welche Kategorie kommt als Nächstes?</b><div class="xs mut">${spect?'Du schaust zu 👻':'Tippe auf deinen Favoriten'}</div></div><div class="timer" id="tw"><i id="tb" style="width:100%"></i></div>
+ ${m.opts.map(k=>{const c=catOf(k)||CATS[0];return`<button class="cat vopt" id="v_${k}" style="width:100%;margin-bottom:8px;background:linear-gradient(135deg,${c.c[0]},${c.c[1]});min-height:64px" data-a="ovote|${k}" ${spect?'disabled':''}><b style="font-size:18px">${c.ic} ${esc(c.n)}</b><div class="vheads" id="vh_${k}"></div></button>`}).join('')}`);
+ bar(m.dur)}
+function bar(dur){const t0=performance.now();const loop=now=>{const tb=$('tb');if(!tb)return;const left=1-(now-t0)/(dur*1000);tb.style.width=clamp(left*100,0,100)+'%';if(left>0)TIMER=requestAnimationFrame(loop)};stopTimer();TIMER=requestAnimationFrame(loop)}
+function castVote(k){if(!ON||ON.state!=='vote')return;ON.myVote=k;document.querySelectorAll('.vopt').forEach(b=>b.classList.toggle('sel',b.id==='v_'+k));sfx('lock');if(ON.role==='host'){ON.votes.host=k;hostVoteCount()}else try{ON.conn.send({t:'vote',k})}catch(e){}}
+function showVoteCnt(votes){Object.keys(votes||{}).length;document.querySelectorAll('.vheads').forEach(e=>e.innerHTML='');Object.entries(votes||{}).forEach(([id,k])=>{const p=ON.players.find(x=>x.id===id);const e=$('vh_'+k);if(p&&e)e.innerHTML+=`<span>${p.ava}</span>`})}
+function showVoted(m){ON.state='voted';stopTimer();const c=catOf(m.k)||CATS[0];document.querySelectorAll('.vopt').forEach(b=>{b.disabled=true;b.style.opacity=b.id==='v_'+m.k?1:.35});sfx('ok');
+ const e=document.querySelector('.card b');if(e)e.innerHTML=`Gewonnen: ${c.ic} ${esc(c.n)} (${m.cnt[m.k]} Stimme${m.cnt[m.k]===1?'':'n'})`}
+function betOpts(p){return[0,200,500,1000]}
+function showBet(m){ON.state='bet';stopTimer();G={mode:'online'};const me=meP();const spect=!me||me.out;const C=catOf(m.cat)||null;ON.myBet=null;
+ view(`${phaseHead('💰 Wetten')}<div class="card" style="text-align:center;padding:18px"><div class="sm mut">Nächste Frage aus</div><div style="font-size:22px;font-weight:800;margin:4px 0">${C?C.ic+' '+esc(C.n):'🎲 Bunt gemischt'}</div><div class="sm">Wie viel setzt du? Richtig = Einsatz dazu, falsch = Einsatz weg.</div>${me?`<div class="xs mut" style="margin-top:4px">Deine Punkte: ${me.score}</div>`:''}</div>
+ <div class="timer" id="tw"><i id="tb" style="width:100%"></i></div>${spect?'<div class="card" style="text-align:center">👻 Du schaust zu</div>':`<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">${betOpts(me).map((v,i)=>`<button class="btn ${i===3?'gold':'alt'} bopt" id="b${i}" style="padding:16px" data-a="obet|${v}|${i}"><b>${['🙅 Nichts','🤏 Ein bisschen','🤞 Mutig','🔥 Alles oder nichts'][i]}</b><br>${v} Punkte</button>`).join('')}</div>`}`);bar(m.dur)}
+function castBet(v,i){if(!ON||ON.state!=='bet')return;ON.myBet=+v;document.querySelectorAll('.bopt').forEach(b=>b.classList.toggle('sel',b.id==='b'+i));sfx('lock');if(ON.role==='host'){ON.bets.host=clamp(+v,0,betMax(meP()));hostBetCount()}else try{ON.conn.send({t:'bet',v:+v})}catch(e){}}
+/* ----- Frage ----- */
+function khAns(q,dis){const tf=q.type==='tf';return`<div class="ans kh" id="kh" ${tf?'style="grid-template-columns:1fr 1fr"':''}>${q.opts.map((o,i)=>{const k=tf?(i?0:1):i;return`<button class="a" id="a${i}" data-a="oans|${i}" ${dis?'disabled':''} style="background:${KH[k]};color:#fff;box-shadow:0 4px 0 rgba(0,0,0,.35);${tf?'justify-content:center;font-size:18px;padding:20px':''}"><span class="l" style="background:rgba(0,0,0,.22);color:#fff">${KS[k]}</span><span style="flex:1">${esc(o)}</span><span class="who" id="w${i}"></span></button>`}).join('')}</div>`}
+function fmtE(v,u){return /Jahr/.test(u||'')?String(Math.round(+v)):fmtN(v)}
+function estUI(q,dis){const mid=Math.round(((q.min+q.max)/2)/q.step)*q.step;return`<div class="card" style="text-align:center" id="estc"><div class="big" id="oev" style="font-size:34px">${fmtE(mid,q.unit)} <span style="font-size:17px">${esc(q.unit)}</span></div>
+ <input type="range" id="oer" min="${q.min}" max="${q.max}" step="${q.step}" value="${mid}" style="width:100%;accent-color:var(--acc)" ${dis?'disabled':''} oninput="$('oev').innerHTML=fmtE(this.value,ON.cur.unit)+' <span style=&quot;font-size:17px&quot;>'+esc(ON.cur.unit)+'</span>'">
+ <div class="line xs mut"><span>${fmtE(q.min,q.unit)}</span><span>${fmtE(q.max,q.unit)}</span></div><div class="row" style="justify-content:center;margin-top:6px"><button class="btn alt s" data-a="oestd|-10">−−</button><button class="btn alt s" data-a="oestd|-1">−</button><button class="btn alt s" data-a="oestd|1">+</button><button class="btn alt s" data-a="oestd|10">++</button></div>
+ <button class="btn" style="width:100%;margin-top:10px" id="oeb" data-a="oest" ${dis?'disabled':''}>🎯 Tipp abgeben</button><div id="estr" class="who" style="margin-top:8px;font-size:16px"></div></div>`}
+function estNudge(k){const r=$('oer');if(!r||r.disabled)return;const st=+r.step;r.value=clamp(+r.value+k*st,+r.min,+r.max);r.oninput()}
+function jkBar(me,q){if(!ON.cfg||!ON.cfg.jok||!me||me.out)return'';const j=me.jk||{};const ff=['mc','emo','flag','who'].includes(q.type);
+ return`<div class="row" id="jkb" style="justify-content:center;gap:6px;margin-top:8px"><button class="jk" id="jk_fifty" data-a="ojk|fifty" ${!(j.fifty>0)||!ff?'disabled':''}>✂️ 50:50</button><button class="jk" id="jk_dbl" data-a="ojk|dbl" ${!(j.dbl>0)?'disabled':''}>⭐ ×2</button>${ON.cfg.mode==='ko'?`<span class="jk" style="opacity:${j.shield>0?1:.4}">🛡️ ${j.shield>0?'Schild bereit':'Schild weg'}</span>`:''}</div>`}
+function useJoker(k){if(!ON||ON.state!=='q'||!ON.cur)return;const b=$('jk_'+k);if(b)b.disabled=true;if(ON.role==='host')hostJoker(meP(),k,ON.cur.i);else try{ON.conn.send({t:'jk',k,i:ON.cur.i})}catch(e){}}
+function jkUsed(k){const b=$('jk_'+k);if(b){b.disabled=true;b.classList.add('used')}const me=meP();if(me&&me.jk&&ON.role!=='host')me.jk[k]=Math.max(0,(me.jk[k]||0)-1)}
+function showOnlineQ(m){ON.state='q';if(ON.role!=='host')ON.players=m.players;ON.cfg=ON.cfg||{};ON.cfg.mode=m.mode;ON.cur={...m.q,i:m.i};ON.my={v:null,t0:performance.now()};const q=ON.cur;const C=catOf(q.cat)||CATS[0];const me=meP();const spect=!me||me.out;
+ G={mode:'online',qs:[q],i:0,answered:spect};const bet=m.bets&&me?m.bets[me.id]:0;
+ const card=q.type==='who'?`<div class="qcard"><div class="ct" style="color:#f59e0b">🕵️ Wer bin ich? ${'●'.repeat(q.d)}</div><div id="clues">${q.clues.map((c,i)=>`<div class="clue ${i?'hid':''}" id="cl${i}">💡 ${esc(c)}</div>`).join('')}</div><div class="xs mut" id="clpts" style="margin-top:6px">Hinweis 1/4 · jetzt 1000 Punkte</div></div>`:qcardHTML(q,C);
+ view(`<div class="qhead"><button class="back" data-a="oleave">✕</button><span class="chip">${m.n?`Frage ${m.i+1}/${m.n}`:`💀 Runde ${m.i+1} · ${m.players.filter(p=>!p.out).length} übrig`}</span><span style="flex:1"></span>${m.mode==='team'&&me?teamBadge(me.team):''}${me&&me.st>=2?`<span class="chip">🔥${me.st}</span>`:''}${bet?`<span class="chip">💰${bet}</span>`:''}<span class="chip">🌐 ${ON.code}</span></div>
+ ${m.fin?'<div class="card" style="text-align:center;background:linear-gradient(135deg,#f59e0b,#b45309);color:#fff;padding:10px"><b>🏆 FINALE – doppelte Punkte!</b></div>':''}
+ ${spect?'<div class="card" style="text-align:center;padding:10px">👻 Du bist raus – schau zu, wer gewinnt!</div>':''}
+ <div class="timer" id="tw"><i id="tb" style="width:100%"></i></div>${card}${q.type==='est'?estUI(q,spect):khAns(q,spect)}${jkBar(me,q)}<div id="after"></div><div id="ocnt" class="xs mut" style="text-align:center;margin-top:10px"></div>`);
+ sfx('tick');const dur=(m.dur||20)*1000,t0=performance.now();let last=-1,shown=1;const loop=now=>{if(!ON||!G||G.mode!=='online'||ON.state!=='q')return;const el=now-t0,left=(dur-el)/1000;const tb=$('tb');if(tb){tb.style.width=clamp(left/(dur/1000)*100,0,100)+'%';$('tw').className='timer'+(left<5?' warn':'')}
+  if(q.type==='who'){const k=Math.min(4,Math.floor(el/(dur/4))+1);if(k>shown){for(let j=shown;j<k;j++){const c=$('cl'+j);if(c)c.classList.remove('hid')}shown=k;sfx('tick');const e=$('clpts');if(e)e.textContent=`Hinweis ${k}/4 · jetzt ${(5-k)*250} Punkte`}}
+  if(left<5&&Math.ceil(left)!==last&&!G.answered){last=Math.ceil(left);sfx('tick')}if(left<=0){if(!G.answered)onlineAnswer(-1);else timeUp();return}TIMER=requestAnimationFrame(loop)};TIMER=requestAnimationFrame(loop)}
+function teamBadge(t){const T=TEAMS[t];return`<span class="chip" style="background:${T[2]};color:#fff">${T[0]} ${T[1]}</span>`}
+function timeUp(){if(!ON||!ON.my)return;ON.my.up=true;document.querySelectorAll('#kh .a,#oeb,#oer,[data-a^=oestd],#jkb .jk').forEach(b=>b.disabled=true);const a=$('after');if(a&&ON.state==='q')a.innerHTML=`<div class="info" style="text-align:center">⏰ Zeit um – gleich kommt die Auflösung…</div>`}
+function sendAns(v,first){const ms=performance.now()-ON.my.t0;ON.my.v=v;sfx('lock');const ch=ON.cfg&&ON.cfg.change!==false;
+ $('after').innerHTML=`<div class="info" style="text-align:center">${first?'✔ Antwort abgegeben':'🔄 Umgestimmt'}${ch?' – du kannst bis zum Schluss noch umstimmen':' – warte auf die anderen…'}</div>`;
+ if(!ch){document.querySelectorAll('#kh .a,#oeb,#oer,[data-a^=oestd]').forEach(b=>b.disabled=true)}
+ if(ON.role==='host')hostTakeAns(meP(),{v,ms,i:ON.cur.i});else{try{ON.conn.send({t:'ans',i:ON.cur.i,v,ms})}catch(e){}}}
+function onlineAnswer(raw){if(!ON||!G||ON.state!=='q'||!ON.my||ON.my.up)return;const me=meP();if(!me||me.out)return;const v=raw===-1||raw==='-1'?-1:+raw;
+ if(v<0){G.answered=true;timeUp();if(ON.my.v==null)sfx('no');return}
+ if(ON.my.v===v)return;if(G.answered&&ON.cfg&&ON.cfg.change===false)return;const first=!G.answered;G.answered=true;
+ document.querySelectorAll('#kh .a').forEach(b=>b.classList.remove('lock'));$('kh')&&$('kh').classList.add('done');if($('a'+v))$('a'+v).classList.add('lock');sendAns(v,first)}
+function onlineEst(){if(!ON||!G||ON.state!=='q'||!ON.my||ON.my.up)return;const me=meP();if(!me||me.out)return;const v=+$('oer').value;if(ON.my.v===v)return;if(G.answered&&ON.cfg&&ON.cfg.change===false)return;const first=!G.answered;G.answered=true;sendAns(v,first);$('oeb').textContent='🎯 Tipp ändern'}
+/* ----- Auflösung ----- */
+function chipP(p,extra){return`<span class="pchip">${headH(p,20)} ${nameH(p)}${extra||''}</span>`}
+function board(players,showLast){const mode=(ON.cfg||{}).mode;return rankOrder(players).map((p,k)=>`<div class="line it sm" ${p.out&&mode==='ko'?'style="opacity:.5"':''}><span>${p.out&&mode==='ko'?'💀':['🥇','🥈','🥉'][k]||(k+1)+'.'} ${headH(p,24)} ${p.id===meId()?'<b>':''}${nameH(p)}${p.id===meId()?' (du)</b>':''}${mode==='team'?' '+TEAMS[p.team][0]:''}${p.st>=2?` <span class="xs">🔥${p.st}</span>`:''}${showLast&&p.mv>0?` <span class="pos xs">▲${p.mv}</span>`:showLast&&p.mv<0?` <span class="neg xs">▼${-p.mv}</span>`:''}</span><span>${showLast&&p.last?`<span class="${p.last.pts>0?'pos':'neg'} xs">${p.last.pts>0?'+'+p.last.pts:p.last.pts<0?p.last.pts:'✘'}</span> `:''}<b>${p.score}</b></span></div>`).join('')}
+function teamBar(pl){const s=teamScores(pl),tot=(s[0]+s[1])||1;return`<div class="card" style="padding:10px"><div class="line sm"><b>🔵 Blau Ø ${s[0]}</b><b>Ø ${s[1]} Rot 🔴</b></div><div style="display:flex;height:12px;border-radius:8px;overflow:hidden;margin-top:6px"><div style="width:${s[0]/tot*100}%;background:#2563eb"></div><div style="flex:1;background:#dc2626"></div></div></div>`}
+function lastTxt(l){let s=`+${Math.max(0,l.pts-(l.bet||0)-(l.pen||0))}`;if(l.bonus)s+=` · 🔥+${l.bonus}`;if(l.dbl)s+=' · ⭐×2';if(l.bet)s+=` · 💰${l.bet>0?'+':''}${l.bet}`;if(l.pen)s+=` · ➖${-l.pen}`;return s}
+function showReveal(m){if(!ON||!ON.cur)return;ON.state='rev';stopTimer();if(ON.role!=='host')ON.players=m.players;const q={...ON.cur};G={mode:'online',qs:[q],i:0,answered:true};const me=meP();const v=ON.my?ON.my.v:null;const ml=me&&me.last;const right=!!(ml&&ml.right);const spect=!me||(me.out&&!m.koOut.includes(me.id));
+ if(m.kind==='est'){const sorted=m.players.filter(p=>m.picks[p.id]!=null).sort((a,b)=>Math.abs(m.picks[a.id]-m.ok)-Math.abs(m.picks[b.id]-m.ok));const r=$('estr');document.querySelectorAll('#oer,#oeb,[data-a^=oestd]').forEach(b=>b.disabled=true);
+  const c=$('estc');if(c)c.innerHTML=`<div class="sm mut">Richtig ist</div><div class="big" style="font-size:36px;color:#4ade80">${fmtE(m.ok,m.unit)} <span style="font-size:17px">${esc(m.unit)}</span></div>${sorted.map((p,i)=>`<div class="line it sm"><span>${m.closest.includes(p.id)?'🎯':i+1+'.'} ${headH(p,22)} ${nameH(p)}</span><span>${fmtE(m.picks[p.id],m.unit)} <span class="xs mut">(${m.picks[p.id]===m.ok?'genau!':'±'+fmtN(Math.round(Math.abs(m.picks[p.id]-m.ok)*100)/100)})</span></span></div>`).join('')||'<div class="sm mut">Niemand hat getippt 😅</div>'}`}
+ else{const kh=$('kh');if(kh){kh.classList.add('done','rev');q.opts.forEach((_,i)=>{const b=$('a'+i);if(!b)return;b.disabled=true;b.classList.remove('lock','gone');if(i===m.ok)b.classList.add('right');else if(i===v)b.classList.add('mine');
+  const heads=m.players.filter(p=>m.picks[p.id]===i);$('w'+i).innerHTML=heads.map(p=>`<span title="${esc(p.name)}">${p.ava}</span>`).join('')+(heads.length?`<b class="xs" style="margin-left:4px">${heads.length}</b>`:'')})}
+  if(m.kind==='who')document.querySelectorAll('.clue').forEach(c=>c.classList.remove('hid'))}
+ document.querySelectorAll('#jkb').forEach(e=>e.remove());
+ if(!spect&&v!=null&&q.id){const full=Q.find(x=>x.id===q.id);if(full)record(full,right)}if(!spect)sfx(right?'ok':'no');
+ const act=m.players.filter(p=>p.last);const R=act.filter(p=>p.last.right),W=act.filter(p=>!p.last.right&&!p.last.none),N=act.filter(p=>p.last.none);
+ const pos=rankOrder(m.players).findIndex(p=>p.id===meId())+1;
+ const head=spect?'<b>👻 Zuschauer</b>':right?`<b style="font-size:20px">✔ Richtig! ${ml.pts>=0?'+':''}${ml.pts}</b><div class="xs">${lastTxt(ml)}</div>`:ml&&ml.none?`<b style="font-size:20px">⏰ Keine Antwort</b>${ml.bet?`<div class="xs">💰 ${ml.bet}</div>`:''}`:`<b style="font-size:20px">✘ Leider falsch!</b>${ml&&(ml.bet||ml.pen)?`<div class="xs">${ml.bet?'💰 '+ml.bet:''} ${ml.pen?'➖ '+(-ml.pen):''}</div>`:''}`;
+ $('after').innerHTML=`<div class="card" style="text-align:center;margin-top:8px;padding:10px;background:${spect?'var(--p2)':right?'#15803d':'#991b1b'};color:#fff">${head}${!spect?`<div class="xs" style="opacity:.9;margin-top:2px">Du bist auf Platz ${pos}</div>`:''}</div>
+  ${m.saved&&m.saved.length?`<div class="card sm" style="text-align:center;padding:10px">🛡️ Vom Schild gerettet: ${m.players.filter(p=>m.saved.includes(p.id)).map(p=>p.ava+' '+esc(p.name)).join(', ')}</div>`:''}
+  ${m.koOut.length?`<div class="card" style="text-align:center;padding:10px">${m.koOut.includes(meId())?'<b>💀 Du bist raus!</b><br>':''}<span class="sm">💀 Raus: ${m.players.filter(p=>m.koOut.includes(p.id)).map(p=>p.ava+' '+esc(p.name)).join(', ')}</span></div>`:ON.cfg&&ON.cfg.mode==='ko'&&act.length&&!R.length?'<div class="card sm" style="text-align:center;padding:10px">😅 Alle lagen falsch – niemand fliegt raus!</div>':''}
+  ${m.info?`<div class="info">💡 ${esc(m.info)}</div>`:''}
+  ${m.kind!=='est'?`<div class="card" style="padding:10px">${R.length?`<div class="sm"><b class="pos">✅ Richtig (${R.length}):</b></div><div class="pwrap">${R.map(p=>chipP(p,` <span class="pos xs">+${p.last.pts}</span>`)).join('')}</div>`:''}
+  ${W.length?`<div class="sm" style="margin-top:6px"><b class="neg">❌ Falsch (${W.length}):</b></div><div class="pwrap">${W.map(p=>chipP(p)).join('')}</div>`:''}
+  ${N.length?`<div class="sm" style="margin-top:6px"><b class="mut">⏰ Keine Antwort (${N.length}):</b></div><div class="pwrap">${N.map(p=>chipP(p)).join('')}</div>`:''}</div>`:''}
+  ${ON.cfg&&ON.cfg.mode==='team'?teamBar(m.players):''}<div class="card" style="margin-top:8px">${board(m.players,true)}</div>${emoBar()}
+  ${ON.role==='host'?`<button class="btn" style="width:100%;margin-top:8px" data-a="onext">${m.last?'🏁 Zum Ergebnis':'Nächste Frage →'}</button>${ON.cfg.auto?'<div class="xs mut" style="text-align:center;margin-top:4px">geht automatisch weiter…</div>':''}`:'<div class="xs mut" style="text-align:center;margin-top:6px">Gleich geht es weiter…</div>'}`;$('ocnt')&&($('ocnt').textContent='')}
+function showEnd(m){if(!ON)return;ON.state='end';stopTimer();if(ON.role!=='host')ON.players=m.players;if(ON.cfg)ON.cfg.mode=m.mode;const s=rankOrder(m.players);const pos=s.findIndex(p=>p.id===meId())+1;const me=meP();
+ let title=`${s[0].ava} ${esc(s[0].name)} gewinnt!`,won=pos===1;if(m.mode==='team'){const ts=teamScores(m.players);const wt=ts[0]===ts[1]?-1:ts[0]>ts[1]?0:1;title=wt<0?'🤝 Unentschieden!':`${TEAMS[wt][0]} Team ${TEAMS[wt][1]} gewinnt!`;won=me&&me.team===wt}
+ if(won){confetti(200);sfx('win')}const coins=won?60:pos<=3?30:10;P.coins+=coins;P.xp+=40;unlock('party');checkAch();save();G={mode:'done'};
+ view(`<div class="top"><h2>🌐 Online-Ergebnis</h2></div><div class="card" style="text-align:center"><h2 style="margin:4px 0">${title}</h2>
+ <div class="podium">${[1,0,2].map(k=>s[k]?`<div class="pod p${k}"><div class="pa">${headH(s[k],46)}</div><div class="pn">${nameH(s[k])}</div><div class="pb">${['🥇','🥈','🥉'][k]}<br><b>${s[k].score}</b></div></div>`:'<div class="pod"></div>').join('')}</div>
+ <div class="sm mut">Du bist auf Platz ${pos} von ${s.length} · +${coins} 🪙 · +40 XP</div></div>
+ ${m.mode==='team'?teamBar(m.players):''}${m.awards&&m.awards.length?`<div class="card"><h3 style="margin-top:0">🏅 Auszeichnungen</h3>${m.awards.map(a=>`<div class="line it sm"><span>${a[0]} <b>${a[1]}</b></span><span>${esc(a[2])} <span class="xs mut">${a[3]}</span></span></div>`).join('')}</div>`:''}
+ <div class="card">${board(m.players,false)}</div>${emoBar()}${ON.role==='host'?'<div class="row" style="margin-top:8px"><button class="btn" style="flex:1" data-a="oagain">🔁 Neue Runde</button><button class="btn alt" style="flex:1" data-a="oleave">Raum schließen</button></div>':'<div class="card sm mut" style="text-align:center;margin-top:8px">Warte, ob der Host eine neue Runde startet…</div><button class="btn alt" style="width:100%" data-a="oleave">Raum verlassen</button>'}`)}
 window.addEventListener('beforeunload',()=>{if(ON)try{leaveOnline(true)}catch(e){}});
 /* ---------- Statistik / Erfolge / Shop / Einstellungen ---------- */
 function stats(){const L=lvlInfo();view(`<div class="top"><button class="back" data-a="home">←</button><h2>📊 Statistik</h2></div>
@@ -2005,7 +2803,7 @@ function stats(){const L=lvlInfo();view(`<div class="top"><button class="back" d
  <div class="line sm it"><span>Duell-Siege</span><b>${BOTS.map(b=>b.ic+' '+(P.duelW[b.k]||0)).join(' · ')}</b></div></div>
  <div class="card"><h3>Kategorien</h3>${CATS.map(c=>{const s=P.cs[c.k]||{n:0,c:0};const pct=s.n?s.c/s.n:0;const st=s.n>=30&&pct>=.9?'🏆':s.n>=15&&pct>=.75?'🥇':s.n>=8&&pct>=.5?'🥈':s.n?'🥉':'';return`<div class="it"><div class="line sm"><span>${c.ic} ${c.n} ${st}</span><span class="mut">${s.c}/${s.n}</span></div><div class="bar"><i style="width:${pct*100}%;background:linear-gradient(90deg,${c.c[0]},${c.c[1]})"></i></div></div>`}).join('')}</div>`)}
 function achs(){view(`<div class="top"><button class="back" data-a="home">←</button><h2>🏅 Erfolge</h2><span class="chip">${Object.keys(P.ach).length}/${ACH.length}</span></div><div class="card">${ACH.map(a=>`<div class="ach ${P.ach[a.k]?'':'lock'}"><i>${a.ic}</i><div><b>${a.n}</b><div class="xs mut">${a.d}</div></div></div>`).join('')}</div><div class="xs mut" style="text-align:center">Jeder Erfolg bringt 100 🪙.</div>`)}
-function shop(){view(`<div class="top"><button class="back" data-a="home">←</button><h2>🛒 Shop</h2><span class="chip">🪙 ${P.coins}</span></div>
+function shop(){view(`<div class="top"><button class="back" data-a="home">←</button><h2>🛒 Shop</h2><span class="chip">🪙 ${P.coins}</span></div>${lookShop()}
  <div class="card"><h3>🃏 Joker</h3>${[['fifty','✂️ 50:50','Entfernt zwei falsche Antworten',60],['time','⏳ +10 Sekunden','Mehr Zeit (Schnelle Runde)',40],['skip','⏭️ Überspringen','Neue Frage ohne Strafe',50]].map(([k,n,d,c])=>`<div class="line it"><span>${n} <span class="xs mut">(hast ${P.jk[k]})</span><br><span class="xs mut">${d}</span></span><button class="btn s" data-a="buyjk|${k}|${c}" ${P.coins<c?'disabled':''}>🪙 ${c}</button></div>`).join('')}</div>
  <div class="card"><h3>🙂 Avatare</h3><div class="row">${AVAS.map(([a,c])=>{const own=P.owned.ava.includes(a);return`<button class="btn ${P.ava===a?'':'alt'} s" style="font-size:20px;min-width:62px" data-a="ava|${a}|${c}" ${!own&&P.coins<c?'disabled':''}>${a}${own?'':`<span style="font-size:10px;display:block">🪙${c}</span>`}</button>`}).join('')}</div></div>
  <div class="card"><h3>✨ Animierter Hintergrund</h3><div class="line"><span class="sm mut">Sanft wabernde Farbwolken hinter allem</span><button class="btn s ${P.anim?'':'alt'}" data-a="anim" ${!P.owned.anim&&P.coins<500?'disabled':''}>${P.owned.anim?(P.anim?'An':'Aus'):'🪙 500'}</button></div></div>
@@ -2017,6 +2815,7 @@ function settings(){view(`<div class="top"><button class="back" data-a="home">�
  <div class="card line"><span>${P.light?'☀️ Heller Modus':'🌙 Dunkler Modus'}</span><button class="btn s alt" data-a="light">${P.light?'Dunkel':'Hell'}</button></div>
  <div class="card"><b class="sm">🔠 Schriftgröße</b><div class="row" style="margin-top:6px">${[[0.9,'S'],[1,'M'],[1.12,'L'],[1.25,'XL']].map(([v,n])=>`<button class="btn s ${P.fs===v?'':'alt'}" data-a="fs|${v}">${n}</button>`).join('')}</div></div>
  <div class="card line"><span class="sm">🚫 Ausgeblendete Fragen: <b>${Object.keys(P.hidden).length}</b></span><button class="btn alt s" data-a="unhide" ${Object.keys(P.hidden).length?'':'disabled'}>Alle zeigen</button></div>
+ ${backupCard()}
  <div class="card"><b class="sm">Fortschritt zurücksetzen</b><div class="xs mut" style="margin:4px 0 8px">Löscht Level, Münzen, Statistik und Erfolge.</div><button class="btn alt s" style="background:#7f1d1d" data-a="resetask">🗑️ Zurücksetzen</button></div>`)}
 
 /* ====================== Aktionen ====================== */
@@ -2039,8 +2838,25 @@ document.addEventListener('click',e=>{const b=e.target.closest('[data-a]');if(!b
  case'oleave':leaveOnline();break;
  case'ostart':hostStart();break;
  case'onext':hostNext();break;
- case'ocat':ON.cfg.cat=$('ocsel').value;break;
- case'onum':ON.cfg.n=+p[1];renderLobby();break;
+ case'ocyc':cycCfg(p[1],+p[2]);break;
+ case'otype':{ON.cfg.types[p[1]]=!ON.cfg.types[p[1]];if(!OTYPES.some(t=>ON.cfg.types[t[0]]))ON.cfg.types.mc=true;hostCfg();break}
+ case'oreset':{const c=ON.cfg.cat;ON.cfg=defCfg();ON.cfg.cat=c;hostCfg();break}
+ case'ojk':useJoker(p[1]);break;
+ case'obet':castBet(p[1],p[2]);break;
+ case'ovote':castVote(p[1]);break;
+ case'oest':onlineEst();break;
+ case'oestd':estNudge(+p[1]);break;
+ case'oquip':sendFx('quip',p[1]);break;
+ case'look':buyLook(p[1],p.slice(2).join('|'));break;
+ case'bkcopy':{const t=backupCode();if(navigator.clipboard)navigator.clipboard.writeText(t).then(()=>toast('📋 Code kopiert'),()=>toast('Kopieren nicht möglich'));break}
+ case'bkshare':shareText(backupCode());break;
+ case'bkload':backupLoad();break;
+ case'dshare':dailyShare();break;
+ case'omode':ON.cfg.mode=p[1];hostCfg();break;
+ case'otog':ON.cfg[p[1]]=!ON.cfg[p[1]];hostCfg();break;
+ case'okick':hostKick(p[1]);break;
+ case'oemo':sendFx('emo',p[1]);break;
+ case'oava':{const n=$('oname')&&$('oname').value.trim();if(n)P.name=n;P.ava=p[1];save();onlineMenu();break}
  case'oshare':shareCode();break;
  case'oans':onlineAnswer(p[1]);break;
  case'oagain':hostLobbyAgain();break;
