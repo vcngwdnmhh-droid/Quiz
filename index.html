@@ -160,6 +160,9 @@ details.card>summary{cursor:pointer;font-weight:800;list-style:none;font-size:15
 .hlg{display:grid;grid-template-columns:1fr auto 1fr;gap:6px;align-items:center;margin-bottom:12px}.hlc{background:var(--p);border:2px solid var(--line);border-radius:16px;padding:12px 8px;text-align:center;min-height:130px;display:flex;flex-direction:column;justify-content:center;gap:2px}.hlc b{font-size:15px}.hlv{font-size:26px;font-weight:900;color:var(--acc2)}.hlc.up{border-color:#22c55e;background:#14532d66}.hlc.dn{border-color:#ef4444;background:#7f1d1d66}.hlvs{font-weight:900;color:var(--mut)}
 .slfx{background:rgba(255,255,255,.12);border:0;color:var(--t);border-radius:50%;width:20px;height:20px;font-size:11px;margin-left:5px;padding:0;line-height:20px}textarea.txt{font-family:inherit;font-size:15px}
 .slfL{font-size:64px;font-weight:900;line-height:1;color:var(--gold);text-shadow:0 4px 18px rgba(251,191,36,.4)}.slfrow{display:grid;grid-template-columns:110px 1fr;gap:8px;align-items:center;margin-bottom:6px}.slfrow label{font-weight:700}input.bad{border-color:#ef4444!important;background:#7f1d1d44}
+body.tv #app{max-width:760px}body.tv .emofab,body.tv .emopanel,body.tv #app input.txt,body.tv #app textarea,body.tv #schin,body.tv #liein,body.tv #drgin,body.tv #hlbtn,body.tv .slfrow,body.tv #slfstop,body.tv .dtools,body.tv #pkin,body.tv #pkj,body.tv #pkbt button,body.tv [data-a^="pkv|"],body.tv [data-a^="slfvo|"],body.tv [data-a="pkdone"],body.tv [data-a="schok"],body.tv .tvhide{display:none!important}
+body.tv #app button{pointer-events:none}body.tv #app [data-a="oleave"],body.tv #app .back{pointer-events:auto}
+.tvcode{font-size:72px;font-weight:900;letter-spacing:12px;line-height:1;color:var(--gold);text-shadow:0 6px 30px rgba(251,191,36,.35)}.tvurl{font-size:18px;font-weight:800;background:var(--p2);border-radius:12px;padding:8px 14px;display:inline-block;margin-top:8px;word-break:break-all}
 .pstack i.nw{animation:chipdrop .5s cubic-bezier(.3,1.4,.6,1) both}@keyframes chipdrop{from{transform:translateZ(calc(var(--z) + 90px));opacity:0}}
 .pstack .sv{position:absolute;left:0;top:0;transform:translate(-50%,-100%) translateZ(var(--z)) rotateX(calc(-1 * var(--tilt)));transform-origin:bottom center;background:#fff;color:#0f172a;border-radius:9px;padding:1px 7px;font-size:14px;font-weight:900;white-space:nowrap;border:2px solid var(--c)}
 .pseat{position:absolute;width:0;height:0;transform-style:preserve-3d;transition:opacity .3s}.pseat.fold{opacity:.55;filter:grayscale(.6)}
@@ -2642,17 +2645,21 @@ function mkP(id,name,ava,look){return{id,name,ava:ava||'🙂',look:look||{},scor
 function resetP(p){Object.assign(p,{score:0,last:null,st:0,best:0,cor:0,ms:0,mv:0,out:false,outAt:0,jk:{fifty:1,dbl:1,shield:1},m:null})}
 function meId(){return ON.role==='host'?'host':ON.me}
 function meP(){return ON.players.find(p=>p.id===meId())}
-function onlineMenu(){if(ON)leaveOnline(true);view(`<div class="top"><button class="back" data-a="home">←</button><h2>🌐 Online-Party</h2>${voiceChip()}</div>
+let TVJ=false;
+function tvZoom(){const on=!!(ON&&ON.tv);document.body.classList.toggle('tv',on);document.body.style.zoom=on?String(Math.max(1,Math.min(2.4,Math.min(innerWidth/780,innerHeight/560)))):''}
+window.addEventListener('resize',()=>{if(ON&&ON.tv)tvZoom()});
+function onlineMenu(){if(ON)leaveOnline(true);TVJ=false;tvZoom();view(`<div class="top"><button class="back" data-a="home">←</button><h2>🌐 Online-Party</h2>${voiceChip()}</div>
  <div class="card"><div class="prof">${headH({ava:P.ava,look:myLook()},52)}<div style="flex:1;min-width:0"><b class="sm">Dein Name</b><input class="txt" id="oname" style="margin-top:4px" maxlength="16" value="${esc(P.name)}" placeholder="Wie heißt du?"><div class="xs mut" style="margin-top:4px">${myLook().r} ${rankOf(lvlInfo().l)[1]}${P.title?' · „'+esc(P.title)+'“':''}</div></div></div>
  <div class="row" style="margin-top:10px;gap:6px">${P.owned.ava.map(a=>`<button class="btn s ${P.ava===a?'':'alt'}" style="font-size:22px;padding:6px 10px" data-a="oava|${a}">${a}</button>`).join('')}</div><div class="xs mut" style="margin-top:4px">Mehr Köpfe, Rahmen, Namensfarben und Titel gibt's im 🛒 Shop.</div></div>
  <div class="card"><h3>🔑 Raum beitreten</h3><div class="row" style="flex-wrap:nowrap"><input class="txt" id="ocode" inputmode="numeric" maxlength="4" placeholder="Code" style="font-size:24px;text-align:center;letter-spacing:6px;flex:1"><button class="btn" data-a="ojoin">Los!</button></div></div>
+ <details class="card"><summary>📺 Fernseher / großer Bildschirm <span class="xs mut">· optional</span></summary><div class="sm mut" style="margin:8px 0">Öffne diese Seite am Fernseher, Laptop oder Beamer und gib dort den Raumcode ein. Der Bildschirm zeigt dann alles groß für alle – er spielt nicht mit. Die Handys spielen ganz normal weiter.</div><div class="row" style="flex-wrap:nowrap"><input class="txt" id="otvcode" inputmode="numeric" maxlength="4" placeholder="Code" style="font-size:22px;text-align:center;letter-spacing:6px;flex:1"><button class="btn" data-a="otv">📺 Verbinden</button></div></details>
  <div class="card"><h3>🎤 Eigenen Raum erstellen</h3><div class="sm mut" style="margin-bottom:8px">Du bist der Host: Du wählst den Spielmodus (z. B. 💰 Wer wird Millionär?), deine Freunde kommen mit dem Raumcode rein – bis zu 12 Leute.</div><button class="btn gold" style="width:100%" data-a="ohost">Raum erstellen</button></div>
  <div id="onet" class="sm" style="text-align:center"></div>
  <details class="card"><summary>🎙️ Moderator-Stimme <span class="xs mut">· ${P.voice.on?'an':'aus'}</span></summary><div style="margin-top:8px">${voiceCard('om')}</div></details>
  <div class="card xs mut">ℹ️ Alle brauchen Internet, egal wo sie wohnen. Klappt es über mobile Daten nicht, hilft oft WLAN – oder umgekehrt.</div>`)}
 function netMsg(t,bad){const e=$('onet');if(e)e.innerHTML=`<div class="card ${bad?'neg':''}">${t}</div>`;else toast(t)}
 function clearT(){if(!ON)return;['timer','auto','allT','phT','mT'].forEach(k=>clearTimeout(ON[k]))}
-function leaveOnline(silent){if(!ON)return;sayStop();const rg=$('ringov');if(rg)rg.remove();try{clearT();clearTimeout(ON.joinTO);clearInterval(ON.hb);if(ON.conn)ON.conn.close();Object.values(ON.conns||{}).forEach(c=>{try{c.send({t:'bye'});c.close()}catch(e){}});ON.peer&&ON.peer.destroy();(ON.mq||[]).forEach(c=>setTimeout(()=>{try{c.end()}catch(e){}},400));if(ON.mqc)(c=>setTimeout(()=>{try{c.end(true)}catch(e){}},400))(ON.mqc)}catch(e){}ON=null;stopTimer();if(!silent)home()}
+function leaveOnline(silent){if(!ON)return;document.body.classList.remove('tv');document.body.style.zoom='';sayStop();const rg=$('ringov');if(rg)rg.remove();try{clearT();clearTimeout(ON.joinTO);clearInterval(ON.hb);if(ON.conn)ON.conn.close();Object.values(ON.conns||{}).forEach(c=>{try{c.send({t:'bye'});c.close()}catch(e){}});ON.peer&&ON.peer.destroy();(ON.mq||[]).forEach(c=>setTimeout(()=>{try{c.end()}catch(e){}},400));if(ON.mqc)(c=>setTimeout(()=>{try{c.end(true)}catch(e){}},400))(ON.mqc)}catch(e){}ON=null;stopTimer();if(!silent)home()}
 const LOADERR='❌ Die Online-Funktion konnte nicht geladen werden. Bist du online? (Im Claude-Vorschaufenster und in der iPhone-Dateivorschau ist sie blockiert – öffne den Link im Browser.)';
 const BROKERS=['wss://broker.emqx.io:8084/mqtt','wss://broker.hivemq.com:8884/mqtt','wss://test.mosquitto.org:8081/mqtt'];
 function loadMqtt(){return new Promise((res,rej)=>{if(window.mqtt)return res();const srcs=['https://unpkg.com/mqtt@5.10.1/dist/mqtt.min.js','https://cdn.jsdelivr.net/npm/mqtt@5.10.1/dist/mqtt.min.js'];let k=0;
@@ -2678,6 +2685,8 @@ function hostRelay(c,pl){if(!ON||ON.role!=='host')return;let o;try{o=JSON.parse(
  let conn=ON.rconns[id];if(!conn){if(o.m.t!=='hello')return;conn={peer:id,open:true,relay:true,seen:Date.now(),send:m=>{try{c.publish(RT(ON.code)+'/g/'+o.f,JSON.stringify(m))}catch(e){}},close(){}};ON.rconns[id]=conn}
  conn.seen=Date.now();if(o.m.t==='hb')return;if(o.m.t==='bye'){delete ON.rconns[id];dropPlayer(id);return}hostData(conn,o.m)}
 function hostData(conn,d){if(!ON||ON.role!=='host'||!d)return;const id=conn.peer;const p=ON.players.find(x=>x.id===id);
+ if(d.t==='hello'&&d.tv&&!p){ON.conns[id]=conn;ON.tvs=ON.tvs||{};ON.tvs[id]=1;conn.send({t:'welcome',code:ON.code,you:id,players:pubPlayers(),cfg:ON.cfg,state:ON.state,tv:1});sfx('ok');toast('📺 TV-Bildschirm verbunden');if(ON.state==='lobby')renderLobby();return}
+ if(ON.tvs&&ON.tvs[id])return;
  if(d.t==='hello'){if(ON.players.length>=12&&!p){conn.send({t:'full'});setTimeout(()=>conn.close(),300);return}let nm=String(d.name||'Gast').slice(0,16);if(ON.players.some(x=>x.name===nm&&x.id!==id))nm+=' '+(ON.players.length+1);
   if(Array.isArray(d.hist))d.hist.slice(-400).forEach(x=>{if(typeof x==='string'&&x.length<40)ON.ghs.add(x)});
   ON.conns[id]=conn;let q=p;if(!q){q=mkP(id,nm,String(d.ava||'🙂').slice(0,8),cleanLook(d.look));ON.players.push(q);
@@ -2693,7 +2702,7 @@ function hostData(conn,d){if(!ON||ON.role!=='host'||!d)return;const id=conn.peer
  if(d.t==='emo'||d.t==='quip'){const now=Date.now();if(now-(ON.emoT[id]||0)<500)return;if(d.t==='emo'&&!EMOS.includes(d.e))return;if(d.t==='quip'&&!QUIPS.includes(d.e))return;ON.emoT[id]=now;const m={t:d.t,e:d.e,a:p.ava,n:p.name};showFx(m);Object.entries(ON.conns).forEach(([k,c])=>{if(k!==id)try{c.send(m)}catch(e){}})}}
 function hostTakeAns(p,d){if(p.out||d.i!==ON.qi||ON.state!=='q')return;const q=ON.cq;let v=+d.v;if(!Number.isFinite(v))return;if(q.type==='est')v=clamp(v,q.min,q.max);else if(!(v>=0&&v<q.opts.length))return;
  if(ON.ans[p.id]&&!ON.cfg.change)return;ON.ans[p.id]={v,ms:clamp(+d.ms||ON.dur*1000,0,ON.dur*1000)};afterAnswer()}
-function dropPlayer(id){if(!ON||ON.role!=='host')return;const p=ON.players.find(x=>x.id===id);if(!p)return;ON.players=ON.players.filter(x=>x.id!==id);delete ON.conns[id];if(ON.rconns)delete ON.rconns[id];toast(`🚪 ${p.name} hat den Raum verlassen`);hostBroadcast({t:'lobby',players:pubPlayers(),cfg:ON.cfg});if(ON.state==='lobby')renderLobby();else if(ON.state==='q')afterAnswer();else if(ON.state==='bet')hostBetCount();else if(ON.state==='vote')hostVoteCount();else if(ON.state==='mq'||ON.state==='mdec')millCheck();else if(ON.state[0]==='p')pkDrop();else if(ON.state[0]==='g')gDrop()}
+function dropPlayer(id){if(!ON||ON.role!=='host')return;if(ON.tvs&&ON.tvs[id]){delete ON.tvs[id];delete ON.conns[id];if(ON.rconns)delete ON.rconns[id];toast('📺 TV-Bildschirm getrennt');if(ON.state==='lobby')renderLobby();return}const p=ON.players.find(x=>x.id===id);if(!p)return;ON.players=ON.players.filter(x=>x.id!==id);delete ON.conns[id];if(ON.rconns)delete ON.rconns[id];toast(`🚪 ${p.name} hat den Raum verlassen`);hostBroadcast({t:'lobby',players:pubPlayers(),cfg:ON.cfg});if(ON.state==='lobby')renderLobby();else if(ON.state==='q')afterAnswer();else if(ON.state==='bet')hostBetCount();else if(ON.state==='vote')hostVoteCount();else if(ON.state==='mq'||ON.state==='mdec')millCheck();else if(ON.state[0]==='p')pkDrop();else if(ON.state[0]==='g')gDrop()}
 function hostKick(id){if(!ON||ON.role!=='host'||id==='host')return;const c=ON.conns[id];if(c){try{c.send({t:'kick'})}catch(e){}setTimeout(()=>{try{c.close()}catch(e){}},300)}dropPlayer(id)}
 function pubPlayers(){return ON.players.map(p=>({id:p.id,name:p.name,ava:p.ava,look:p.look,score:p.score,last:p.last,st:p.st,best:p.best,mv:p.mv,out:p.out,outAt:p.outAt,team:p.team,cor:p.cor,jk:p.jk,m:p.m,pj:p.pj}))}
 function hostBroadcast(m){Object.values(ON.conns).forEach(c=>{try{c.open!==false&&c.send(m)}catch(e){}})}
@@ -2737,9 +2746,14 @@ function settingsHTML(ro){const c=ON.cfg;if(GMODES[c.mode])return gSettings(ro);
 function renderLobby(){if(!ON)return;G=null;ON.state='lobby';stopTimer();const c=ON.cfg;const n=ON.players.length;
  if(ON.role==='host'){const M=OMODES[c.mode]||OMODES.klass;view(`<div class="top"><button class="back" data-a="oleave">✕</button><h2>🌐 Dein Raum</h2>${voiceChip()}</div>
   <div class="card"><div class="line"><div><div class="xs mut">Raumcode</div><div class="code">${ON.code}</div></div><button class="btn s" data-a="oshare">📤 Einladen</button></div>
-  <div class="line" style="margin-top:12px"><b class="sm">👥 Spieler</b><span class="chip">${n}/12</span></div><div class="plgrid">${lobbyGrid()}</div>${n<2?'<div class="xs mut" style="margin-top:6px">Warte auf Freunde … Sie öffnen 🌐 Online-Party und geben den Code ein.</div>':''}</div>
+  <div class="line" style="margin-top:12px"><b class="sm">👥 Spieler</b><span class="chip">${n}/12</span></div><div class="plgrid">${lobbyGrid()}</div>${n<2?'<div class="xs mut" style="margin-top:6px">Warte auf Freunde … Sie öffnen 🌐 Online-Party und geben den Code ein.</div>':''}<div class="xs ${ON.tvs&&Object.keys(ON.tvs).length?'pos':'mut'}" style="margin-top:6px">${ON.tvs&&Object.keys(ON.tvs).length?'📺 TV-Bildschirm verbunden ✓':'📺 Optional: Fernseher als großen Bildschirm verbinden – dort Online-Party → „Fernseher“ öffnen und den Code eingeben.'}</div></div>
   ${modePicker()}${settingsHTML(false)}
   <div class="startbar"><button class="btn gold" style="width:100%;font-size:17px;padding:14px" data-a="ostart">🚀 Starten: ${M.ic} ${M.n}</button><div class="xs mut" style="text-align:center;margin-top:5px">${cfgText(c)}</div></div>${emoBar()}`)}
+ else if(ON.tv){const M=c?(OMODES[c.mode]||OMODES.klass):null;const url=(location.host+location.pathname).replace(/index\.html$/,'');view(`<div class="top"><button class="back" data-a="oleave">✕</button><h2>📺 Quiz-Arena</h2>${voiceChip()}</div>
+  <div class="card" style="text-align:center;padding:22px"><div class="sm mut">Mitspielen? Öffne auf dem Handy</div><div class="tvurl">${esc(url)}</div><div class="sm mut" style="margin-top:12px">→ 🌐 Online-Party → Code eingeben:</div><div class="tvcode" style="margin-top:6px">${ON.code}</div></div>
+  ${M?`<div class="card" style="text-align:center"><div style="font-size:26px;font-weight:900">${M.ic} ${M.n}</div><div class="sm mut">${cfgText(c)}</div></div>`:''}
+  <div class="card"><div class="line"><b>👥 Spieler</b><span class="chip">${n}/12</span></div><div class="plgrid">${lobbyGrid()}</div></div>
+  <div class="sm mut" style="text-align:center">${ON.state==='wait'?'Das Spiel läuft – gleich geht es hier weiter …':'Warte, bis der Host startet …'}</div>`)}
  else{const M=c?(OMODES[c.mode]||OMODES.klass):null;view(`<div class="top"><button class="back" data-a="oleave">✕</button><h2>🌐 Raum ${ON.code}</h2>${voiceChip()}</div>
   <div class="card" style="text-align:center;padding:16px">${headH(meP()||{ava:'⏳'},52)}<div style="margin-top:6px"><b>Du bist drin!</b></div><div class="sm mut">${ON.state==='wait'?'Das Spiel läuft schon – du steigst bei der nächsten Frage ein.':'Warte, bis der Host das Spiel startet …'}</div></div>
   ${M?`<div class="card"><div class="xs mut">Der Host hat gewählt</div><div style="font-size:20px;font-weight:900;margin:4px 0">${M.ic} ${M.n}</div><div class="sm">${cfgText(c)}</div>${c.mode==='mill'?`<div class="xs mut" style="margin-top:6px">${MILLRULES}</div>`:''}${c.mode==='poker'?`<div class="xs mut" style="margin-top:6px">${PKRULES}</div>`:''}${GRULES[c.mode]?`<div class="xs mut" style="margin-top:6px">${GRULES[c.mode]}</div>`:''}</div>`:''}
@@ -2817,7 +2831,7 @@ async function joinRoom(code){const name=myName();netMsg('⏳ Verbinde mit Raum 
  if(mOk){let c=null;try{c=await mqttFirst()}catch(e){}
   if(c){const gid=Math.random().toString(36).slice(2,12);const my={role:'guest',code,players:[],state:'join',name,me:'r_'+gid,mqc:c,relay:true,lastHost:Date.now()};ON=my;
    const conn={open:true,send:m=>{try{c.publish(RT(code)+'/h',JSON.stringify({f:gid,m}))}catch(e){}},close(){conn.send({t:'bye'})}};my.conn=conn;
-   c.subscribe(RT(code)+'/g/'+gid,()=>conn.send({t:'hello',name,ava:P.ava,look:myLook(),hist:ohSend()}));
+   c.subscribe(RT(code)+'/g/'+gid,()=>conn.send({t:'hello',name,ava:P.ava,look:myLook(),hist:ohSend(),tv:TVJ?1:0}));
    c.on('message',(t,pl)=>{if(ON!==my)return;my.lastHost=Date.now();let m;try{m=JSON.parse(String(pl))}catch(e){return}if(m&&m.t!=='hb')guestData(m)});
    my.hb=setInterval(()=>{if(ON!==my)return;conn.send({t:'hb'});if(my.state!=='join'&&Date.now()-my.lastHost>20000){toast('🔌 Verbindung zum Host verloren');leaveOnline()}},4000);
    const ok=await new Promise(r=>{const t0=Date.now();const iv=setInterval(()=>{if(ON!==my){clearInterval(iv);r(false)}else if(my.state!=='join'){clearInterval(iv);r(true)}else if(Date.now()-t0>7000){clearInterval(iv);r(false)}},200)});
@@ -2825,7 +2839,7 @@ async function joinRoom(code){const name=myName();netMsg('⏳ Verbinde mit Raum 
  if(!pOk){netMsg('❌ Keine Verbindung zu Raum '+code+'. Stimmt der Code? Ist der Host noch im Raum?',true);return}
  const peer=new Peer(undefined,{config:ICE,debug:0});ON={role:'guest',code,peer,players:[],state:'join',name};
  peer.on('open',id=>{if(!ON||ON.peer!==peer)return;ON.me=id;const conn=peer.connect('quizarena-'+code,{reliable:true,serialization:'json'});ON.conn=conn;
-  conn.on('open',()=>conn.send({t:'hello',name,ava:P.ava,look:myLook(),hist:ohSend()}));conn.on('data',guestData);conn.on('close',()=>{if(ON&&ON.conn===conn&&ON.state!=='left'){toast('🔌 Verbindung zum Host getrennt');leaveOnline()}});
+  conn.on('open',()=>conn.send({t:'hello',name,ava:P.ava,look:myLook(),hist:ohSend(),tv:TVJ?1:0}));conn.on('data',guestData);conn.on('close',()=>{if(ON&&ON.conn===conn&&ON.state!=='left'){toast('🔌 Verbindung zum Host getrennt');leaveOnline()}});
   ON.joinTO=setTimeout(()=>{if(ON&&ON.state==='join'){netMsg('❌ Keine Verbindung zu Raum '+code+'. Stimmt der Code? Ist der Host noch im Raum? Versuch es nochmal oder wechsle zwischen WLAN und mobilen Daten.',true);try{peer.destroy()}catch(e){}ON=null}},15000)});
  peer.on('error',e=>{if(!ON||ON.peer!==peer)return;if(e.type==='peer-unavailable'){netMsg('❌ Raum '+code+' gibt es nicht (mehr). Code prüfen!',true);clearTimeout(ON.joinTO);try{peer.destroy()}catch(x){}ON=null;return}netMsg('❌ Verbindungsproblem: '+(e.type||e.message||e),true)})}
 function guestData(d,self){if(!ON||!d)return;
@@ -2833,12 +2847,12 @@ function guestData(d,self){if(!ON||!d)return;
  if(d.t==='fifty'){(d.rm||[]).forEach(j=>{const b=$('a'+j);if(b){b.classList.add('gone');b.disabled=true}});ON.my&&(ON.my.jk='fifty');jkUsed('fifty');return}
  if(d.t==='jkok'){jkUsed(d.k);toast('⭐ Doppelte Punkte aktiv!');return}
  if(self)return;
- if(d.t==='welcome'){clearTimeout(ON.joinTO);ON.me=d.you;ON.players=d.players;ON.cfg=d.cfg;sfx('ok');ON.state=d.state!=='lobby'?'wait':'lobby';renderLobby();return}
+ if(d.t==='welcome'){clearTimeout(ON.joinTO);ON.me=d.you;ON.tv=!!d.tv;tvZoom();ON.players=d.players;ON.cfg=d.cfg;sfx('ok');ON.state=d.state!=='lobby'?'wait':'lobby';renderLobby();return}
  if(d.t==='full'){netMsg('❌ Der Raum ist voll (12 Spieler).',true);return}
  if(d.t==='bye'){ON.state='left';toast('🚪 Der Host hat den Raum geschlossen');leaveOnline();return}
  if(d.t==='kick'){ON.state='left';toast('🚪 Du wurdest aus dem Raum entfernt');leaveOnline();return}
  if(d.t==='emo'||d.t==='quip'){showFx(d);return}
- if(d.t==='lobby'){ON.players=d.players;const ch=d.cfg&&ON.cfg&&JSON.stringify(d.cfg)!==JSON.stringify(ON.cfg);if(d.cfg)ON.cfg=d.cfg;if(ch&&ON.state==='lobby')setTimeout(()=>toast('⚙️ Der Host hat die Einstellungen geändert'),50);if(ON.state==='lobby'||ON.state==='wait'||d.back){if(d.back)ON.state='lobby';renderLobby()}return}
+ if(d.t==='lobby'){ON.players=d.players;const ch=d.cfg&&ON.cfg&&JSON.stringify(d.cfg)!==JSON.stringify(ON.cfg);if(d.cfg)ON.cfg=d.cfg;if(ch&&ON.state==='lobby'&&!ON.tv)setTimeout(()=>toast('⚙️ Der Host hat die Einstellungen geändert'),50);if(ON.state==='lobby'||ON.state==='wait'||d.back){if(d.back)ON.state='lobby';renderLobby()}return}
  if(d.t==='wheel'){showWheel(d);return}
  if(d.t==='vote'){showVote(d);return}
  if(d.t==='vcnt'){showVoteCnt(d.votes);return}
@@ -2886,7 +2900,7 @@ function showOnlineQ(m){ON.state='q';if(ON.role!=='host'){ON.players=m.players;o
  const card=q.type==='who'?`<div class="qcard"><div class="ct" style="color:#f59e0b">🕵️ Wer bin ich? ${'●'.repeat(q.d)}</div><div id="clues">${q.clues.map((c,i)=>`<div class="clue ${i?'hid':''}" id="cl${i}">💡 ${esc(c)}</div>`).join('')}</div><div class="xs mut" id="clpts" style="margin-top:6px">Hinweis 1/4 · jetzt 1000 Punkte</div></div>`:qcardHTML(q,C);
  view(`<div class="qhead"><button class="back" data-a="oleave">✕</button><span class="chip">${m.n?`Frage ${m.i+1}/${m.n}`:`💀 Runde ${m.i+1} · ${m.players.filter(p=>!p.out).length} übrig`}</span><span style="flex:1"></span>${m.mode==='team'&&me?teamBadge(me.team):''}${me&&me.st>=2?`<span class="chip">🔥${me.st}</span>`:''}${bet?`<span class="chip">💰${bet}</span>`:''}<span class="chip">🌐 ${ON.code}</span></div>
  ${m.fin?'<div class="card" style="text-align:center;background:linear-gradient(135deg,#f59e0b,#b45309);color:#fff;padding:10px"><b>🏆 FINALE – doppelte Punkte!</b></div>':''}
- ${spect?'<div class="card" style="text-align:center;padding:10px">👻 Du bist raus – schau zu, wer gewinnt!</div>':''}
+ ${spect?'<div class="card" style="text-align:center;padding:10px">'+(ON.tv?'📺 TV-Ansicht – alle spielen am Handy':'👻 Du bist raus – schau zu, wer gewinnt!')+'</div>':''}
  <div class="timer" id="tw"><i id="tb" style="width:100%"></i></div>${card}${q.type==='est'?estUI(q,spect):khAns(q,spect)}${jkBar(me,q)}<div id="after"></div><div id="ocnt" class="xs mut" style="text-align:center;margin-top:10px"></div>`);
  sfx('tick');const dur=(m.dur||20)*1000,t0=performance.now();let last=-1,shown=1;const loop=now=>{if(!ON||!G||G.mode!=='online'||ON.state!=='q')return;const el=now-t0,left=(dur-el)/1000;const tb=$('tb');if(tb){tb.style.width=clamp(left/(dur/1000)*100,0,100)+'%';$('tw').className='timer'+(left<5?' warn':'')}
   if(q.type==='who'){const k=Math.min(4,Math.floor(el/(dur/4))+1);if(k>shown){for(let j=shown;j<k;j++){const c=$('cl'+j);if(c)c.classList.remove('hid')}shown=k;sfx('tick');const e=$('clpts');if(e)e.textContent=`Hinweis ${k}/4 · jetzt ${(5-k)*250} Punkte`}}
@@ -2917,8 +2931,8 @@ function showReveal(m){if(!ON||!ON.cur)return;ON.state='rev';stopTimer();if(ON.r
  if(!spect&&v!=null&&q.id){const full=Q.find(x=>x.id===q.id);if(full)record(full,right)}if(!spect)sfx(right?'ok':'no');
  const act=m.players.filter(p=>p.last);const R=act.filter(p=>p.last.right),W=act.filter(p=>!p.last.right&&!p.last.none),N=act.filter(p=>p.last.none);
  const pos=rankOrder(m.players).findIndex(p=>p.id===meId())+1;
- const head=spect?'<b>👻 Zuschauer</b>':right?`<b style="font-size:20px">✔ Richtig! ${ml.pts>=0?'+':''}${ml.pts}</b><div class="xs">${lastTxt(ml)}</div>`:ml&&ml.none?`<b style="font-size:20px">⏰ Keine Antwort</b>${ml.bet?`<div class="xs">💰 ${ml.bet}</div>`:''}`:`<b style="font-size:20px">✘ Leider falsch!</b>${ml&&(ml.bet||ml.pen)?`<div class="xs">${ml.bet?'💰 '+ml.bet:''} ${ml.pen?'➖ '+(-ml.pen):''}</div>`:''}`;
- $('after').innerHTML=`<div class="card" style="text-align:center;margin-top:8px;padding:10px;background:${spect?'var(--p2)':right?'#15803d':'#991b1b'};color:#fff">${head}${!spect?`<div class="xs" style="opacity:.9;margin-top:2px">Du bist auf Platz ${pos}</div>`:''}</div>
+ const head=spect?(ON.tv?'<b>📺 Auflösung</b>':'<b>👻 Zuschauer</b>'):right?`<b style="font-size:20px">✔ Richtig! ${ml.pts>=0?'+':''}${ml.pts}</b><div class="xs">${lastTxt(ml)}</div>`:ml&&ml.none?`<b style="font-size:20px">⏰ Keine Antwort</b>${ml.bet?`<div class="xs">💰 ${ml.bet}</div>`:''}`:`<b style="font-size:20px">✘ Leider falsch!</b>${ml&&(ml.bet||ml.pen)?`<div class="xs">${ml.bet?'💰 '+ml.bet:''} ${ml.pen?'➖ '+(-ml.pen):''}</div>`:''}`;
+ $('after').innerHTML=`<div class="card" style="text-align:center;margin-top:8px;padding:10px;background:${spect?'var(--p2)':right?'#15803d':'#991b1b'};color:#fff">${head}${!spect&&!ON.tv?`<div class="xs" style="opacity:.9;margin-top:2px">Du bist auf Platz ${pos}</div>`:''}</div>
   ${m.saved&&m.saved.length?`<div class="card sm" style="text-align:center;padding:10px">🛡️ Vom Schild gerettet: ${m.players.filter(p=>m.saved.includes(p.id)).map(p=>p.ava+' '+esc(p.name)).join(', ')}</div>`:''}
   ${m.koOut.length?`<div class="card" style="text-align:center;padding:10px">${m.koOut.includes(meId())?'<b>💀 Du bist raus!</b><br>':''}<span class="sm">💀 Raus: ${m.players.filter(p=>m.koOut.includes(p.id)).map(p=>p.ava+' '+esc(p.name)).join(', ')}</span></div>`:ON.cfg&&ON.cfg.mode==='ko'&&act.length&&!R.length?'<div class="card sm" style="text-align:center;padding:10px">😅 Alle lagen falsch – niemand fliegt raus!</div>':''}
   ${m.info?`<div class="info">💡 ${esc(m.info)}</div>`:''}
@@ -2934,7 +2948,7 @@ function showEnd(m){if(!ON)return;ON.state='end';stopTimer();if(ON.role!=='host'
  if(won){confetti(200);sfx('win')}const coins=won?60:pos<=3?30:10;P.coins+=coins;P.xp+=40;unlock('party');checkAch();save();G={mode:'done'};
  view(`<div class="top"><h2>🌐 Online-Ergebnis</h2></div><div class="card" style="text-align:center"><h2 style="margin:4px 0">${title}</h2>
  <div class="podium">${[1,0,2].map(k=>s[k]?`<div class="pod p${k}"><div class="pa">${headH(s[k],46)}</div><div class="pn">${nameH(s[k])}</div><div class="pb">${['🥇','🥈','🥉'][k]}<br><b style="${m.mode==='mill'?'font-size:12px':''}">${m.mode==='mill'?eur(s[k].score):s[k].score}</b></div></div>`:'<div class="pod"></div>').join('')}</div>
- <div class="sm mut">Du bist auf Platz ${pos} von ${s.length} · +${coins} 🪙 · +40 XP</div></div>
+ <div class="sm mut ${ON.tv?'tvhide':''}">Du bist auf Platz ${pos} von ${s.length} · +${coins} 🪙 · +40 XP</div></div>
  ${m.mode==='team'?teamBar(m.players):''}${m.awards&&m.awards.length?`<div class="card"><h3 style="margin-top:0">🏅 Auszeichnungen</h3>${m.awards.map(a=>`<div class="line it sm"><span>${a[0]} <b>${a[1]}</b></span><span>${esc(a[2])} <span class="xs mut">${a[3]}</span></span></div>`).join('')}</div>`:''}
  <div class="card">${board(m.players,false)}</div>${m.mode==='draw'?galHTML():''}${emoBar()}${ON.role==='host'?'<div class="row" style="margin-top:8px"><button class="btn" style="flex:1" data-a="oagain">🔁 Neue Runde</button><button class="btn alt" style="flex:1" data-a="oleave">Raum schließen</button></div>':'<div class="card sm mut" style="text-align:center;margin-top:8px">Warte, ob der Host eine neue Runde startet…</div><button class="btn alt" style="width:100%" data-a="oleave">Raum verlassen</button>'}`)}
 window.addEventListener('beforeunload',()=>{if(ON)try{leaveOnline(true)}catch(e){}});
@@ -3237,7 +3251,7 @@ Object.assign(MG,{pktopic(d){showPkTopic(d)},pkbid(d){showPkBid(d)},pkprove(d){s
 const PKCOL=['#ef4444','#3b82f6','#22c55e','#f59e0b','#a855f7','#ec4899','#14b8a6','#f97316','#6366f1','#84cc16','#e11d48','#0ea5e9'];
 function pkCol(id){const i=ON.players.findIndex(p=>p.id===id);return PKCOL[(i<0?0:i)%PKCOL.length]}
 function pkGeo(){const pl=ON.players,n=pl.length;const me=Math.max(0,pl.findIndex(p=>p.id===meId()));const g={};
- pl.forEach((p,i)=>{const a=(90+(i-me)*360/n)*Math.PI/180;const cx=Math.cos(a),cy=Math.sin(a);const b=a+.42;
+ const off=ON.tv?180/n:0;pl.forEach((p,i)=>{const a=(90+off+(i-me)*360/n)*Math.PI/180;const cx=Math.cos(a),cy=Math.sin(a);const b=a+.42;
   g[p.id]={a,cx,cy,sx:50+cx*31,sy:50+cy*(cy>0?33:21),kx:50+Math.cos(b)*31,ky:50+Math.sin(b)*(Math.sin(b)>0?30:25),dx:50+cx*17,dy:50+cy*(cy>0?17:12)}});return g}
 function pkTable(m,o){o=o||{};const pl=ON.players,n=pl.length;const tilt=n<=2?50:n<=3?47:n<=5?43:n<=8?38:34;const H=Math.round(330+Math.max(0,n-2)*16);const bids=m.bids||{};const G=pkGeo();
  if(!Object.keys(bids).length||!ON.pkPrev)ON.pkPrev={};const prev=o.noDrop?{...bids}:ON.pkPrev;const act=m.act||{};
@@ -3298,7 +3312,7 @@ function pkRenderJ(){const c=ON.pkc,e=$('pkj');if(!c||!e)return;if(!c.mine||ON.s
  e.innerHTML=`<div class="card sm" style="padding:10px"><b>🃏 Deine Joker</b> <span class="xs mut">(je 1× pro Spiel)</span><div class="row" style="gap:6px;margin-top:6px">${j.tel&&others.length?`<button class="btn s alt" data-a="pkjtel">📞 Telefon</button>`:''}${j.t30?`<button class="btn s alt" data-a="pkjk|t30">⏳ +30 Sek.</button>`:''}</div><div id="pkjl"></div></div>`}
 function pkRenderBets(){const c=ON.pkc,e=$('pkbt');if(!c||!e)return;const me=meId();const m=c.m;const bets=c.bets||{};const ids=Object.keys(bets);const y=ids.filter(i=>bets[i].w).length,n=ids.length-y;
  const sum=ids.length?`<div class="xs mut" style="margin-top:6px">🎲 Wetten: ${y}× „schafft’s“ · ${n}× „schafft’s nicht“</div>`:'';
- const can=!c.mine&&me!==m.chal&&!c.helper&&ON.state==='pprove'&&!bets[me];
+ const can=!ON.tv&&!c.mine&&me!==m.chal&&!c.helper&&ON.state==='pprove'&&!bets[me];
  if(!can){e.innerHTML=ids.length||bets[me]?`<div class="card sm" style="text-align:center;padding:8px">${bets[me]?`Deine Wette: <b>${bets[me].w?'✅ schafft’s':'❌ schafft’s nicht'}</b> (${bets[me].s} Chip${bets[me].s>1?'s':''}${bets[me].free?', Freiwette':''})`:''}${sum}</div>`:'';return}
  const p=ON.players.find(x=>x.id===me)||{score:0};const free=p.score<=0;const mx=Math.min(3,p.score);c.bs=free?1:clamp(c.bs||1,1,mx);
  e.innerHTML=`<div class="card sm" style="text-align:center;padding:10px;border-color:#a855f7"><b>🎲 Wetten!</b> <span class="xs mut">${free?'Du hast keine Chips – Freiwette um 1 Chip!':'Setz bis zu 3 Chips.'}</span>
@@ -3722,6 +3736,7 @@ function drGuess(){const i=$('drg');if(!i)return;const v=i.value.trim();if(!v)re
 function galHTML(){const g=(ON&&ON.gal)||[];if(!g.length)return'';return`<div class="card"><h3 style="margin-top:0">🖼️ Galerie</h3><div class="dagrid">${g.map(x=>`<div class="daimg"><img src="${x.img}"><span>${esc(x.w)} · ${esc(x.by)}</span></div>`).join('')}</div></div>`}
 /* ---------- Klick-Aktionen ---------- */
 const GACT={
+ otv(){const c=(($('otvcode')||{}).value||'').replace(/\D/g,'');if(c.length!==4){toast('Bitte den 4-stelligen Raumcode eingeben');return}TVJ=true;joinRoom(c)},
  gnext(){if(ON&&ON.role==='host'&&ON.g&&ON.g.next&&['gschr','ghlr','glr','gslfr','gdre','gdar'].includes(ON.state))ON.g.next()},
  schok(){const i=$('schn');if(!i)return;const v=+i.value;if(i.value===''||!Number.isFinite(v)){toast('Bitte eine Zahl eingeben');return}if(G&&G.mode==='osch'){oSchAns(v);return}mSend({t:'scha',v});const e=$('schin');if(e)e.innerHTML=`<div class="sm">✅ Dein Tipp: <b>${esc(i.value)}</b><div class="xs mut">Warte auf die anderen …</div></div>`},
  hlv(p){if(G&&G.mode==='ohl'){oHlAns(+p[1]);return}mSend({t:'hla',v:+p[1]});const b=$('hlbtn');if(b)b.innerHTML=`<div class="sm">${+p[1]?'⬆️':'⬇️'} getippt – warte auf die anderen …</div>`},
