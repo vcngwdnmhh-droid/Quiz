@@ -163,6 +163,7 @@ details.card>summary{cursor:pointer;font-weight:800;list-style:none;font-size:15
 body.tv #app{max-width:760px}body.tv .emofab,body.tv .emopanel,body.tv #app input.txt,body.tv #app textarea,body.tv #schin,body.tv #liein,body.tv #drgin,body.tv #hlbtn,body.tv .slfrow,body.tv #slfstop,body.tv .dtools,body.tv #pkin,body.tv #pkj,body.tv #pkbt button,body.tv [data-a^="pkv|"],body.tv [data-a^="slfvo|"],body.tv [data-a="pkdone"],body.tv [data-a="schok"],body.tv .tvhide{display:none!important}
 body.tv #app button{pointer-events:none}body.tv #app [data-a="oleave"],body.tv #app .back{pointer-events:auto}
 .tvcode{font-size:72px;font-weight:900;letter-spacing:12px;line-height:1;color:var(--gold);text-shadow:0 6px 30px rgba(251,191,36,.35)}.tvurl{font-size:18px;font-weight:800;background:var(--p2);border-radius:12px;padding:8px 14px;display:inline-block;margin-top:8px;word-break:break-all}
+.hold .holdc{filter:blur(18px);transition:filter .1s}.hold.show .holdc{filter:none}.holdh{font-size:13px;color:var(--mut);margin-top:8px}.hold.show .holdh{visibility:hidden}
 .pstack i.nw{animation:chipdrop .5s cubic-bezier(.3,1.4,.6,1) both}@keyframes chipdrop{from{transform:translateZ(calc(var(--z) + 90px));opacity:0}}
 .pstack .sv{position:absolute;left:0;top:0;transform:translate(-50%,-100%) translateZ(var(--z)) rotateX(calc(-1 * var(--tilt)));transform-origin:bottom center;background:#fff;color:#0f172a;border-radius:9px;padding:1px 7px;font-size:14px;font-weight:900;white-space:nowrap;border:2px solid var(--c)}
 .pseat{position:absolute;width:0;height:0;transform-style:preserve-3d;transition:opacity .3s}.pseat.fold{opacity:.55;filter:grayscale(.6)}
@@ -2716,8 +2717,8 @@ function sendFx(t,e){if(!ON)return;const now=Date.now();if(now-(ON.myEmo||0)<600
 function emoBar(){return`<button class="emofab" data-a="emomenu" title="Reaktionen">☰</button><div class="emopanel" id="emop" hidden><div class="line" style="margin-bottom:6px"><b class="sm">Reaktionen</b><button class="x" data-a="emomenu">✕</button></div><div class="emogrid">${EMOS.map(e=>`<button class="btn alt s" style="font-size:22px;padding:6px" data-a="oemo|${e}">${e}</button>`).join('')}</div><div class="emogrid q">${QUIPS.map(e=>`<button class="btn alt s" style="padding:6px 8px" data-a="oquip|${e}">${esc(e)}</button>`).join('')}</div></div>`}
 function cfgText(c){if(GMODES[c.mode])return gCfgText(c);const m=OMODES[c.mode]||OMODES.klass;const C=c.cat==='mix'?null:catOf(c.cat);
  if(c.mode==='poker')return`${c.pr} Runden · ${c.pc} Start-Chips · ${c.pv==='say'?'🗣️ laut sagen':'⌨️ eintippen'} · ${c.pt} s zum Bieten`;
- if(c.mode==='mill')return`${C?C.ic+' '+C.n:'🎲 Gemischt'} · 15 Fragen · ${c.mt?c.mt+' s pro Frage':'ohne Zeitlimit'}${c.mjk?' · 🃏 Joker':''}${c.fa!==false?' · ✋ Endgültig?':''}`;const ty=OTYPES.filter(t=>c.types&&c.types[t[0]]).map(t=>t[1]).join('');
- return`${m.ic} ${m.n} · ${c.catm==='host'?(C?C.ic+' '+C.n:'🎲 Gemischt'):OLBL.catm[c.catm]} · ${c.mode==='ko'?'bis einer übrig ist':c.n+' Fragen'} · ${c.t} s · ${ty}${c.wett?' · 💰':''}${c.jok?' · 🃏':''}${c.diff!=='mix'?' · '+OLBL.diff[c.diff]:''}`}
+ if(c.mode==='mill')return`${csText(c)} · 15 Fragen · ${c.mt?c.mt+' s pro Frage':'ohne Zeitlimit'}${c.mjk?' · 🃏 Joker':''}${c.fa!==false?' · ✋ Endgültig?':''}`;const ty=OTYPES.filter(t=>c.types&&c.types[t[0]]).map(t=>t[1]).join('');
+ return`${m.ic} ${m.n} · ${c.catm==='host'?csText(c):OLBL.catm[c.catm]} · ${c.mode==='ko'?'bis einer übrig ist':c.n+' Fragen'} · ${c.t} s · ${ty}${c.wett?' · 💰':''}${c.jok?' · 🃏':''}${c.diff!=='mix'?' · '+OLBL.diff[c.diff]:''}`}
 function lobbyList(){const host=ON.role==='host';return ON.players.map(p=>`<div class="line it sm"><span>${headH(p,26)} ${p.id===meId()?'<b>':''}${nameH(p)}${p.id===meId()?' (du)</b>':''}${p.id==='host'?' <span class="xs mut">👑</span>':''}${p.look&&p.look.t?` <span class="xs mut">„${esc(p.look.t)}“</span>`:''}</span>${host&&p.id!=='host'?`<button class="btn alt s" style="padding:4px 10px" data-a="okick|${p.id}">✕</button>`:''}</div>`).join('')}
 function lobbyGrid(){const host=ON.role==='host';return ON.players.map(p=>`<div class="plc">${headH(p,24)}<span class="nm">${p.id===meId()?'<b>':''}${nameH(p)}${p.id===meId()?'</b> <span class="xs mut">(du)</span>':''}${p.id==='host'?' 👑':''}</span>${host&&p.id!=='host'?`<button class="x" data-a="okick|${p.id}" title="Rauswerfen">✕</button>`:''}</div>`).join('')}
 function setRow(ic,lbl,val,k,ro){return`<div class="line setrow"><span class="sm">${ic} ${lbl}</span><span class="stp">${ro?'':`<button class="btn alt s" data-a="ocyc|${k}|-1">‹</button>`}<b class="sm">${val}</b>${ro?'':`<button class="btn alt s" data-a="ocyc|${k}|1">›</button>`}</span></div>`}
@@ -2725,7 +2726,7 @@ function togRow(ic,lbl,k,hint,ro){const on=ON.cfg[k]!==false&&!!ON.cfg[k];return
 function modePicker(){const c=ON.cfg;const card=([k,m])=>`<div class="mcard ${c.mode===k?'sel':''} ${k==='mill'?'wide':''}" data-a="omode|${k}"><div class="mi">${m.ic}</div><b>${m.n}</b><span>${m.d}</span>${GMODES[k]?'<em>NEU</em>':''}</div>`;
  return`<div class="card"><h3>🧠 Quiz-Modi</h3><div class="mgrid">${Object.entries(OMODES).filter(([k])=>!GMODES[k]).map(card).join('')}</div><h3 style="margin-top:14px">🎉 Party-Spiele</h3><div class="mgrid">${Object.entries(GMODES).map(card).join('')}</div></div>`}
 function modePickerOld(){const c=ON.cfg;return`<div class="card"><h3>🎮 Spielmodus</h3><div class="mgrid">${Object.entries(OMODES).map(([k,m])=>`<div class="mcard ${c.mode===k?'sel':''} ${k==='mill'?'wide':''}" data-a="omode|${k}"><div class="mi">${m.ic}</div><b>${m.n}</b><span>${m.d}</span>${k==='mill'?'<em>NEU</em>':''}</div>`).join('')}</div></div>`}
-function catSel(ro){const c=ON.cfg;const C=c.cat==='mix'?null:catOf(c.cat);return ro?`<div class="line setrow"><span class="sm">🗂️ Kategorie</span><b class="sm">${C?C.ic+' '+esc(C.n):'🎲 Bunt gemischt'}</b></div>`:`<div class="setrow"><div class="sm" style="margin-bottom:4px">🗂️ Kategorie</div><select id="ocsel" class="txt" style="display:block;width:100%" onchange="ON.cfg.cat=this.value;hostCfg()"><option value="mix">🎲 Bunt gemischt</option>${CATS.map(x=>`<option value="${x.k}" ${c.cat===x.k?'selected':''}>${x.ic} ${x.n}</option>`).join('')}</select></div>`}
+function catSel(ro){const c=ON.cfg;return`<div class="setrow"><div class="sm" style="margin-bottom:4px">🗂️ Kategorien</div>${mselHTML(MSEL.cs(),c.cs,'oms|cs',ro)}</div>`}
 const PKRULES='Jede Runde wählt ein anderer ein „Wer kennt mehr …“-Thema. Reihum wird geboten: höher gehen oder aussteigen. Wer übrig bleibt, muss so viele Begriffe nennen, wie er geboten hat. Geschafft: Jeder zahlt ihm 1 Chip. Nicht geschafft: Er zahlt jedem 2 Chips. Wer keine Chips mehr hat, ist raus. Extras: 🫵 „Zeig her!“ – zweifle ein Gebot an (schafft er es, zahlst du doppelt). Joker je 1× pro Spiel: 📞 Telefon (ein Mitspieler hilft mit 3 Begriffen) und ⏳ +30 Sekunden. Zuschauer wetten, ob der Beweis klappt. Revanche: Wer am meisten verloren hat, wählt das nächste Thema.';
 const MILLRULES='Alle bekommen gleichzeitig dieselbe Frage. Nach jeder richtigen Antwort entscheidet jeder selbst: aussteigen und das Geld mitnehmen oder weiterspielen. Wer falsch liegt, fällt auf die letzte Sicherheitsstufe (500 € bzw. 16.000 €). Am Ende gewinnt, wer am meisten Geld hat.';
 function settingsHTML(ro){const c=ON.cfg;if(GMODES[c.mode])return gSettings(ro);
@@ -2767,7 +2768,7 @@ function hostStart(){if(!ON||ON.role!=='host')return;if(ON.players.length<2&&!ON
  if(ON.cfg.mode==='poker'){pkStart();return}
  if(GSTART[ON.cfg.mode]){GSTART[ON.cfg.mode]();return}
  if(!OTYPES.some(t=>ON.cfg.types[t[0]]))ON.cfg.types.mc=true;
- ON.qi=-1;ON.used=[];ON.usedA=[];ON.curCat=ON.cfg.catm==='host'?ON.cfg.cat:'mix';ON.players.forEach(resetP);
+ ON.qi=-1;ON.used=[];ON.usedA=[];ON.curCat='mix';ON.players.forEach(resetP);
  if(ON.cfg.mode==='team'){const sh=[...ON.players].sort(()=>Math.random()-.5);sh.forEach((p,i)=>p.team=i%2)}P.games++;hostNext()}
 function aliveN(){return ON.players.filter(p=>!p.out).length}
 function hostNext(){if(!ON||ON.role!=='host')return;clearT();
@@ -2775,7 +2776,7 @@ function hostNext(){if(!ON||ON.role!=='host')return;clearT();
  ON.qi++;if(ON.qi>=qTotal()){hostEnd();return}
  if(ON.cfg.catm!=='host'&&ON.qi%3===0){if(ON.cfg.catm==='wheel')hostWheel();else hostVote()}else afterCat()}
 function afterCat(){if(!ON)return;if(ON.cfg.wett)hostBet();else hostAsk()}
-function okCats(){return CATS.filter(c=>Q.filter(q=>q.cat===c.k&&QUICKT.includes(q.type)).length>=15).map(c=>c.k)}
+function okCats(){const a=CATS.filter(c=>Q.filter(q=>q.cat===c.k&&QUICKT.includes(q.type)).length>=15).map(c=>c.k);const b=a.filter(k=>csOk(k));return b.length>=2?b:a}
 function hostWheel(){const cats=shuffle(okCats()).slice(0,8);const win=rint(0,cats.length-1);ON.curCat=cats[win];ON.state='wheel';const m={t:'wheel',cats,win,i:ON.qi};hostBroadcast(m);showWheel(m);ON.phT=setTimeout(afterCat,4300)}
 function hostVote(){ON.vopts=shuffle(okCats()).slice(0,3);ON.votes={};ON.state='vote';const m={t:'vote',opts:ON.vopts,dur:8,i:ON.qi};hostBroadcast(m);showVote(m);ON.phT=setTimeout(hostVoteEnd,8500)}
 function hostVoteCount(){if(!ON||ON.state!=='vote')return;const act=ON.players.filter(p=>!p.out);const n=act.filter(p=>ON.votes[p.id]).length;hostBroadcast({t:'vcnt',votes:ON.votes});showVoteCnt(ON.votes);if(n>=act.length){clearTimeout(ON.phT);ON.phT=setTimeout(hostVoteEnd,800)}}
@@ -2788,7 +2789,7 @@ function pickQ(){const kind=pickKind();const d=ON.cfg.diff==='mix'?null:[+ON.cfg
  if(kind==='who'){const pool=WHOQ.filter(w=>!d||d.includes(w.d));const w=oFresh(pool)||oFresh(WHOQ)||WHOQ[rint(0,WHOQ.length-1)];const order=shuffle([0,1,2,3]);
   return{id:w.id,type:'who',q:'Wer bin ich?',clues:w.clues,opts:order.map(i=>w.a[i]),ok:order.indexOf(0),cat:'allg',d:w.d,info:'',_ak:akey(w)}}
  const types=kind==='mc'?['mc','emo','flag']:[kind];const cat=ON.curCat==='mix'?null:ON.curCat;
- const base=Q.filter(q=>!P.hidden[q.id]&&types.includes(q.type)&&(!cat||q.cat===cat));
+ const base=Q.filter(q=>!P.hidden[q.id]&&types.includes(q.type)&&(cat?q.cat===cat:csOk(q.cat)));
  const r=oFresh(base.filter(q=>!d||d.includes(q.d)))||oFresh(base)||oFresh(Q.filter(q=>QUICKT.includes(q.type)&&(!cat||q.cat===cat)))||oFresh(Q.filter(q=>QUICKT.includes(q.type)));
  const q=prep(r);q._ak=akey(r);markSeen(q.id);return q}
 function hostAsk(){if(!ON)return;clearT();const q=pickQ();ON.cq=q;ON.used.push(q.id);(ON.usedA=ON.usedA||[]).push(q._ak);ohAdd(q.id);ON.ans={};ON.state='q';
@@ -3020,7 +3021,7 @@ function mAct(){return ON.players.filter(p=>p.m&&p.m.st==='in')}
 function mSend(m){if(!ON)return;if(ON.role==='host'){const f=MH[m.t];if(f)f(meP(),m)}else try{ON.conn.send(m)}catch(e){}}
 function millStart(){ON.used=[];ON.usedA=[];ON.players.forEach(p=>{resetP(p);p.m=mNew()});ON.mi=-1;P.games++;ON.state='mstart';
  const m={t:'mstart',players:pubPlayers(),cfg:ON.cfg};hostBroadcast(m);showMillIntro(m);ON.mT=setTimeout(()=>millAsk(0),5200)}
-function millPickQ(i){const d=i<5?[1]:i<10?[2]:[3];const cat=ON.cfg.cat==='mix'?null:ON.cfg.cat;const all=Q.filter(q=>!P.hidden[q.id]&&OPT4.includes(q.type));const base=all.filter(q=>!cat||q.cat===cat);
+function millPickQ(i){const d=i<5?[1]:i<10?[2]:[3];const all=Q.filter(q=>!P.hidden[q.id]&&OPT4.includes(q.type));const base=all.filter(q=>csOk(q.cat));
  const r=oFresh(base.filter(q=>d.includes(q.d)))||oFresh(base.filter(q=>Math.abs(q.d-d[0])<=1))||oFresh(base)||oFresh(all.filter(q=>d.includes(q.d)))||oFresh(all)||all[0];const q=prep(r);q._ak=akey(r);return q}
 function millAsk(i){if(!ON||ON.role!=='host')return;clearT();if(!mAct().length){millEnd();return}
  ON.mi=i;const q=millPickQ(i);ON.mq=q;ON.used.push(q.id);ON.usedA.push(q._ak);ohAdd(q.id);markSeen(q.id);ON.mans={};ON.mvotes={};ON.mrem={};ON.calls={};ON.state='mq';
@@ -3198,7 +3199,7 @@ function pkCount(){const k=ON.pk;return ON.cfg.pv==='say'?pkMedian(k.counts):pkV
 function pkStart(){ON.used=[];ON.usedA=[];ON.players.forEach(p=>{resetP(p);p.score=+ON.cfg.pc||10;p.pj={tel:1,t30:1}});ON.pk={r:-1,ci:-1,usedT:[],best:null,worst:null};P.games++;pkNextRound()}
 function pkNextRound(){if(!ON||ON.role!=='host')return;clearT();const k=ON.pk;k.r++;const al=pkAlive();
  if(k.r>=(+ON.cfg.pr||5)||(ON.players.length>1&&al.length<2)||!al.length){pkEnd();return}
- let ch=null,rev=0;if(k.rev){ch=al.find(p=>p.id===k.rev);k.rev=null;if(ch)rev=1}if(!ch){k.ci=(k.ci+1)%al.length;ch=al[k.ci]}k.chooser=ch.id;let pool=PKTOPICS.filter(t=>!k.usedT.includes(t));if(pool.length<3)pool=PKTOPICS;k.sugg=shuffle([...pool]).slice(0,3);ON.state='ptopic';
+ let ch=null,rev=0;if(k.rev){ch=al.find(p=>p.id===k.rev);k.rev=null;if(ch)rev=1}if(!ch){k.ci=(k.ci+1)%al.length;ch=al[k.ci]}k.chooser=ch.id;k.sugg=freshPick('pk',PKTOPICS.filter(t=>!k.usedT.includes(t)),t=>t,3);ON.state='ptopic';
  const m={t:'pktopic',r:k.r,rounds:+ON.cfg.pr,chooser:ch.id,rev,sugg:k.sugg,dur:30,players:pubPlayers(),cfg:ON.cfg};hostBroadcast(m);showPkTopic(m);ON.mT=setTimeout(()=>pkSetTopic(k.sugg[0]),31000)}
 function pkSetTopic(t){const k=ON.pk;if(!ON||ON.state!=='ptopic')return;clearT();k.topic=String(t).replace(/[<>]/g,'').trim().slice(0,60)||k.sugg[0];k.usedT.push(k.topic);
  const al=pkAlive();const s=al.findIndex(p=>p.id===k.chooser);k.order=[...al.slice(Math.max(0,s)),...al.slice(0,Math.max(0,s))].map(p=>p.id);k.bids={};k.folded=[];k.high=0;k.holder=null;k.chal=null;k.turn=k.order[0];k.act=null;pkTurn()}
@@ -3447,7 +3448,7 @@ const DWORDS={
  essen:'Pizza;Burger;Pommes;Döner;Banane;Apfel;Erdbeere;Wassermelone;Ananas;Eis;Torte;Donut;Brezel;Spaghetti;Sushi;Hotdog;Croissant;Popcorn;Spiegelei;Käse;Karotte;Brokkoli;Pilz;Kirsche;Zitrone;Kaffee;Milch;Muffin;Keks;Taco',
  gaming:'Controller;Creeper;Schwert;Diamant;Spitzhacke;TNT;Werkbank;Pac-Man;Joystick;Headset;Tastatur;Zombie;Skelett;Enderman;Portal;Schatztruhe;Zaubertrank;Pfeil und Bogen;Schild;Drache;Pokéball;Münze;Rennauto;Bus;Fragezeichen-Block;Lootbox;Gamepad;Monitor;Spawner;Boss',
  autos:'Lenkrad;Reifen;Auspuff;Ampel;Tankstelle;Parkhaus;Blitzer;Werkstatt;Wagenheber;Motor;Kofferraum;Spoiler;Rennstrecke;Zielflagge;Führerschein;Stau;Kreisverkehr;Abschleppwagen;Cabrio;Traktor;Motorrad;Lkw;Polizeiauto;Feuerwehrauto;Krankenwagen;Scheibenwischer;Hupe;Sicherheitsgurt;Navi;Autobahn'};
-const DPACKS={mix:'🎲 Gemischt',tiere:'🐾 Tiere',essen:'🍕 Essen',gaming:'🎮 Gaming',autos:'🚗 Autos',eigene:'✏️ Eigene Wörter'};
+const DPACKS={mix:'🏠 Alltag & mehr',tiere:'🐾 Tiere',essen:'🍕 Essen',gaming:'🎮 Gaming',autos:'🚗 Autos',eigene:'✏️ Eigene Wörter'};
 const SLFDEF=['Stadt','Land','Fluss','Name','Tier','Beruf'];
 const SLFSUG=['Stadt','Land','Fluss','Name','Tier','Beruf','Marke','Essen','Promi','Sportart','Pflanze','Automarke','Film/Serie','Rapper','Videospiel','Getränk','Körperteil','Farbe','Fußballverein','Minecraft-Item','Kleidung','Gegenstand im Haus','Grund fürs Zuspätkommen','Hobby','Musikinstrument'];
 const SLFL='ABCDEFGHIKLMNOPRSTUVWZ';
@@ -3494,7 +3495,7 @@ function drawThumb(sz){if(!DC.el)return'';const c=document.createElement('canvas
 /* ===================== Party-Spiele: gemeinsam ===================== */
 const GMODES={sch:{ic:'🔢',n:'Schätz mal!',d:'Wer am nächsten dran ist, gewinnt'},hl:{ic:'⬆️',n:'Höher oder Tiefer',d:'Mehr oder weniger? Falsch = Leben weg'},lie:{ic:'🤥',n:'Lügen-Quiz',d:'Erfinde Lügen, finde die Wahrheit'},slf:{ic:'🏙️',n:'Stadt-Land-Fluss',d:'Mit eigenen Kategorien'},draw:{ic:'🎨',n:'Montagsmaler',d:'Malen & raten – live'}};
 Object.assign(OMODES,GMODES);
-Object.assign(OSET,{sn:[5,8,10,15],st:[15,20,30,45,60],hn:[1,2,3,5],ht:[8,10,15,20],ln:[3,5,8,10],lw:[30,45,60,90],sr:[3,5,8],sz:[60,90,120,180],dm:['classic','all'],dr:[1,2,3],dt:[60,80,100,120],dp:['mix','tiere','essen','gaming','autos','eigene']});
+Object.assign(OSET,{sn:[5,8,10,15],st:[15,20,30,45,60],hn:[1,2,3,5],ht:[8,10,15,20],ln:[3,5,8,10],lw:[30,45,60,90],sr:[3,5,8],sz:[60,90,120,180],dm:['classic','all'],dr:[1,2,3],dt:[60,80,100,120],dp:['mix','tiere','essen','gaming','autos','eigene'],dm2:[0]});
 const GDEF={sn:8,st:30,hn:3,ht:10,ln:5,lw:45,sr:3,sz:90,dm:'classic',dr:2,dt:80,dp:'mix',cats:null,dw:''};
 const GRULES={sch:'Alle bekommen dieselbe Schätzfrage und tippen eine Zahl. Je näher du dran bist, desto mehr Punkte. Genau richtig gibt Bonus, der Nächste bekommt +200.',
  hl:'Du siehst einen Wert – ist der zweite höher oder tiefer? Richtig = Punkte (Serie gibt Bonus), falsch = ein Leben weg. Wer zuletzt noch Leben hat, gewinnt.',
@@ -3516,25 +3517,25 @@ function lev(a,b){if(a===b)return 0;const m=a.length,n=b.length;if(Math.abs(m-n)
 function cleanT(s,n){return String(s||'').replace(/[<>]/g,'').replace(/\s+/g,' ').trim().slice(0,n||40)}
 const GSTART={sch:()=>schStart(),hl:()=>hlStart(),lie:()=>lieStart(),slf:()=>slfStart(),draw:()=>drawStart()};
 function gSettings(ro){const c=ON.cfg,m=c.mode;const head=`<div class="card"><h3 style="margin-top:0">⚙️ Einstellungen</h3><div class="xs mut" style="margin-bottom:6px">${GRULES[m]}</div>`;const auto=togRow('⏭️','Automatisch weiter','auto','',ro);
- if(m==='sch')return head+setRow('❓','Fragen',gc('sn'),'sn',ro)+setRow('⏱️','Zeit pro Frage',gc('st')+' s','st',ro)+auto+'</div>';
- if(m==='hl')return head+setRow('❤️','Leben',gc('hn'),'hn',ro)+setRow('⏱️','Zeit pro Frage',gc('ht')+' s','ht',ro)+auto+'</div>';
+ if(m==='sch')return head+catSel(ro)+setRow('❓','Fragen',gc('sn'),'sn',ro)+setRow('⏱️','Zeit pro Frage',gc('st')+' s','st',ro)+auto+'</div>';
+ if(m==='hl')return head+`<div class="setrow"><div class="sm" style="margin-bottom:4px">🗂️ Themen</div>${mselHTML(MSEL.hlc(),gc('hlc'),'oms|hlc',ro)}</div>`+setRow('❤️','Leben',gc('hn'),'hn',ro)+setRow('⏱️','Zeit pro Frage',gc('ht')+' s','ht',ro)+auto+'</div>';
  if(m==='lie')return head+setRow('❓','Runden',gc('ln'),'ln',ro)+setRow('✍️','Zeit zum Lügen',gc('lw')+' s','lw',ro)+auto+'</div>';
  if(m==='slf'){const cats=slfCats();const saved=slfSaved().filter(x=>!SLFSUG.includes(x));const sug=[...SLFSUG,...saved].filter(x=>!cats.includes(x));
   return head+setRow('🔁','Runden',gc('sr'),'sr',ro)+setRow('⏱️','Zeit pro Runde',gc('sz')+' s','sz',ro)+`<div class="setrow"><div class="sm" style="margin:6px 0 4px">🗂️ Kategorien (${cats.length})</div><div class="row" style="gap:6px">${cats.map((x,i)=>`<span class="chip">${esc(x)}${ro||cats.length<=2?'':` <button class="slfx" data-a="slfrm|${i}">✕</button>`}</span>`).join('')}</div>
   ${ro?'':`${cats.length<10?`<div class="row" style="flex-wrap:nowrap;margin-top:8px"><input class="txt" id="slfin" maxlength="24" placeholder="Eigene Kategorie, z. B. Rapper" onkeydown="if(event.key==='Enter')document.querySelector('[data-a=slfadd]').click()"><button class="btn s" data-a="slfadd">+</button></div>
   <div class="xs mut" style="margin:8px 0 4px">Vorschläge${saved.length?' & deine gespeicherten':''}:</div><div class="row" style="gap:5px">${sug.slice(0,24).map(x=>`<button class="btn s alt" style="padding:5px 9px;font-size:12px" data-a="slfsug|${esc(x)}">+ ${esc(x)}</button>`).join('')}</div>`:''}<button class="btn alt s" style="width:100%;margin-top:8px" data-a="slfdef">↺ Stadt, Land, Fluss, Name, Tier, Beruf</button>`}</div>`+auto+'</div>'}
- if(m==='draw'){const own=drawOwn();return head+setRow('🖌️','Modus',gc('dm')==='all'?'🎨 Alle malen':'✏️ Klassisch (einer malt)','dm',ro)+setRow('🔁',gc('dm')==='all'?'Runden':'Jeder malt',gc('dm')==='all'?gc('dr')+2:gc('dr')+'×','dr',ro)+setRow('⏱️','Zeit zum Malen',gc('dt')+' s','dt',ro)+setRow('📦','Wörter',DPACKS[gc('dp')],'dp',ro)
-  +(gc('dp')==='eigene'?`<div class="setrow"><div class="sm" style="margin:6px 0 4px">✏️ Eigene Wörter (${own.length}) <span class="xs mut">– mit Komma trennen</span></div>${ro?`<div class="xs mut">${own.length?esc(own.slice(0,30).join(', ')):'noch keine'}</div>`:`<textarea class="txt" id="dwin" rows="3" style="width:100%;resize:vertical" placeholder="z. B. Bürostuhl, Opa Heinz, Döner mit Soße" onchange="ON.cfg.dw=this.value.slice(0,1500);drawSaveWords(this.value);hostCfg()">${esc(gc('dw')||drawSavedWords())}</textarea>${own.length<3?'<div class="xs neg">Mindestens 3 Wörter – sonst wird „Gemischt“ benutzt.</div>':''}`}</div>`:'')+auto+'</div>'}
- if(m==='imp')return head+setRow('🎭','Variante',gc('ix')==='none'?'🕵️ Klassisch':'🤫 Undercover','ix',ro)+`<div class="xs mut" style="margin:-2px 0 6px">${IMPX[gc('ix')]}</div>`+setRow('🕵️','Imposter',gc('ik')==='auto'?'Auto (ab 7 Spielern 2)':gc('ik'),'ik',ro)+setRow('🔁','Runden',gc('ir'),'ir',ro)+setRow('💬','Hinweise pro Spieler',gc('ic'),'ic',ro)+setRow('⏱️','Zeit pro Hinweis',gc('it')+' s','it',ro)+auto+'</div>';
+ if(m==='draw'){const own=drawOwn();const sel=gc('dps');const withOwn=sel&&sel.includes('eigene');return head+setRow('🖌️','Modus',gc('dm')==='all'?'🎨 Alle malen':'✏️ Klassisch (einer malt)','dm',ro)+setRow('🔁',gc('dm')==='all'?'Runden':'Jeder malt',gc('dm')==='all'?gc('dr')+2:gc('dr')+'×','dr',ro)+setRow('⏱️','Zeit zum Malen',gc('dt')+' s','dt',ro)+`<div class="setrow"><div class="sm" style="margin-bottom:4px">📦 Wörter-Pakete</div>${mselHTML(MSEL.dps(),sel,'oms|dps',ro)}</div>`
+  +(withOwn?`<div class="setrow"><div class="sm" style="margin:6px 0 4px">✏️ Eigene Wörter (${own.length}) <span class="xs mut">– mit Komma trennen</span></div>${ro?`<div class="xs mut">${own.length?esc(own.slice(0,30).join(', ')):'noch keine'}</div>`:`<textarea class="txt" id="dwin" rows="3" style="width:100%;resize:vertical" placeholder="z. B. Bürostuhl, Opa Heinz, Döner mit Soße" onchange="ON.cfg.dw=this.value.slice(0,1500);drawSaveWords(this.value);hostCfg()">${esc(gc('dw')||drawSavedWords())}</textarea>`}</div>`:'')+auto+'</div>'}
+ if(m==='imp')return head+`<div class="setrow"><div class="sm" style="margin-bottom:4px">🗂️ Kategorien</div>${mselHTML(MSEL.icats(),gc('icats'),'oms|icats',ro)}</div>`+togRow('⌨️','Hinweise am Handy tippen','ityp','Aus = ihr sitzt zusammen und sagt die Hinweise laut (Reallife)',ro)+togRow('💡','Tipp für den Imposter','ihint','Der Imposter sieht die Kategorie',ro)+setRow('🕵️','Imposter',gc('ik')==='auto'?'Auto (ab 7 Spielern 2)':gc('ik'),'ik',ro)+setRow('🔁','Runden',gc('ir'),'ir',ro)+(gc('ityp')!==false?setRow('💬','Hinweise pro Spieler',gc('ic'),'ic',ro)+setRow('⏱️','Zeit pro Hinweis',gc('it')+' s','it',ro):'')+auto+'</div>';
  return''}
 function gCfgText(c){const m=GMODES[c.mode];const g=k=>c[k]==null?GDEF[k]:c[k];
  if(c.mode==='sch')return`${m.ic} ${m.n} · ${g('sn')} Fragen · ${g('st')} s`;if(c.mode==='hl')return`${m.ic} ${m.n} · ${g('hn')} ❤️ · ${g('ht')} s`;
  if(c.mode==='lie')return`${m.ic} ${m.n} · ${g('ln')} Runden · ${g('lw')} s zum Lügen`;if(c.mode==='slf')return`${m.ic} ${m.n} · ${g('sr')} Runden · ${g('sz')} s · ${(c.cats||SLFDEF).join(', ')}`;
- if(c.mode==='imp')return`${m.ic} ${m.n} · ${g('ix')==='none'?'Klassisch':'Undercover'} · ${g('ir')} Runden · ${g('ic')}× Hinweis`;if(c.mode==='draw')return`${m.ic} ${m.n} · ${g('dm')==='all'?'Alle malen · '+(g('dr')+2)+' Runden':'Klassisch · jeder '+g('dr')+'×'} · ${g('dt')} s · ${DPACKS[g('dp')]}`;return''}
+ if(c.mode==='imp')return`${m.ic} ${m.n} · ${g('ityp')!==false?'⌨️ Hinweise tippen':'🗣️ Reallife (laut)'}${g('ihint')?' · 💡 Tipp':''} · ${g('ir')} Runden`;if(c.mode==='draw')return`${m.ic} ${m.n} · ${g('dm')==='all'?'Alle malen · '+(g('dr')+2)+' Runden':'Klassisch · jeder '+g('dr')+'×'} · ${g('dt')} s · ${mselAll(c.dps,MSEL.dps())?'🎲 Alle Wörter':(c.dps||[]).length+' Pakete'}`;return''}
 /* ---------- 🔢 Schätz mal (online) ---------- */
 function schF(q,v){return /Jahr/.test(q.unit||'')?String(Math.round(+v)):fmtN(v)}
 function schPool(){return shuffle([...Q.filter(q=>q.type==='est'),...SCH])}
-function schStart(){gStart();ON.g.qs=schPool().slice(0,gc('sn'));ON.g.next=schAsk;schAsk()}
+function schStart(){gStart();const all=schPool();let pool=all.filter(q=>csOk(q.cat||'allg'));if(pool.length<gc('sn'))pool=all;ON.g.qs=freshPick('sch',pool,q=>q.q,gc('sn'));ON.g.next=schAsk;schAsk()}
 function schAsk(){const g=ON.g;clearT();g.r++;if(g.r>=g.qs.length){gEnd();return}const q=g.qs[g.r];g.ans={};g.chk=schChk;ON.state='gsch';const dur=gc('st');
  hb({t:'schq',r:g.r,n:g.qs.length,q:{q:q.q,unit:q.unit,min:q.min,max:q.max,ans:0,tol:q.tol},dur,players:pubPlayers()});ON.mT=setTimeout(schReveal,dur*1000+900)}
 function schChk(){if(ON.state==='gsch'&&ON.players.every(p=>ON.g.ans[p.id]!=null))schReveal()}
@@ -3560,11 +3561,11 @@ Object.assign(MG,{
   <div class="card" style="padding:8px">${rs.map(r=>{const p=nm(r[0]);return`<div class="line it sm"><span>${headH(p,22)} ${r[0]===meId()?'<b>Du</b>':esc(p.name)}${r[3]?' 🎯':''}</span><span>${r[1]==null?'<span class="mut">–</span>':schF(q,r[1])} <b class="${r[2]?'pos':'mut'}">+${r[2]}</b></span></div>`}).join('')}</div>
   ${gScores()}${gNext(m.last)}${emoBar()}`);if(mine&&mine[3])confetti(80)}});
 /* ---------- ⬆️ Höher oder Tiefer (online) ---------- */
-function hlPair(used){for(let t=0;t<80;t++){const c=HLD[rint(0,HLD.length-1)];const a=c.i[rint(0,c.i.length-1)],b=c.i[rint(0,c.i.length-1)];if(a===b)continue;const r=Math.abs(a[1]-b[1])/Math.max(a[1],b[1]);if(c.y?a[1]===b[1]:r<.12)continue;const key=a[0]+'|'+b[0];if(used&&used.has(key)&&t<70)continue;used&&used.add(key);return{c,a,b}}}
+function hlPair(used,sel){const cs=HLD.filter((c,i)=>!sel||!sel.length||sel.includes(String(i)));const L=cs.length?cs:HLD;for(let t=0;t<120;t++){const c=L[rint(0,L.length-1)];const a=c.i[rint(0,c.i.length-1)],b=c.i[rint(0,c.i.length-1)];if(a===b)continue;const r=Math.abs(a[1]-b[1])/Math.max(a[1],b[1]);if(c.y?a[1]===b[1]:r<.12)continue;const key=[a[0],b[0]].sort().join('|');if(used&&used.has(key)&&t<110)continue;if(used){used.add(key);usedPut('hl',[...used])}return{c,a,b}}}
 function hlFmt(c,v){return c.y?String(v):fmtN(v)}
-function hlStart(){gStart();const g=ON.g;g.lives={};ON.players.forEach(p=>g.lives[p.id]=gc('hn'));g.used=new Set();g.next=hlAsk;hlAsk()}
+function hlStart(){gStart();const g=ON.g;g.lives={};ON.players.forEach(p=>g.lives[p.id]=gc('hn'));g.used=new Set(usedGet('hl'));g.next=hlAsk;hlAsk()}
 function hlAlive(){return ON.players.filter(p=>(ON.g.lives[p.id]??gc('hn'))>0)}
-function hlAsk(){const g=ON.g;clearT();const al=hlAlive();if(g.r>=0&&(ON.players.length>1?al.length<=1:al.length<1)||g.r>=39){gEnd();return}g.r++;const pr=hlPair(g.used);g.pr=pr;g.ans={};g.chk=hlChk;ON.state='ghl';const dur=gc('ht');
+function hlAsk(){const g=ON.g;clearT();const al=hlAlive();if(g.r>=0&&(ON.players.length>1?al.length<=1:al.length<1)||g.r>=39){gEnd();return}g.r++;const pr=hlPair(g.used,gc('hlc'));g.pr=pr;g.ans={};g.chk=hlChk;ON.state='ghl';const dur=gc('ht');
  hb({t:'hlq',r:g.r,cat:{n:pr.c.n,u:pr.c.u,hi:pr.c.hi,lo:pr.c.lo,q:pr.c.q,y:pr.c.y||0},a:[pr.a[0],hlFmt(pr.c,pr.a[1])],b:pr.b[0],dur,lives:g.lives,players:pubPlayers()});ON.mT=setTimeout(hlReveal,dur*1000+900)}
 function hlChk(){if(ON.state==='ghl'&&hlAlive().every(p=>ON.g.ans[p.id]!=null))hlReveal()}
 function hlReveal(){if(ON.state!=='ghl')return;clearT();const g=ON.g,pr=g.pr;const up=pr.b[1]>pr.a[1];const al=hlAlive();const res={};al.forEach(p=>res[p.id]=g.ans[p.id]==null?-1:(!!g.ans[p.id]===up?1:0));
@@ -3587,7 +3588,7 @@ Object.assign(MG,{
   <div class="card" style="text-align:center;padding:14px;${me===1?'background:#15803d;color:#fff':me===0||me===-1?'background:#991b1b;color:#fff':''}"><b style="font-size:20px">${me===1?'✅ Richtig! +'+m.gain[meId()]:me===0?'❌ Falsch!':me===-1?'⌛ Zu langsam!':'👀 Zuschauer'}</b>${m.allWrong?'<div class="sm">Alle lagen falsch – keiner verliert ein Leben 😅</div>':''}</div>
   <div class="card" style="padding:8px">${rankOrder(ON.players).map(p=>`<div class="line it sm"><span>${headH(p,22)} ${p.id===meId()?'<b>Du</b>':esc(p.name)} ${m.res[p.id]===1?'✅':m.res[p.id]!=null?'❌':''}</span><span>${hlHearts(m.lives[p.id]??0,mx)} <b>${p.score}</b></span></div>`).join('')}</div>${gNext(m.last)}${emoBar()}`);if(me===1)sfx('ok');else if(me===0)sfx('no')}});
 /* ---------- 🤥 Lügen-Quiz (online) ---------- */
-function lieStart(){gStart();ON.g.qs=shuffle([...LIE]).slice(0,gc('ln'));ON.g.next=lieAsk;lieAsk()}
+function lieStart(){gStart();ON.g.qs=freshPick('lie',LIE,q=>q.q,gc('ln'));ON.g.next=lieAsk;lieAsk()}
 function lieAsk(){const g=ON.g;clearT();g.r++;if(g.r>=g.qs.length){gEnd();return}const q=g.qs[g.r];g.lies={};g.pick={};g.chk=lieChk;ON.state='glw';const dur=gc('lw');
  hb({t:'lieq',r:g.r,n:g.qs.length,q:q.q,dur,players:pubPlayers()});ON.mT=setTimeout(lieChoose,dur*1000+900)}
 function lieChk(){const g=ON.g;if(ON.state==='glw'&&ON.players.every(p=>g.lies[p.id]))lieChoose();else if(ON.state==='glc'&&ON.players.every(p=>g.pick[p.id]!=null||!lieCanPick(p.id)))lieReveal()}
@@ -3675,7 +3676,7 @@ function drawMask(w,shown){return w.split('').map((ch,i)=>ch===' '||ch==='-'?ch:
 function drawStart(){gStart();const g=ON.g;g.used=[];g.gal=[];g.next=gc('dm')==='all'?daRound:drawTurn;
  if(gc('dm')==='all'){g.n=gc('dr')+2;daRound();return}g.order=shuffle(ON.players.map(p=>p.id));g.tn=g.order.length*gc('dr');g.ti=-1;drawTurn()}
 function drawTurn(){const g=ON.g;clearT();g.ti++;if(g.ti>=g.tn){gEnd();return}let dr=g.order[g.ti%g.order.length];if(!ON.players.some(p=>p.id===dr)){drawTurn();return}
- g.drawer=dr;g.words=drawWords(gc('dp'),g.used).slice(0,3);ON.state='gdrp';g.chk=null;sendTo(dr,{t:'drwords',words:g.words});hb({t:'drpick',drawer:dr,ti:g.ti,tn:g.tn,dur:15,players:pubPlayers()});ON.mT=setTimeout(()=>drawGo(g.words[0]),16000)}
+ g.drawer=dr;g.words=freshPick('draw',drawPool(gc('dps'),drawOwn()),w=>w,3);ON.state='gdrp';g.chk=null;sendTo(dr,{t:'drwords',words:g.words});hb({t:'drpick',drawer:dr,ti:g.ti,tn:g.tn,dur:15,players:pubPlayers()});ON.mT=setTimeout(()=>drawGo(g.words[0]),16000)}
 function drawGo(w){const g=ON.g;if(ON.state!=='gdrp')return;clearT();g.word=w;g.used.push(w);g.shown=[];g.guessed={};g.t0=Date.now();g.dur=gc('dt');ON.state='gdr';g.chk=drawChk;
  hb({t:'drgo',drawer:g.drawer,mask:drawMask(w,[]),ti:g.ti,tn:g.tn,dur:g.dur,players:pubPlayers()});sendTo(g.drawer,{t:'drword',w});
  const letters=w.split('').map((c,i)=>i).filter(i=>/[^\s-]/.test(w[i]));const hints=Math.min(Math.floor(letters.length/3),3);
@@ -3684,7 +3685,7 @@ function drawGo(w){const g=ON.g;if(ON.state!=='gdrp')return;clearT();g.word=w;g.
 function drawChk(){const g=ON.g;if(ON.state!=='gdr')return;if(!ON.players.some(p=>p.id===g.drawer)){drawEnd();return}if(ON.players.filter(p=>p.id!==g.drawer).every(p=>g.guessed[p.id]))drawEnd()}
 function drawEnd(){const g=ON.g;if(ON.state!=='gdr')return;clearT();(g.hT||[]).forEach(clearTimeout);const dp=ON.players.find(p=>p.id===g.drawer);const n=Object.keys(g.guessed).length;const dpts=n?50+n*60:0;if(dp)dp.score+=dpts;
  ON.state='gdre';const last=g.ti+1>=g.tn;const gain={...g.guessed};if(dp&&dpts)gain[dp.id]=dpts;hb({t:'drend',w:g.word,drawer:g.drawer,gain,last,players:pubPlayers()});gAuto(drawTurn,last?6000:7000)}
-function daRound(){const g=ON.g;clearT();g.r++;if(g.r>=g.n){gEnd();return}g.word=drawWords(gc('dp'),g.used)[0];g.used.push(g.word);g.imgs={};g.votes={};ON.state='gda';g.chk=null;
+function daRound(){const g=ON.g;clearT();g.r++;if(g.r>=g.n){gEnd();return}g.word=freshPick('draw',drawPool(gc('dps'),drawOwn()),w=>w,1)[0];g.used.push(g.word);g.imgs={};g.votes={};ON.state='gda';g.chk=null;
  hb({t:'dago',r:g.r,n:g.n,w:g.word,dur:gc('dt'),players:pubPlayers()});ON.mT=setTimeout(daCollect,gc('dt')*1000+900)}
 function daCollect(){const g=ON.g;if(ON.state!=='gda')return;clearT();ON.state='gdac';hb({t:'dacol'});ON.mT=setTimeout(daVote,3500)}
 function daVote(){const g=ON.g;if(ON.state!=='gdac')return;clearT();const ids=shuffle(Object.keys(g.imgs));g.keys=ids;ON.state='gdav';g.chk=daChk;
@@ -3763,7 +3764,7 @@ function offEnd(o){const L0=lvlInfo().l;P.xp+=o.xp;P.coins+=o.coins;unlock('firs
  <div class="row"><button class="btn" style="flex:1" data-a="mode|${o.again}">🔁 Nochmal</button><button class="btn alt" style="flex:1" data-a="home">🏠 Menü</button></div>`)}
 function oTimer(sec,fn){clearTimeout(G.tm);const g=G;G.tm=setTimeout(()=>{if(G===g)fn()},sec*1000+300);bar(sec)}
 /* 🔢 Schätz mal */
-function oSchStart(){G={mode:'osch',qs:schPool().slice(0,10),i:-1,score:0,right:0};oSchQ()}
+function oSchStart(){G={mode:'osch',qs:freshPick('sch',schPool(),q=>q.q,10),i:-1,score:0,right:0};oSchQ()}
 function oSchQ(){const g=G;g.i++;if(g.i>=g.qs.length){const s=g.score;offEnd({t:'🔢 Schätz mal!',k:'osch',rec:s,big:s,sub:`Punkte · ${g.right} von 10 richtig gut geschätzt`,xp:g.right*12+Math.round(s/60),coins:Math.round(s/120),good:g.right>=5,again:'gsch'});return}
  const q=g.qs[g.i];g.done=false;view(`${gHead(`🔢 Frage ${g.i+1}/10`)}${gTimer()}<div class="card"><div style="font-size:20px;font-weight:800;line-height:1.3">${esc(q.q)}</div></div>${schInput(q)}<div class="card sm" style="text-align:center">Punkte: <b>${g.score}</b></div>`);oTimer(30,()=>oSchAns(null))}
 function oSchAns(v){const g=G;if(!g||g.mode!=='osch'||g.done)return;g.done=true;clearTimeout(g.tm);stopTimer();const q=g.qs[g.i];const pts=v==null?0:schPts(q,v);g.score+=pts;if(pts>=500)g.right++;
@@ -3771,7 +3772,7 @@ function oSchAns(v){const g=G;if(!g||g.mode!=='osch'||g.done)return;g.done=true;
  <div class="card" style="text-align:center"><div class="sm">Dein Tipp: <b>${v==null?'–':schF(q,v)}</b></div><div style="font-size:26px;font-weight:900" class="${pts?'pos':'neg'}">+${pts}</div><div class="xs mut">Gesamt: ${g.score}</div></div>
  <button class="btn gold" style="width:100%" data-a="osnext">${g.i+1>=10?'🏁 Ergebnis':'Weiter →'}</button>`);sfx(pts>=500?'ok':'no')}
 /* ⬆️ Höher oder Tiefer */
-function oHlStart(){G={mode:'ohl',lives:3,score:0,st:0,best:0,r:0,used:new Set()};oHlQ()}
+function oHlStart(){G={mode:'ohl',lives:3,score:0,st:0,best:0,r:0,used:new Set(usedGet('hl'))};oHlQ()}
 function oHlQ(){const g=G;if(!g||g.mode!=='ohl')return;g.r++;g.pr=hlPair(g.used);g.done=false;const c=g.pr.c;
  view(`${gHead(`⬆️ Runde ${g.r}`)}${gTimer()}<div class="card sm" style="text-align:center">${esc(c.n)} · ${hlHearts(g.lives,3)} · <b>${g.score}</b> Punkte${g.st>1?` · 🔥 ${g.st}er-Serie`:''}</div>${hlCards(c,[g.pr.a[0],hlFmt(c,g.pr.a[1])],g.pr.b[0])}
  <div class="card" style="text-align:center"><div class="sm" style="margin-bottom:8px">Hat <b>${esc(g.pr.b[0])}</b> ${c.y?'später oder früher':'mehr oder weniger'} als <b>${esc(g.pr.a[0])}</b>?</div><div class="row" style="justify-content:center;gap:10px"><button class="btn" style="background:#15803d;min-width:130px" data-a="hlv|1">⬆️ ${c.hi}</button><button class="btn" style="background:#b91c1c;min-width:130px" data-a="hlv|0">⬇️ ${c.lo}</button></div></div>`);oTimer(15,()=>oHlAns(-1))}
@@ -3781,7 +3782,7 @@ function oHlAns(v){const g=G;if(!g||g.mode!=='ohl'||g.done)return;g.done=true;cl
  <div class="card" style="text-align:center;padding:14px;background:${ok?'#15803d':'#991b1b'};color:#fff"><b style="font-size:20px">${ok?'✅ Richtig!':v===-1?'⌛ Zu langsam!':'❌ Falsch!'}</b></div>`);
  G.tm=setTimeout(()=>{if(G!==g)return;if(g.lives<=0)offEnd({t:'⬆️ Höher oder Tiefer',k:'ohl',rec:g.score,big:g.score,sub:`Punkte · ${g.r} Runden · beste Serie ${g.best}`,xp:g.r*6+g.best*5,coins:Math.round(g.score/150),good:g.best>=5,again:'ghl'});else oHlQ()},1800)}
 /* 🤥 Wahr oder gelogen */
-function oLieStart(){G={mode:'olie',qs:shuffle([...LIE]).slice(0,10),i:-1,right:0,score:0};oLieQ()}
+function oLieStart(){G={mode:'olie',qs:freshPick('lie',LIE,q=>q.q,10),i:-1,right:0,score:0};oLieQ()}
 function oLieQ(){const g=G;g.i++;if(g.i>=g.qs.length){offEnd({t:'🤥 Lügen-Quiz',k:'olie',rec:g.score,big:`${g.right}/10`,sub:`echte Antworten gefunden · ${g.score} Punkte`,xp:g.right*12,coins:g.right*6,good:g.right>=6,again:'glie'});return}
  const q=g.qs[g.i];g.opts=shuffle([q.a,...q.f]);g.done=false;g.t0=Date.now();
  view(`${gHead(`🤥 Frage ${g.i+1}/10`)}${gTimer()}<div class="card"><div class="xs mut">Nur EINE Antwort ist echt – der Rest ist gelogen:</div><div style="font-size:19px;font-weight:800;margin-top:4px;line-height:1.3">${esc(q.q)}</div></div>
@@ -3809,15 +3810,14 @@ function oSlfCheck(){const g=G;view(`${gHead(`🏙️ Runde ${g.r+1}/3 – ${g.L
  <div class="card">${g.cats.map((c,i)=>`<div class="line it sm"><span><span class="xs mut">${esc(c)}</span><br><b>${g.ans[i]?esc(g.ans[i]):'–'}</b></span>${g.ans[i]&&slfOk(g.ans[i],g.L)?`<button class="btn s ${g.ok[i]?'':'alt'}" style="${g.ok[i]?'background:#15803d':''}" data-a="oslfok|${i}">${g.ok[i]?'✅ zählt':'❌ zählt nicht'}</button>`:`<span class="xs neg">${g.ans[i]?'falscher Buchstabe':'leer'}</span>`}</div>`).join('')}</div>
  <button class="btn gold" style="width:100%" data-a="oslfnext">✅ Auswerten (+${g.ok.filter(Boolean).length*10})</button>`)}
 /* 🎨 Montagsmaler (ein Handy, reihum) */
-function oDrawMenu(){G={mode:'odrm'};const pl=P.odrPl&&P.odrPl.length>=2?P.odrPl:[P.name||'Spieler 1','Spieler 2'];P.odrPl=pl;P.odrPack=P.odrPack||'mix';
+function oDrawMenu(){G={mode:'odrm'};const pl=P.odrPl&&P.odrPl.length>=2?P.odrPl:[P.name||'Spieler 1','Spieler 2'];P.odrPl=pl;
  view(`<div class="top"><button class="back" data-a="home">←</button><h2>🎨 Montagsmaler</h2></div><div class="card sm mut">Ein Handy für alle: Wer dran ist, sucht sich eins von 3 Wörtern aus und malt. Die anderen raten laut – wer es zuerst sagt, bekommt die Punkte. Jeder malt 2×.</div>
  <div class="card"><h3 style="margin-top:0">👥 Spieler (${pl.length})</h3>${pl.map((n,i)=>`<div class="row" style="flex-wrap:nowrap;margin-bottom:6px"><input class="txt" maxlength="14" value="${esc(n)}" onchange="P.odrPl[${i}]=this.value.trim().slice(0,14)||'Spieler ${i+1}';save()">${pl.length>2?`<button class="btn alt s" data-a="odrrm|${i}">✕</button>`:''}</div>`).join('')}${pl.length<10?'<button class="btn alt s" style="width:100%" data-a="odradd">+ Spieler</button>':''}</div>
- <div class="card"><div class="sm" style="margin-bottom:6px">📦 Wörter</div><div class="row" style="gap:6px">${Object.entries(DPACKS).map(([k,v])=>`<button class="btn s ${P.odrPack===k?'':'alt'}" data-a="odrpack|${k}">${v}</button>`).join('')}</div>
- ${P.odrPack==='eigene'?`<textarea class="txt" rows="3" style="width:100%;margin-top:8px" placeholder="Eigene Wörter, mit Komma getrennt" onchange="drawSaveWords(this.value)">${esc(drawSavedWords())}</textarea>`:''}</div>
+ <div class="card"><div class="sm" style="margin-bottom:6px">📦 Wörter-Pakete</div>${mselHTML(MSEL.dps(),P.odrPacks,'pms|odrPacks')}
+ ${P.odrPacks&&P.odrPacks.includes('eigene')?`<textarea class="txt" rows="3" style="width:100%;margin-top:8px" placeholder="Eigene Wörter, mit Komma getrennt" onchange="drawSaveWords(this.value)">${esc(drawSavedWords())}</textarea>`:''}</div>
  <button class="btn gold" style="width:100%;font-size:17px;padding:14px" data-a="odrgo">🚀 Los geht's</button>`)}
-function oDrawStart(){const pl=P.odrPl.map((n,i)=>({n:n||'Spieler '+(i+1),s:0}));const pack=P.odrPack==='eigene'&&String(drawSavedWords()).split(/[,;\n]/).filter(x=>x.trim().length>=2).length<3?'mix':P.odrPack;
- G={mode:'odraw',pl,pack,ti:-1,tn:pl.length*2,used:[],gal:[]};oDrawTurn()}
-function oDrawWords(){const g=G;if(g.pack==='eigene'){const l=shuffle(String(drawSavedWords()).split(/[,;\n]/).map(x=>cleanT(x,30)).filter(x=>x.length>=2&&!g.used.includes(x)));if(l.length>=3)return l.slice(0,3)}return drawWords(g.pack==='eigene'?'mix':g.pack,g.used).slice(0,3)}
+function oDrawStart(){const pl=P.odrPl.map((n,i)=>({n:n||'Spieler '+(i+1),s:0}));G={mode:'odraw',pl,ti:-1,tn:pl.length*2,used:[],gal:[]};oDrawTurn()}
+function oDrawWords(){const own=String(drawSavedWords()).split(/[,;\n]/).map(x=>cleanT(x,30)).filter(x=>x.length>=2);return freshPick('draw',drawPool(P.odrPacks,own),w=>w,3)}
 function oDrawTurn(){const g=G;g.ti++;if(g.ti>=g.tn){const s=[...g.pl].sort((a,b)=>b.s-a.s);offEnd({t:'🎨 Montagsmaler',k:'odraw',big:'🏆 '+esc(s[0].n),sub:'hat gewonnen!',xp:40,coins:20,good:true,again:'gdraw',
   extra:`<div class="card">${s.map((p,i)=>`<div class="line it sm"><span>${['🥇','🥈','🥉'][i]||(i+1)+'.'} ${esc(p.n)}</span><b>${p.s}</b></div>`).join('')}</div>${g.gal.length?`<div class="card"><h3 style="margin-top:0">🖼️ Galerie</h3><div class="dagrid">${g.gal.map(x=>`<div class="daimg"><img src="${x.img}"><span>${esc(x.w)} · ${esc(x.by)}</span></div>`).join('')}</div></div>`:''}`});return}
  g.d=g.ti%g.pl.length;g.words=null;view(`${gHead(`🎨 ${g.ti+1}/${g.tn}`)}<div class="card" style="text-align:center;padding:26px"><div style="font-size:46px">📱</div><h2 style="margin:8px 0">Gib das Handy an<br>${esc(g.pl[g.d].n)}</h2><div class="sm mut">Die anderen dürfen jetzt nicht hinschauen 🙈</div>
@@ -3851,119 +3851,80 @@ Object.assign(GACT,{
  odrok(p){oDrawDone(+p[1])},
  odrnext(){oDrawTurn()}});
 
+/* ===================== Mehrauswahl & keine Wiederholungen ===================== */
+function usedGet(k){try{return JSON.parse(localStorage.getItem('qa_used_'+k))||[]}catch(e){return[]}}
+function usedPut(k,a){try{localStorage.setItem('qa_used_'+k,JSON.stringify(a.slice(-800)))}catch(e){}}
+function freshPick(k,list,keyf,n){keyf=keyf||(x=>x);const u=new Set(usedGet(k));let pool=list.filter(x=>!u.has(keyf(x)));if(pool.length<n){const ks=new Set(list.map(keyf));usedPut(k,usedGet(k).filter(x=>!ks.has(x)));pool=list}
+ const out=shuffle([...pool]).slice(0,n);usedPut(k,[...usedGet(k),...out.map(keyf)]);return out}
+function mselAll(sel,items){return!sel||!sel.length||items.every(i=>sel.includes(i[0]))}
+function mselHTML(items,sel,act,ro){const all=mselAll(sel,items);const S=new Set(all?[]:sel);
+ if(ro)return`<div class="sm">${all?'🎲 Alle':items.filter(i=>S.has(i[0])).map(i=>esc(i[1])).join(' · ')}</div>`;
+ return`<div class="row" style="gap:5px"><button class="btn s ${all?'':'alt'}" style="padding:6px 10px;font-size:12px" data-a="${act}|*">🎲 Alle</button>${items.map(([k,l])=>`<button class="btn s ${S.has(k)?'':'alt'}" style="padding:6px 10px;font-size:12px" data-a="${act}|${esc(k)}">${esc(l)}</button>`).join('')}</div><div class="xs mut" style="margin-top:4px">${all?'Alle sind dabei – tippe einzelne an, um nur die zu spielen.':S.size+' ausgewählt – mehrere möglich.'}</div>`}
+function mselTog(sel,k,items){if(k==='*')return null;let s=mselAll(sel,items)?[]:[...sel];s=s.includes(k)?s.filter(x=>x!==k):[...s,k];return!s.length||s.length>=items.length?null:s}
+const IMPC={
+ 'Essen':'Pizza;Burger;Döner;Falafel;Pommes;Spaghetti;Lasagne;Sushi;Schnitzel;Currywurst;Pfannkuchen;Brezel;Salat;Suppe;Taco;Hotdog;Chips;Schokolade;Gummibärchen;Kuchen;Eis;Popcorn;Käse;Banane;Apfel;Erdbeere;Wassermelone',
+ 'Getränke':'Kaffee;Tee;Cola;Bier;Wein;Wasser;Orangensaft;Milch;Energy-Drink;Eistee;Kakao;Smoothie;Limonade;Sekt;Milchshake',
+ 'Tiere':'Hund;Katze;Löwe;Tiger;Elefant;Giraffe;Hai;Delfin;Pinguin;Eisbär;Spinne;Pferd;Esel;Biene;Affe;Schlange;Krokodil;Kuh;Schwein;Hamster;Eule;Papagei;Känguru;Frosch',
+ 'Orte':'Strand;Schwimmbad;Kino;Schule;Krankenhaus;Flughafen;Bahnhof;Supermarkt;Disco;Festival;Campingplatz;Hotel;Tankstelle;Zahnarzt;Friseur;Bäckerei;Zoo;Freizeitpark;Bibliothek;Fitnessstudio;Kirche;Gefängnis;Bauernhof;Bank;Restaurant',
+ 'Apps & Internet':'Netflix;YouTube;Instagram;TikTok;WhatsApp;Snapchat;Spotify;Google;Amazon;Discord;Twitch;Wikipedia;eBay',
+ 'Gaming':'Minecraft;Roblox;Fortnite;GTA;EA FC;Mario Kart;Pokémon;Call of Duty;PlayStation;Xbox;Nintendo Switch;Among Us;Tetris;Clash Royale',
+ 'Technik':'Handy;Tablet;Laptop;Fernseher;Kopfhörer;Kamera;Drucker;Powerbank;Smartwatch;Drohne;Router;Lautsprecher;Tastatur',
+ 'Fahrzeuge':'BMW;Mercedes;Porsche;Ferrari;Fahrrad;E-Scooter;Zug;Bus;Flugzeug;Hubschrauber;Lkw;Traktor;Motorrad;Taxi;Krankenwagen;Polizeiauto;Wohnmobil;U-Boot;Kreuzfahrtschiff',
+ 'Sport':'Fußball;Basketball;Tennis;Handball;Skifahren;Schwimmen;Boxen;Golf;Formel 1;Volleyball;Tischtennis;Reiten;Klettern;Bowling;Darts;Eishockey',
+ 'Berufe':'Polizist;Feuerwehrmann;Lehrer;Arzt;Bäcker;Koch;Pilot;Elektriker;Mechaniker;Friseur;YouTuber;Astronaut;Richter;Bauer;Kellner;Zahnarzt;Programmierer',
+ 'Fantasie':'Vampir;Zombie;Pirat;Wikinger;Ritter;König;Zauberer;Hexe;Drache;Einhorn;Geist;Alien;Superheld;Roboter;Meerjungfrau;Ninja',
+ 'Natur & Wetter':'Sonne;Mond;Schnee;Regen;Gewitter;Regenbogen;Vulkan;Wüste;Dschungel;Berg;Wasserfall;Insel;Höhle;Wald;Meer',
+ 'Zuhause':'Bett;Sofa;Dusche;Badewanne;Kühlschrank;Waschmaschine;Toaster;Staubsauger;Spiegel;Lampe;Gabel;Löffel;Wecker;Kerze;Teppich;Fenster;Treppe',
+ 'Kleidung':'Schuh;Socke;Mütze;Kappe;Jacke;Pullover;Jeans;Kleid;Anzug;Schal;Handschuhe;Sonnenbrille;Badehose;Pyjama;Gürtel;Krawatte;Rucksack',
+ 'Feste & Freizeit':'Hochzeit;Geburtstag;Weihnachten;Ostern;Silvester;Halloween;Karneval;Grillen;Urlaub;Picknick;Konzert;Abschlussfeier;Oktoberfest',
+ 'Musik':'Gitarre;Geige;Klavier;Schlagzeug;Trompete;Flöte;Mikrofon;DJ;Rap;Schlager;Oper;Karaoke'};
+const IMPIC={'Essen':'🍕','Getränke':'🥤','Tiere':'🐾','Orte':'📍','Apps & Internet':'📱','Gaming':'🎮','Technik':'💻','Fahrzeuge':'🚗','Sport':'⚽','Berufe':'👷','Fantasie':'🐉','Natur & Wetter':'🌦️','Zuhause':'🏠','Kleidung':'👕','Feste & Freizeit':'🎉','Musik':'🎵'};
+const MSEL={cs:()=>CATS.map(c=>[c.k,c.ic+' '+c.n]),hlc:()=>HLD.map((c,i)=>[String(i),c.n]),dps:()=>Object.entries(DPACKS),icats:()=>Object.keys(IMPC).map(k=>[k,IMPIC[k]+' '+k])};
+function csOk(k){const s=ON&&ON.cfg&&ON.cfg.cs;return!s||!s.length||s.includes(k)}
+function csText(c){const it=MSEL.cs();if(mselAll(c.cs,it))return'🎲 Alle Kategorien';const l=it.filter(i=>c.cs.includes(i[0]));return l.length<=2?l.map(i=>i[1]).join(', '):l.length+' Kategorien'}
+function impWord(sel){const cats=Object.keys(IMPC).filter(k=>!sel||!sel.length||sel.includes(k));const list=[];(cats.length?cats:Object.keys(IMPC)).forEach(c=>IMPC[c].split(';').forEach(w=>list.push([c,w])));return freshPick('imp',list,x=>x[1],1)[0]}
+function drawPool(sel,own){const ks=sel&&sel.length?sel:Object.keys(DPACKS).filter(k=>k!=='eigene');let l=[];ks.forEach(k=>{if(k==='eigene')l.push(...own);else if(DWORDS[k])l.push(...DWORDS[k].split(';'))});l=[...new Set(l)];if(l.length<3)l=[...new Set(Object.values(DWORDS).join(';').split(';'))];return l}
 /* ===================== 🕵️ Imposter ===================== */
-const IMPW=`Essen|Pizza|Burger
-Essen|Döner|Falafel
-Essen|Pommes|Chips
-Essen|Schokolade|Gummibärchen
-Essen|Apfel|Birne
-Essen|Kuchen|Keks
-Essen|Ketchup|Mayo
-Essen|Eis|Joghurt
-Essen|Banane|Gurke
-Essen|Spaghetti|Lasagne
-Getränk|Kaffee|Tee
-Getränk|Bier|Wein
-Getränk|Cola|Eistee
-Tier|Hund|Katze
-Tier|Löwe|Tiger
-Tier|Hai|Delfin
-Tier|Pinguin|Eisbär
-Tier|Spinne|Skorpion
-Tier|Pferd|Esel
-Tier|Biene|Wespe
-Ort|Strand|Pool
-Ort|Kino|Theater
-Ort|Schule|Uni
-Ort|See|Meer
-Ort|Wald|Park
-Ort|Flughafen|Bahnhof
-Ort|Supermarkt|Kiosk
-Ort|Disco|Festival
-Ort|Camping|Hotel
-Ort|Tankstelle|Werkstatt
-Ort|Zahnarzt|Friseur
-Ort|Bäcker|Metzger
-App|Netflix|YouTube
-App|Instagram|TikTok
-App|WhatsApp|Snapchat
-App|Spotify|Radio
-Gaming|Minecraft|Roblox
-Gaming|PlayStation|Xbox
-Gaming|Fortnite|Call of Duty
-Technik|iPhone|Samsung
-Technik|Handy|Tablet
-Technik|Laptop|PC
-Fahrzeug|BMW|Mercedes
-Fahrzeug|Fahrrad|Roller
-Fahrzeug|Zug|Bus
-Fahrzeug|Flugzeug|Hubschrauber
-Fahrzeug|Lkw|Traktor
-Fahrzeug|Formel 1|Rallye
-Sport|Fußball|Handball
-Sport|Skifahren|Snowboarden
-Sport|Schwimmen|Tauchen
-Sport|Fitnessstudio|Joggen
-Beruf|Polizei|Feuerwehr
-Beruf|Lehrer|Professor
-Beruf|Rapper|Sänger
-Fantasie|Vampir|Zombie
-Fantasie|Pirat|Wikinger
-Fantasie|Ritter|König
-Fantasie|Zauberer|Hexe
-Fantasie|Rakete|Ufo
-Natur|Sonne|Mond
-Natur|Schnee|Regen
-Natur|Berg|Hügel
-Natur|Rose|Tulpe
-Fest|Hochzeit|Geburtstag
-Fest|Weihnachten|Ostern
-Zuhause|Bett|Sofa
-Zuhause|Dusche|Badewanne
-Zuhause|Gabel|Löffel
-Zuhause|Uhr|Wecker
-Zuhause|Kerze|Taschenlampe
-Kleidung|Schuh|Socke
-Kleidung|Mütze|Kappe
-Kleidung|Jacke|Pullover
-Kleidung|Brille|Sonnenbrille
-Musik|Gitarre|Geige`.split('\n').map(l=>l.split('|'));
-Object.assign(GMODES,{imp:{ic:'🕵️',n:'Imposter',d:'Einer hat ein anderes Wort – wer?'}});Object.assign(OMODES,{imp:GMODES.imp});
-Object.assign(OSET,{ir:[3,5,8],ic:[1,2,3],it:[15,20,30,45],ix:['sim','none'],ik:['auto',1,2]});
-Object.assign(GDEF,{ir:5,ic:2,it:30,ix:'sim',ik:'auto'});
-GRULES.imp='Alle bekommen dasselbe geheime Wort – nur der Imposter nicht. Reihum schreibt jeder EINEN Begriff, der zu seinem Wort passt (nicht zu deutlich!). Dann stimmt ihr ab, wer der Imposter ist. Erwischt: +100 für jeden, der richtig getippt hat. Nicht erwischt: +300 für den Imposter.';
-const IMPX={sim:'🤫 Undercover – der Imposter hat ein ähnliches Wort und weiß nicht, dass er es ist',none:'🕵️ Klassisch – der Imposter weiß es, kennt aber nur die Kategorie'};
+Object.assign(GMODES,{imp:{ic:'🕵️',n:'Imposter',d:'Alle haben dasselbe Wort – einer nicht'}});Object.assign(OMODES,{imp:GMODES.imp});
+Object.assign(OSET,{ir:[3,5,8,10],ic:[1,2,3],it:[15,20,30,45],ik:['auto',1,2]});
+Object.assign(GDEF,{ir:5,ic:2,it:30,ik:'auto',ityp:true,ihint:false,icats:null});
+GRULES.imp='Alle bekommen dasselbe geheime Wort – nur der Imposter sieht „IMPOSTER“. Reihum sagt oder schreibt jeder EINEN Hinweis zu seinem Wort (nicht zu deutlich!). Dann stimmt ihr ab, wer der Imposter ist. Erwischt: +100 für jeden, der richtig getippt hat – der Imposter darf aber noch das Wort raten (+200). Nicht erwischt: +300 für den Imposter.';
 GSTART.imp=()=>impStart();
 function impK(n,k){k=k==='auto'?(n>=7?2:1):+k;return clamp(k,1,Math.max(1,Math.floor((n-1)/2)))}
-function impStart(){gStart();const g=ON.g;g.used=[];g.n=gc('ir');g.next=impRound;impRound()}
-function impPair(used){let pool=IMPW.filter(p=>!used.includes(p[1]));if(!pool.length)pool=IMPW;const p=pool[rint(0,pool.length-1)];used.push(p[1]);const sw=Math.random()<.5;return{cat:p[0],w1:sw?p[2]:p[1],w2:sw?p[1]:p[2]}}
-function impRound(){const g=ON.g;clearT();g.r++;if(g.r>=g.n){gEnd();return}const pr=impPair(g.used);Object.assign(g,pr);const ids=ON.players.map(p=>p.id);const k=impK(ids.length,gc('ik'));g.imp=shuffle([...ids]).slice(0,k);g.mode=gc('ix');
- g.order=shuffle([...ids]);g.clues=[];g.ci=-1;g.total=g.order.length*gc('ic');g.votes={};g.stole=false;g.chk=null;ON.state='gimpw';
- ON.players.forEach(p=>{const im=g.imp.includes(p.id);sendTo(p.id,{t:'impw',w:im?(g.mode==='sim'?g.w2:null):g.w1,cat:g.cat,imp:im&&g.mode==='none'?1:0})});
- hb({t:'impgo',r:g.r,n:g.n,order:g.order,k,mode:g.mode,dur:8,players:pubPlayers()});ON.mT=setTimeout(impTurn,8500)}
+function impStart(){gStart();const g=ON.g;g.n=gc('ir');g.next=impRound;impRound()}
+function impRound(){const g=ON.g;clearT();g.r++;if(g.r>=g.n){gEnd();return}const[cat,w]=impWord(gc('icats'));g.cat=cat;g.w1=w;const ids=ON.players.map(p=>p.id);const k=impK(ids.length,gc('ik'));g.imp=shuffle([...ids]).slice(0,k);
+ g.typ=gc('ityp')!==false;g.hint=!!gc('ihint');g.order=shuffle([...ids]);g.clues=[];g.ci=-1;g.total=g.typ?g.order.length*gc('ic'):0;g.votes={};g.stole=false;g.chk=null;ON.state='gimpw';
+ ON.players.forEach(p=>{const im=g.imp.includes(p.id);sendTo(p.id,{t:'impw',w:im?null:g.w1,cat:g.hint&&im?g.cat:null,imp:im?1:0})});
+ hb({t:'impgo',r:g.r,n:g.n,order:g.order,k,typ:g.typ,dur:g.typ?8:0,players:pubPlayers()});if(g.typ)ON.mT=setTimeout(impTurn,8500)}
 function impTurn(){const g=ON.g;clearT();g.ci++;if(g.ci>=g.total){impVote();return}const id=g.order[g.ci%g.order.length];if(!ON.players.some(p=>p.id===id)){impTurn();return}g.turn=id;ON.state='gimpc';
  hb({t:'impt',id,ci:g.ci,total:g.total,clues:g.clues,dur:gc('it'),players:pubPlayers()});ON.mT=setTimeout(()=>{if(ON&&ON.state==='gimpc'&&g.turn===id){g.clues.push([id,'…']);impTurn()}},gc('it')*1000+900)}
-function impVote(){const g=ON.g;clearT();ON.state='gimpv';g.chk=impVChk;hb({t:'impv',clues:g.clues,dur:60,players:pubPlayers()});ON.mT=setTimeout(impCount,61000)}
+function impVote(){const g=ON.g;if(!['gimpw','gimpc'].includes(ON.state))return;clearT();ON.state='gimpv';g.chk=impVChk;hb({t:'impv',clues:g.clues,dur:60,players:pubPlayers()});ON.mT=setTimeout(impCount,61000)}
 function impVChk(){const g=ON.g;if(ON.state==='gimpv'&&ON.players.every(p=>g.votes[p.id]))impCount()}
 function impCount(){const g=ON.g;if(ON.state!=='gimpv')return;clearT();const cnt={};Object.values(g.votes).forEach(id=>cnt[id]=(cnt[id]||0)+1);const mx=Math.max(0,...Object.values(cnt));const top=Object.keys(cnt).filter(id=>cnt[id]===mx);
  g.top=mx?top:[];g.caught=top.length===1&&mx>0&&g.imp.includes(top[0]);
- if(g.caught&&g.mode==='none'&&ON.players.some(p=>p.id===top[0])){ON.state='gimpg';g.gid=top[0];const p=ON.players.find(x=>x.id===top[0]);hb({t:'impgw',id:top[0],n:p.name,dur:25});ON.mT=setTimeout(impReveal,26000);return}impReveal()}
+ if(g.caught&&ON.players.some(p=>p.id===top[0])){ON.state='gimpg';g.gid=top[0];const p=ON.players.find(x=>x.id===top[0]);hb({t:'impgw',id:top[0],n:p.name,dur:25});ON.mT=setTimeout(impReveal,26000);return}impReveal()}
 function impReveal(){const g=ON.g;if(!['gimpv','gimpg'].includes(ON.state))return;clearT();const gain={};const add=(id,v)=>{const p=ON.players.find(x=>x.id===id);if(!p)return;p.score+=v;gain[id]=(gain[id]||0)+v};
  if(g.caught){ON.players.forEach(p=>{if(g.imp.includes(p.id))return;add(p.id,50);if(g.imp.includes(g.votes[p.id])){add(p.id,100);p.cor++}});if(g.stole)g.imp.forEach(id=>add(id,200))}else g.imp.forEach(id=>{add(id,300);const p=ON.players.find(x=>x.id===id);if(p)p.cor++});
- ON.state='gimpr';const last=g.r+1>=g.n;hb({t:'impr',cat:g.cat,w1:g.w1,w2:g.mode==='sim'?g.w2:null,imp:g.imp,votes:g.votes,top:g.top,caught:g.caught,stole:g.stole,gain,last,players:pubPlayers()});gAuto(impRound,last?8000:12000)}
+ ON.state='gimpr';const last=g.r+1>=g.n;hb({t:'impr',cat:g.cat,w1:g.w1,imp:g.imp,votes:g.votes,top:g.top,caught:g.caught,stole:g.stole,guess:g.guess||'',gain,last,players:pubPlayers()});gAuto(impRound,last?8000:12000)}
 Object.assign(MH,{
- impc(p,d){const g=ON.g;if(ON.state!=='gimpc'||p.id!==g.turn)return;const c=cleanT(d.c,30);if(!c)return;const n=norm(c);const own=g.imp.includes(p.id)?(g.mode==='sim'?g.w2:''):g.w1;
-  if(own&&(n.includes(norm(own))||lev(n,norm(own))<=1)){sendTo(p.id,{t:'impcrej'});return}g.clues.push([p.id,c]);impTurn()},
+ impc(p,d){const g=ON.g;if(ON.state!=='gimpc'||p.id!==g.turn)return;const c=cleanT(d.c,30);if(!c)return;const n=norm(c);if(!g.imp.includes(p.id)&&(n.includes(norm(g.w1))||lev(n,norm(g.w1))<=1)){sendTo(p.id,{t:'impcrej'});return}g.clues.push([p.id,c]);impTurn()},
+ impvgo(p){if(p.id==='host'&&ON.state==='gimpw')impVote()},
  impvo(p,d){const g=ON.g;if(ON.state!=='gimpv'||d.id===p.id||!ON.players.some(x=>x.id===d.id))return;g.votes[p.id]=d.id;hb({t:'impvc',c:Object.keys(g.votes).length,n:ON.players.length});impVChk()},
  impg(p,d){const g=ON.g;if(ON.state!=='gimpg'||p.id!==g.gid)return;const x=norm(cleanT(d.g,30)),w=norm(g.w1);g.stole=x===w||(w.length>=5&&lev(x,w)<=1);g.guess=cleanT(d.g,30);impReveal()}});
-function impMy(){const s=ON.gimp;if(!s||ON.tv)return'';return`<div class="card" style="text-align:center;padding:10px;border-color:var(--acc)"><div class="xs mut">${s.imp?'Du bist der Imposter – Kategorie':'Dein geheimes Wort'}</div><div style="font-size:24px;font-weight:900">${s.imp?'🕵️ '+esc(s.cat):s.w?esc(s.w):'🕵️ '+esc(s.cat)}</div></div>`}
+function impCard(s,hold,big){if(!s)return'';const w=s.imp?'IMPOSTER':s.w;const sub=s.imp?(s.cat?`Tipp: Kategorie <b>${esc(s.cat)}</b> – tu so, als ob du das Wort kennst 😏`:'Du kennst das Wort nicht – tu so, als ob 😏'):'Merk es dir – nicht verraten!';
+ const inner=`<div class="xs mut">${s.imp?'🕵️ Du bist …':'Dein geheimes Wort'}</div><div class="impw" style="font-size:${big?42:26}px;font-weight:900;margin:${big?10:4}px 0;color:${s.imp?'#f87171':'var(--gold)'}">${esc(w)}</div>${big?`<div class="sm mut">${sub}</div>`:s.imp&&s.cat?`<div class="xs mut">Tipp: ${esc(s.cat)}</div>`:''}`;
+ return hold?`<div class="card hold" style="text-align:center;padding:${big?24:12}px;user-select:none;-webkit-user-select:none;touch-action:none" onpointerdown="this.classList.add('show')" onpointerup="this.classList.remove('show')" onpointerleave="this.classList.remove('show')" onpointercancel="this.classList.remove('show')" oncontextmenu="return false"><div class="holdc">${inner}</div><div class="holdh">👆 Gedrückt halten zum Anschauen</div></div>`
+ :`<div class="card" style="text-align:center;padding:${big?24:10}px;border-color:var(--acc)">${inner}</div>`}
+function impMy(){const s=ON.gimp;if(!s||ON.tv)return'';return impCard(s,ON.gimpIrl,false)}
 function impClues(cl){if(!cl.length)return'';const by={};cl.forEach(([id,c])=>{(by[id]=by[id]||[]).push(c)});return`<div class="card" style="padding:8px">${Object.entries(by).map(([id,cs])=>{const p=ON.players.find(x=>x.id===id)||{name:'?',ava:'❔'};return`<div class="line it sm"><span>${headH(p,22)} ${id===meId()?'<b>Du</b>':esc(p.name)}</span><span>${cs.map(c=>`<span class="chip" style="margin-left:4px">${esc(c)}</span>`).join('')}</span></div>`}).join('')}</div>`}
 Object.assign(MG,{
  impw(m){ON.gimp=m},
- impgo(m){gPl(m);ON.state='gimpw';if(!ON.gimp)ON.gimp=null;const s=ON.gimp;
-  view(`${gHead(`🕵️ Runde ${m.r+1}/${m.n}`)}${gTimer()}${ON.tv||!s?`<div class="card" style="text-align:center;padding:26px"><div style="font-size:50px">🤫</div><h2>Jeder bekommt sein geheimes Wort …</h2><div class="sm mut">${m.k>1?m.k+' Imposter':'1 Imposter'} · ${IMPX[m.mode]}</div></div>`
-  :`<div class="card" style="text-align:center;padding:24px"><div class="xs mut">${s.imp?'🕵️ DU BIST DER IMPOSTER!':'Dein geheimes Wort'}</div><div style="font-size:40px;font-weight:900;margin:8px 0;color:var(--gold)">${s.imp?'Kategorie: '+esc(s.cat):esc(s.w)}</div><div class="sm mut">${s.imp?'Tu so, als ob du das Wort kennst 😏':'Beschreib es gleich mit EINEM Begriff – aber nicht zu deutlich!'}</div></div>`}
-  <div class="card sm mut" style="text-align:center">${m.k>1?m.k+' Imposter sind dabei':'1 Imposter ist dabei'} · Reihenfolge: ${m.order.map(id=>{const p=ON.players.find(x=>x.id===id);return p?esc(p.name):'?'}).join(' → ')}</div>${emoBar()}`);bar(m.dur)},
+ impgo(m){gPl(m);ON.state='gimpw';ON.gimpIrl=!m.typ;const s=ON.gimp;const nm=id=>{const p=ON.players.find(x=>x.id===id);return p?esc(p.name):'?'};
+  const who=`${m.k>1?m.k+' Imposter sind':'1 Imposter ist'} dabei`;
+  view(`${gHead(`🕵️ Runde ${m.r+1}/${m.n}`)}${m.typ?gTimer():''}${ON.tv||!s?`<div class="card" style="text-align:center;padding:26px"><div style="font-size:50px">🤫</div><h2>Jeder hat sein geheimes Wort …</h2><div class="sm mut">${who}</div></div>`:impCard(s,!m.typ,true)}
+  ${m.typ?`<div class="card sm mut" style="text-align:center">${who} · Gleich schreibt jeder reihum einen Hinweis.<br>Reihenfolge: ${m.order.map(nm).join(' → ')}</div>`
+  :`<div class="card" style="text-align:center"><div style="font-size:34px">🗣️</div><b>Jetzt reihum laut!</b><div class="sm">Jeder sagt <b>EIN Wort</b> zu seinem geheimen Wort.<br>Es fängt an: <b style="color:var(--gold)">${nm(m.order[0])}</b></div><div class="xs mut" style="margin-top:6px">Reihenfolge: ${m.order.map(nm).join(' → ')} · ${who}</div>
+   ${ON.role==='host'?'<button class="btn gold" style="width:100%;margin-top:10px" data-a="impvgo">🗳️ Alle haben gesagt – zur Abstimmung</button>':'<div class="xs mut" style="margin-top:8px">Der Host startet die Abstimmung.</div>'}</div>`}${emoBar()}`);if(m.typ)bar(m.dur)},
  impt(m){gPl(m);ON.state='gimpc';const mine=m.id===meId();const tp=ON.players.find(p=>p.id===m.id)||{name:'?',ava:'❔'};
   view(`${gHead(`🕵️ Hinweis ${m.ci+1}/${m.total}`)}${gTimer()}${impMy()}${mine?`<div class="card" style="border-color:var(--gold)"><b>Du bist dran!</b> <span class="sm mut">Ein Begriff zu deinem Wort:</span><div class="row" style="flex-wrap:nowrap;margin-top:8px"><input class="txt" id="impc" maxlength="30" placeholder="z. B. lecker" autocomplete="off" onkeydown="if(event.key==='Enter')document.querySelector('[data-a=impsend]').click()"><button class="btn gold" data-a="impsend">✅</button></div></div>`
   :`<div class="card" style="text-align:center;padding:16px">${headH(tp,44)}<div style="margin-top:6px"><b>${esc(tp.name)}</b> überlegt sich einen Hinweis …</div></div>`}${impClues(m.clues)}${emoBar()}`);bar(m.dur);if(mine)setTimeout(()=>{const i=$('impc');if(i)i.focus()},100)},
@@ -3971,43 +3932,49 @@ Object.assign(MG,{
  impv(m){gPl(m);ON.state='gimpv';const others=ON.players.filter(p=>p.id!==meId());
   view(`${gHead('🕵️ Wer ist der Imposter?')}${gTimer()}${impMy()}${impClues(m.clues)}<div class="card"><h3 style="margin-top:0">🗳️ Abstimmen</h3><div id="impvb" style="display:grid;grid-template-columns:1fr 1fr;gap:8px">${others.map(p=>`<button class="btn alt" data-a="impvo|${p.id}">${p.ava} ${esc(p.name)}</button>`).join('')}</div><div class="xs mut" id="impvc" style="margin-top:6px;text-align:center"></div></div>${emoBar()}`);bar(m.dur)},
  impvc(m){const e=$('impvc');if(e)e.textContent=`${m.c}/${m.n} haben abgestimmt`},
- impgw(m){ON.state='gimpg';stopTimer();const mine=m.id===meId();const e=$('impvb');const box=e?e.parentElement:null;const h=mine?`<h3 style="margin-top:0">😱 Du wurdest erwischt!</h3><div class="sm">Rate das Wort der anderen – richtig = +200 für dich:</div><div class="row" style="flex-wrap:nowrap;margin-top:8px"><input class="txt" id="impg" maxlength="30" placeholder="Das Wort ist …" autocomplete="off" onkeydown="if(event.key==='Enter')document.querySelector('[data-a=impguess]').click()"><button class="btn gold" data-a="impguess">✅</button></div>`
+ impgw(m){ON.state='gimpg';stopTimer();const mine=m.id===meId();const e=$('impvb');const box=e?e.parentElement:null;const h=mine?`<h3 style="margin-top:0">😱 Du wurdest erwischt!</h3><div class="sm">Rate das geheime Wort – richtig = +200 für dich:</div><div class="row" style="flex-wrap:nowrap;margin-top:8px"><input class="txt" id="impg" maxlength="30" placeholder="Das Wort ist …" autocomplete="off" onkeydown="if(event.key==='Enter')document.querySelector('[data-a=impguess]').click()"><button class="btn gold" data-a="impguess">✅</button></div>`
   :`<div style="text-align:center"><b>😱 ${esc(m.n)} wurde erwischt!</b><div class="sm mut">… und darf jetzt das Wort raten.</div></div>`;if(box)box.innerHTML=h;else view(`${gHead('🕵️ Erwischt!')}<div class="card">${h}</div>`);bar(m.dur);if(mine)setTimeout(()=>{const i=$('impg');if(i)i.focus()},100)},
  impr(m){gPl(m);ON.state='gimpr';stopTimer();const nm=id=>ON.players.find(p=>p.id===id)||{name:'?',ava:'❔'};const vc={};Object.values(m.votes).forEach(id=>vc[id]=(vc[id]||0)+1);const iAmImp=m.imp.includes(meId());
   const head=m.caught?(iAmImp?'😱 Du wurdest erwischt!':'🎉 Imposter erwischt!'):(iAmImp?'😎 Du bist durchgekommen!':'🕵️ Der Imposter ist entkommen!');
-  view(`${gHead('🕵️ Auflösung')}<div class="card" style="text-align:center;padding:14px;background:${m.caught?'#15803d':'#7f1d1d'};color:#fff"><b style="font-size:22px">${head}</b><div class="sm" style="margin-top:6px">Wort: <b>${esc(m.w1)}</b>${m.w2?` · Imposter-Wort: <b>${esc(m.w2)}</b>`:` · Kategorie: ${esc(m.cat)}`}</div>${m.stole?'<div class="sm">…aber der Imposter hat das Wort erraten! +200 🕵️</div>':''}</div>
+  view(`${gHead('🕵️ Auflösung')}<div class="card" style="text-align:center;padding:14px;background:${m.caught?'#15803d':'#7f1d1d'};color:#fff"><b style="font-size:22px">${head}</b><div class="sm" style="margin-top:6px">Das Wort war: <b>${esc(m.w1)}</b> <span style="opacity:.8">(${esc(m.cat)})</span><br>Imposter: <b>${m.imp.map(id=>esc(nm(id).name)).join(' & ')}</b></div>${m.caught&&m.guess?`<div class="sm">Geraten: „${esc(m.guess)}“ ${m.stole?'– richtig! +200 🕵️':'– falsch'}</div>`:''}</div>
   <div class="card" style="padding:8px">${rankOrder(ON.players).map(p=>`<div class="line it sm"><span>${headH(p,22)} ${p.id===meId()?'<b>Du</b>':esc(p.name)} ${m.imp.includes(p.id)?'🕵️':''}</span><span class="xs mut">${vc[p.id]?vc[p.id]+' 🗳️ · ':''}tippte: ${m.votes[p.id]?esc(nm(m.votes[p.id]).name):'–'}</span><b class="${m.gain[p.id]?'pos':'mut'}">${m.gain[p.id]?'+'+m.gain[p.id]:'0'}</b></div>`).join('')}</div>${gScores()}${gNext(m.last)}${emoBar()}`);if(m.caught&&!iAmImp||!m.caught&&iAmImp)confetti(80);ON.gimp=null}});
 Object.assign(GACT,{
  impsend(){const i=$('impc');const v=i&&i.value.trim();if(!v){toast('Schreib einen Begriff');return}mSend({t:'impc',c:v})},
+ impvgo(){mSend({t:'impvgo'})},
  impvo(p){mSend({t:'impvo',id:p[1]});document.querySelectorAll('#impvb button').forEach(b=>{b.disabled=true;if(b.dataset.a==='impvo|'+p[1])b.classList.remove('alt')})},
- impguess(){const i=$('impg');const v=i&&i.value.trim();if(!v)return;mSend({t:'impg',g:v});const e=$('impg');if(e)e.disabled=true}});
-/* ----- Imposter offline (ein Handy) ----- */
-function oImpMenu(){G={mode:'oimpm'};const pl=P.odrPl&&P.odrPl.length>=2?P.odrPl:[P.name||'Spieler 1','Spieler 2','Spieler 3'];P.odrPl=pl;P.impX=P.impX||'sim';
- view(`<div class="top"><button class="back" data-a="home">←</button><h2>🕵️ Imposter</h2></div><div class="card sm mut">Ein Handy wird reihum weitergegeben: Jeder schaut sich heimlich sein Wort an. Dann sagt jeder reihum EIN Wort dazu – und ihr stimmt ab, wer der Imposter ist. Ab 3 Spielern.</div>
+ impguess(){const i=$('impg');const v=i&&i.value.trim();if(!v)return;mSend({t:'impg',g:v});const e=$('impg');if(e)e.disabled=true},
+ oms(p){if(!ON||ON.role!=='host')return;const k=p[1],v=p.slice(2).join('|');const it=MSEL[k]();ON.cfg[k]=mselTog(ON.cfg[k],v,it);hostCfg()},
+ pms(p){const k=p[1],v=p.slice(2).join('|');const it=MSEL[{impCats:'icats',odrPacks:'dps'}[k]]();P[k]=mselTog(P[k],v,it);save();(G&&G.mode==='oimpm'?oImpMenu:oDrawMenu)()},
+ otog2(p){P[p[1]]=!P[p[1]];save();oImpMenu()}});
+/* ----- Imposter offline (ein Handy, reihum) ----- */
+function oImpMenu(){G={mode:'oimpm'};const pl=P.odrPl&&P.odrPl.length>=2?P.odrPl:[P.name||'Spieler 1','Spieler 2','Spieler 3'];P.odrPl=pl;
+ view(`<div class="top"><button class="back" data-a="home">←</button><h2>🕵️ Imposter</h2></div><div class="card sm mut">Zusammen am Tisch mit einem Handy: Jeder schaut sich heimlich sein Wort an – der Imposter sieht nur „IMPOSTER“. Dann sagt jeder reihum EIN Wort dazu und ihr stimmt ab. Ab 3 Spielern.<br><br>💡 Jeder mit eigenem Handy? Dann nimm 🌐 Online-Party → Imposter und schalte „Hinweise tippen“ aus.</div>
  <div class="card"><h3 style="margin-top:0">👥 Spieler (${pl.length})</h3>${pl.map((n,i)=>`<div class="row" style="flex-wrap:nowrap;margin-bottom:6px"><input class="txt" maxlength="14" value="${esc(n)}" onchange="P.odrPl[${i}]=this.value.trim().slice(0,14)||'Spieler ${i+1}';save()">${pl.length>2?`<button class="btn alt s" data-a="oimprm|${i}">✕</button>`:''}</div>`).join('')}${pl.length<12?'<button class="btn alt s" style="width:100%" data-a="oimpadd">+ Spieler</button>':''}</div>
- <div class="card"><div class="sm" style="margin-bottom:6px">🎭 Variante</div>${Object.entries(IMPX).map(([k,v])=>`<button class="btn s ${P.impX===k?'':'alt'}" style="width:100%;margin-bottom:6px;text-align:left" data-a="oimpx|${k}">${v}</button>`).join('')}</div>
+ <div class="card"><div class="sm" style="margin-bottom:6px">🗂️ Kategorien</div>${mselHTML(MSEL.icats(),P.impCats,'pms|impCats')}
+ <div class="line setrow" style="margin-top:10px"><span class="sm">💡 Tipp für den Imposter<br><span class="xs mut">Er sieht die Kategorie</span></span><span class="tgl ${P.impHint?'on':''}" data-a="otog2|impHint"></span></div>
+ <div class="line setrow"><span class="sm">🕵️ Imposter</span><span class="stp"><button class="btn alt s" data-a="oimpk|-1">‹</button><b class="sm">${P.impK||1}</b><button class="btn alt s" data-a="oimpk|1">›</button></span></div></div>
  <button class="btn gold" style="width:100%;font-size:17px;padding:14px" data-a="oimpgo" ${pl.length<3?'disabled':''}>${pl.length<3?'Mindestens 3 Spieler':'🚀 Los geht\'s'}</button>`)}
-function oImpStart(){G={mode:'oimp',pl:P.odrPl.map((n,i)=>({n:n||'Spieler '+(i+1),s:0})),r:-1,n:5,used:[],x:P.impX||'sim'};oImpRound()}
+function oImpStart(){G={mode:'oimp',pl:P.odrPl.map((n,i)=>({n:n||'Spieler '+(i+1),s:0})),r:-1,n:5};oImpRound()}
 function oImpRound(){const g=G;g.r++;if(g.r>=g.n){const s=[...g.pl].sort((a,b)=>b.s-a.s);offEnd({t:'🕵️ Imposter',k:'oimp',big:'🏆 '+esc(s[0].n),sub:'hat gewonnen!',xp:40,coins:20,good:true,again:'gimp',extra:`<div class="card">${s.map((p,i)=>`<div class="line it sm"><span>${['🥇','🥈','🥉'][i]||(i+1)+'.'} ${esc(p.n)}</span><b>${p.s}</b></div>`).join('')}</div>`});return}
- Object.assign(g,impPair(g.used));g.imp=rint(0,g.pl.length-1);g.k=-1;oImpPass()}
+ const[cat,w]=impWord(P.impCats);g.cat=cat;g.w1=w;const k=clamp(P.impK||1,1,Math.max(1,Math.floor((g.pl.length-1)/2)));g.imps=shuffle(g.pl.map((_,i)=>i)).slice(0,k);g.k=-1;oImpPass()}
 function oImpPass(){const g=G;g.k++;if(g.k>=g.pl.length){g.start=rint(0,g.pl.length-1);
-  view(`${gHead(`🕵️ Runde ${g.r+1}/${g.n}`)}<div class="card" style="text-align:center;padding:22px"><div style="font-size:46px">🗣️</div><h2 style="margin:8px 0">Jetzt reihum!</h2><div class="sm">Jeder sagt <b>EIN Wort</b> zu seinem geheimen Wort.<br>Es fängt an: <b style="color:var(--gold)">${esc(g.pl[g.start].n)}</b><br><span class="mut">Am besten 2 Runden – dann abstimmen.</span></div></div>
+  view(`${gHead(`🕵️ Runde ${g.r+1}/${g.n}`)}<div class="card" style="text-align:center;padding:22px"><div style="font-size:46px">🗣️</div><h2 style="margin:8px 0">Jetzt reihum!</h2><div class="sm">Jeder sagt <b>EIN Wort</b> zu seinem geheimen Wort.<br>Es fängt an: <b style="color:var(--gold)">${esc(g.pl[g.start].n)}</b><br><span class="mut">Gern 2 Runden – dann abstimmen.</span></div></div>
   <button class="btn gold" style="width:100%" data-a="oimpvote">🗳️ Zur Abstimmung</button>`);return}
  const p=g.pl[g.k];view(`${gHead(`🕵️ Runde ${g.r+1}/${g.n}`)}<div class="card" style="text-align:center;padding:26px"><div style="font-size:46px">📱</div><h2 style="margin:8px 0">Gib das Handy an<br>${esc(p.n)}</h2><div class="sm mut">Die anderen schauen weg 🙈</div><button class="btn gold" style="width:100%;margin-top:14px" data-a="oimpshow">👀 Ich bin ${esc(p.n)} – Wort zeigen</button></div>`)}
-function oImpShow(){const g=G;const im=g.k===g.imp;const w=im?(g.x==='sim'?g.w2:null):g.w1;
- view(`${gHead(`🕵️ ${esc(g.pl[g.k].n)}`)}<div class="card" style="text-align:center;padding:30px"><div class="xs mut">${im&&g.x==='none'?'🕵️ DU BIST DER IMPOSTER!':'Dein geheimes Wort'}</div><div style="font-size:40px;font-weight:900;margin:10px 0;color:var(--gold)">${w?esc(w):'Kategorie: '+esc(g.cat)}</div><div class="sm mut">${im&&g.x==='none'?'Tu so, als ob du das Wort kennst 😏':'Merk es dir – nicht verraten!'}</div></div>
- <button class="btn" style="width:100%" data-a="oimpok">✅ Gemerkt – Handy weitergeben</button>`)}
+function oImpShow(){const g=G;const im=g.imps.includes(g.k);
+ view(`${gHead(`🕵️ ${esc(g.pl[g.k].n)}`)}${impCard({imp:im,w:g.w1,cat:im&&P.impHint?g.cat:null},false,true)}<button class="btn" style="width:100%" data-a="oimpok">✅ Gemerkt – Handy weitergeben</button>`)}
 function oImpVote(){const g=G;view(`${gHead('🗳️ Wer ist der Imposter?')}<div class="card sm mut" style="text-align:center">Diskutiert kurz und einigt euch – oder zählt per Handzeichen.</div><div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px">${g.pl.map((p,i)=>`<button class="btn alt" data-a="oimppick|${i}">${esc(p.n)}</button>`).join('')}</div>`)}
-function oImpPick(i){const g=G;g.pick=i;const caught=i===g.imp;if(caught&&g.x==='none'){view(`${gHead('😱 Erwischt!')}<div class="card" style="text-align:center"><h3>${esc(g.pl[i].n)} ist der Imposter!</h3><div class="sm">Jetzt darf ${esc(g.pl[i].n)} das Wort raten (laut sagen).<br>Das Wort war: <b class="tvhide" id="oimpw" style="filter:blur(8px)">${esc(g.w1)}</b> <button class="btn alt s" data-a="oimpw">👁️</button></div></div>
+function oImpPick(i){const g=G;g.pick=i;if(g.imps.includes(i)){view(`${gHead('😱 Erwischt!')}<div class="card" style="text-align:center"><h3>${esc(g.pl[i].n)} ist ein Imposter!</h3><div class="sm">Jetzt darf ${esc(g.pl[i].n)} das Wort raten (laut sagen).<br>Das Wort war: <b id="oimpw" style="filter:blur(8px)">${esc(g.w1)}</b> <button class="btn alt s" data-a="oimpw">👁️</button></div></div>
  <div class="row"><button class="btn" style="flex:1;background:#15803d" data-a="oimpres|1">✅ Richtig geraten</button><button class="btn" style="flex:1;background:#b91c1c" data-a="oimpres|0">❌ Falsch</button></div>`);return}oImpRes(0)}
-function oImpRes(stole){const g=G;const caught=g.pick===g.imp;g.pl.forEach((p,i)=>{if(i===g.imp){if(!caught)p.s+=300;else if(stole)p.s+=200}else if(caught)p.s+=100});
- view(`${gHead(`🕵️ Runde ${g.r+1}/${g.n}`)}<div class="card" style="text-align:center;padding:14px;background:${caught?'#15803d':'#7f1d1d'};color:#fff"><b style="font-size:22px">${caught?'🎉 Imposter erwischt!':'🕵️ Falsch getippt – der Imposter entkommt!'}</b><div class="sm" style="margin-top:6px">Imposter: <b>${esc(g.pl[g.imp].n)}</b><br>Wort: <b>${esc(g.w1)}</b>${g.x==='sim'?` · Imposter-Wort: <b>${esc(g.w2)}</b>`:''}${stole?'<br>…aber er hat das Wort erraten! +200':''}</div></div>
+function oImpRes(stole){const g=G;const caught=g.imps.includes(g.pick);g.pl.forEach((p,i)=>{if(g.imps.includes(i)){if(!caught)p.s+=300;else if(stole)p.s+=200}else if(caught)p.s+=100});
+ view(`${gHead(`🕵️ Runde ${g.r+1}/${g.n}`)}<div class="card" style="text-align:center;padding:14px;background:${caught?'#15803d':'#7f1d1d'};color:#fff"><b style="font-size:22px">${caught?'🎉 Imposter erwischt!':'🕵️ Falsch getippt – der Imposter entkommt!'}</b><div class="sm" style="margin-top:6px">Imposter: <b>${g.imps.map(i=>esc(g.pl[i].n)).join(' & ')}</b><br>Wort: <b>${esc(g.w1)}</b> (${esc(g.cat)})${stole?'<br>…aber das Wort wurde erraten! +200':''}</div></div>
  <div class="card">${[...g.pl].sort((a,b)=>b.s-a.s).map(p=>`<div class="line it sm"><span>${esc(p.n)}</span><b>${p.s}</b></div>`).join('')}</div><button class="btn gold" style="width:100%" data-a="oimpnext">${g.r+1>=g.n?'🏁 Ergebnis':'Nächste Runde →'}</button>`)}
 GOFF.gimp=oImpMenu;
 Object.assign(GACT,{
- oimprm(p){P.odrPl.splice(+p[1],1);save();oImpMenu()},oimpadd(){P.odrPl.push('Spieler '+(P.odrPl.length+1));save();oImpMenu()},oimpx(p){P.impX=p[1];save();oImpMenu()},
+ oimprm(p){P.odrPl.splice(+p[1],1);save();oImpMenu()},oimpadd(){P.odrPl.push('Spieler '+(P.odrPl.length+1));save();oImpMenu()},oimpk(p){P.impK=clamp((P.impK||1)+ +p[1],1,3);save();oImpMenu()},
  oimpgo(){if(P.odrPl.length>=3)oImpStart()},oimpshow(){oImpShow()},oimpok(){oImpPass()},oimpvote(){oImpVote()},oimppick(p){oImpPick(+p[1])},
  oimpw(){const e=$('oimpw');if(e)e.style.filter=e.style.filter?'':'blur(8px)'},oimpres(p){oImpRes(+p[1])},oimpnext(){oImpRound()}});
+
 /* ===================== 📱 QR-Code zum Beitreten ===================== */
 /* ===================== QR-Code (eigener kleiner Generator, Byte-Modus, Fehlerkorrektur M) ===================== */
 function qrMatrix(text){const data=[...new TextEncoder().encode(text)];const ECC=[-1,10,16,26,18,24,16,18,22,22,26],BLK=[-1,1,1,1,2,2,4,4,4,5,5];
@@ -4063,7 +4030,7 @@ document.addEventListener('click',e=>{const b=e.target.closest('[data-a]');if(!b
  case'onext':hostNext();break;
  case'ocyc':cycCfg(p[1],+p[2]);break;
  case'otype':{ON.cfg.types[p[1]]=!ON.cfg.types[p[1]];if(!OTYPES.some(t=>ON.cfg.types[t[0]]))ON.cfg.types.mc=true;hostCfg();break}
- case'oreset':{const c=ON.cfg.cat;ON.cfg=defCfg();ON.cfg.cat=c;hostCfg();break}
+ case'oreset':{const c=ON.cfg.cat,cs=ON.cfg.cs;ON.cfg=defCfg();ON.cfg.cat=c;ON.cfg.cs=cs;hostCfg();break}
  case'ojk':oUseJoker(p[1]);break;
  case'obet':castBet(p[1],p[2]);break;
  case'ovote':castVote(p[1]);break;
