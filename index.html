@@ -2393,7 +2393,8 @@ function home(){G=null;const L=lvlInfo();const today=dkey();const dd=P.daily.las
   ${modeBtn('ghl','⬆️','Höher oder Tiefer','Mehr oder weniger? 3 Leben','#16a34a','#065f46',P.best.ohl?'Rekord '+P.best.ohl:'')}
   ${modeBtn('glie','🤥','Lügen-Quiz','Finde die echte Antwort','#9333ea','#581c87',P.best.olie?'Rekord '+P.best.olie:'')}
   ${modeBtn('gslf','🏙️','Stadt-Land-Fluss','Mit eigenen Kategorien','#ea580c','#7c2d12',P.best.oslf?'Rekord '+P.best.oslf:'')}
-  <button class="mode" style="grid-column:1/-1;min-height:80px;background:linear-gradient(135deg,#db2777,#7c3aed)" data-a="mode|gdraw"><i>🎨</i><b>Montagsmaler</b><span>Ein Handy, alle raten mit – malen, raten, lachen</span></button>
+  ${modeBtn('gimp','🕵️','Imposter','Wer hat ein anderes Wort?','#475569','#0f172a')}
+  ${modeBtn('gdraw','🎨','Montagsmaler','Malen, raten, lachen','#db2777','#7c3aed')}
  </div>
  <button class="mode" style="width:100%;margin-top:10px;background:linear-gradient(135deg,${dd?'#334155,#1e293b':'#f59e0b,#b45309'});min-height:76px" data-a="daily"><i>📅</i><b>Tages-Challenge</b><span>${dd?'✅ Heute geschafft – komm morgen wieder!':'10 Fragen, jeden Tag neu · Bonus-Münzen'}${P.daily.streak?' · 🔥 '+P.daily.streak+' Tage':''}</span></button>
  <button class="mode" style="width:100%;margin-top:10px;background:linear-gradient(135deg,#0d9488,#115e59);min-height:70px" data-a="mode|learn"><i>🎯</i><b>Lernmodus</b><span>${Object.keys(P.wrong).length?`${Object.keys(P.wrong).length} Fragen, die du falsch hattest – zweimal richtig und sie sind weg`:'Hier landen Fragen, die du falsch beantwortest'}</span></button>
@@ -2708,7 +2709,7 @@ function pubPlayers(){return ON.players.map(p=>({id:p.id,name:p.name,ava:p.ava,l
 function hostBroadcast(m){Object.values(ON.conns).forEach(c=>{try{c.open!==false&&c.send(m)}catch(e){}})}
 function hostCfg(){if(!ON||ON.role!=='host')return;try{localStorage.setItem('quizarena_ocfg',JSON.stringify(ON.cfg))}catch(e){}hostBroadcast({t:'lobby',players:pubPlayers(),cfg:ON.cfg});renderLobby()}
 function cycCfg(k,dir){const a=OSET[k];let i=a.indexOf(ON.cfg[k]);if(i<0)i=0;ON.cfg[k]=a[(i+dir+a.length)%a.length];hostCfg()}
-function shareCode(){const link=/^https?:/.test(location.href)?location.href.split('#')[0]:'';const t=`Komm in meine Quiz-Arena! 🎉 ${link?link+' → ':''}🌐 Online-Party → Raumcode: ${ON.code}`;if(navigator.share)navigator.share({text:t}).catch(()=>{});else if(navigator.clipboard){navigator.clipboard.writeText(t);toast('📋 Einladung kopiert')}else toast('Raumcode: '+ON.code)}
+function shareCode(){const link=/^https?:/.test(location.href)?joinURL(ON.code):'';const t=`Komm in meine Quiz-Arena! 🎉 ${link?link+' → ':''}🌐 Online-Party → Raumcode: ${ON.code}`;if(navigator.share)navigator.share({text:t}).catch(()=>{});else if(navigator.clipboard){navigator.clipboard.writeText(t);toast('📋 Einladung kopiert')}else toast('Raumcode: '+ON.code)}
 function showFx(m){if(m.t==='emo'){const d=document.createElement('div');d.className='femo';d.textContent=m.e;d.style.left=(8+Math.random()*78)+'%';document.body.appendChild(d);setTimeout(()=>d.remove(),2700)}
  else{const d=document.createElement('div');d.className='fquip';d.innerHTML=`${m.a||''} <b>${esc(m.n||'')}</b>: ${esc(m.e)}`;document.body.appendChild(d);setTimeout(()=>d.remove(),3000)}}
 function sendFx(t,e){if(!ON)return;const now=Date.now();if(now-(ON.myEmo||0)<600)return;ON.myEmo=now;const me=meP()||{};const m={t,e,a:me.ava||P.ava,n:me.name||P.name};showFx(m);if(ON.role==='host')hostBroadcast(m);else try{ON.conn.send({t,e})}catch(x){}}
@@ -2745,15 +2746,15 @@ function settingsHTML(ro){const c=ON.cfg;if(GMODES[c.mode])return gSettings(ro);
   ${ro?'':'<button class="btn alt s" style="width:100%;margin-top:8px" data-a="oreset">↺ Standard-Einstellungen</button>'}</details>`}
 function renderLobby(){if(!ON)return;G=null;ON.state='lobby';stopTimer();const c=ON.cfg;const n=ON.players.length;
  if(ON.role==='host'){const M=OMODES[c.mode]||OMODES.klass;view(`<div class="top"><button class="back" data-a="oleave">✕</button><h2>🌐 Dein Raum</h2>${voiceChip()}</div>
-  <div class="card"><div class="line"><div><div class="xs mut">Raumcode</div><div class="code">${ON.code}</div></div><button class="btn s" data-a="oshare">📤 Einladen</button></div>
+  <div class="card"><div class="line"><div><div class="xs mut">Raumcode</div><div class="code">${ON.code}</div></div><div class="row" style="gap:6px;flex-wrap:nowrap"><button class="btn s alt" data-a="oqr">📱 QR</button><button class="btn s" data-a="oshare">📤 Einladen</button></div></div><div id="oqrbox" hidden style="margin-top:10px;text-align:center"><div id="oqrimg" data-sz="200"></div><div class="xs mut" style="margin-top:6px">Mit der Handy-Kamera scannen → direkt im Raum</div></div>
   <div class="line" style="margin-top:12px"><b class="sm">👥 Spieler</b><span class="chip">${n}/12</span></div><div class="plgrid">${lobbyGrid()}</div>${n<2?'<div class="xs mut" style="margin-top:6px">Warte auf Freunde … Sie öffnen 🌐 Online-Party und geben den Code ein.</div>':''}<div class="xs ${ON.tvs&&Object.keys(ON.tvs).length?'pos':'mut'}" style="margin-top:6px">${ON.tvs&&Object.keys(ON.tvs).length?'📺 TV-Bildschirm verbunden ✓':'📺 Optional: Fernseher als großen Bildschirm verbinden – dort Online-Party → „Fernseher“ öffnen und den Code eingeben.'}</div></div>
   ${modePicker()}${settingsHTML(false)}
   <div class="startbar"><button class="btn gold" style="width:100%;font-size:17px;padding:14px" data-a="ostart">🚀 Starten: ${M.ic} ${M.n}</button><div class="xs mut" style="text-align:center;margin-top:5px">${cfgText(c)}</div></div>${emoBar()}`)}
  else if(ON.tv){const M=c?(OMODES[c.mode]||OMODES.klass):null;const url=(location.host+location.pathname).replace(/index\.html$/,'');view(`<div class="top"><button class="back" data-a="oleave">✕</button><h2>📺 Quiz-Arena</h2>${voiceChip()}</div>
-  <div class="card" style="text-align:center;padding:22px"><div class="sm mut">Mitspielen? Öffne auf dem Handy</div><div class="tvurl">${esc(url)}</div><div class="sm mut" style="margin-top:12px">→ 🌐 Online-Party → Code eingeben:</div><div class="tvcode" style="margin-top:6px">${ON.code}</div></div>
+  <div class="card" style="text-align:center;padding:22px"><div class="sm mut">Mitspielen? Öffne auf dem Handy</div><div class="tvurl">${esc(url)}</div><div class="sm mut" style="margin-top:12px">→ 🌐 Online-Party → Code eingeben:</div><div class="tvcode" style="margin-top:6px">${ON.code}</div><div class="sm mut" style="margin-top:12px">… oder QR-Code scannen:</div><div id="tvqr" data-sz="200" style="margin-top:8px"></div></div>
   ${M?`<div class="card" style="text-align:center"><div style="font-size:26px;font-weight:900">${M.ic} ${M.n}</div><div class="sm mut">${cfgText(c)}</div></div>`:''}
   <div class="card"><div class="line"><b>👥 Spieler</b><span class="chip">${n}/12</span></div><div class="plgrid">${lobbyGrid()}</div></div>
-  <div class="sm mut" style="text-align:center">${ON.state==='wait'?'Das Spiel läuft – gleich geht es hier weiter …':'Warte, bis der Host startet …'}</div>`)}
+  <div class="sm mut" style="text-align:center">${ON.state==='wait'?'Das Spiel läuft – gleich geht es hier weiter …':'Warte, bis der Host startet …'}</div>`);qrFill('tvqr',ON.code)}
  else{const M=c?(OMODES[c.mode]||OMODES.klass):null;view(`<div class="top"><button class="back" data-a="oleave">✕</button><h2>🌐 Raum ${ON.code}</h2>${voiceChip()}</div>
   <div class="card" style="text-align:center;padding:16px">${headH(meP()||{ava:'⏳'},52)}<div style="margin-top:6px"><b>Du bist drin!</b></div><div class="sm mut">${ON.state==='wait'?'Das Spiel läuft schon – du steigst bei der nächsten Frage ein.':'Warte, bis der Host das Spiel startet …'}</div></div>
   ${M?`<div class="card"><div class="xs mut">Der Host hat gewählt</div><div style="font-size:20px;font-weight:900;margin:4px 0">${M.ic} ${M.n}</div><div class="sm">${cfgText(c)}</div>${c.mode==='mill'?`<div class="xs mut" style="margin-top:6px">${MILLRULES}</div>`:''}${c.mode==='poker'?`<div class="xs mut" style="margin-top:6px">${PKRULES}</div>`:''}${GRULES[c.mode]?`<div class="xs mut" style="margin-top:6px">${GRULES[c.mode]}</div>`:''}</div>`:''}
@@ -3524,11 +3525,12 @@ function gSettings(ro){const c=ON.cfg,m=c.mode;const head=`<div class="card"><h3
   <div class="xs mut" style="margin:8px 0 4px">Vorschläge${saved.length?' & deine gespeicherten':''}:</div><div class="row" style="gap:5px">${sug.slice(0,24).map(x=>`<button class="btn s alt" style="padding:5px 9px;font-size:12px" data-a="slfsug|${esc(x)}">+ ${esc(x)}</button>`).join('')}</div>`:''}<button class="btn alt s" style="width:100%;margin-top:8px" data-a="slfdef">↺ Stadt, Land, Fluss, Name, Tier, Beruf</button>`}</div>`+auto+'</div>'}
  if(m==='draw'){const own=drawOwn();return head+setRow('🖌️','Modus',gc('dm')==='all'?'🎨 Alle malen':'✏️ Klassisch (einer malt)','dm',ro)+setRow('🔁',gc('dm')==='all'?'Runden':'Jeder malt',gc('dm')==='all'?gc('dr')+2:gc('dr')+'×','dr',ro)+setRow('⏱️','Zeit zum Malen',gc('dt')+' s','dt',ro)+setRow('📦','Wörter',DPACKS[gc('dp')],'dp',ro)
   +(gc('dp')==='eigene'?`<div class="setrow"><div class="sm" style="margin:6px 0 4px">✏️ Eigene Wörter (${own.length}) <span class="xs mut">– mit Komma trennen</span></div>${ro?`<div class="xs mut">${own.length?esc(own.slice(0,30).join(', ')):'noch keine'}</div>`:`<textarea class="txt" id="dwin" rows="3" style="width:100%;resize:vertical" placeholder="z. B. Bürostuhl, Opa Heinz, Döner mit Soße" onchange="ON.cfg.dw=this.value.slice(0,1500);drawSaveWords(this.value);hostCfg()">${esc(gc('dw')||drawSavedWords())}</textarea>${own.length<3?'<div class="xs neg">Mindestens 3 Wörter – sonst wird „Gemischt“ benutzt.</div>':''}`}</div>`:'')+auto+'</div>'}
+ if(m==='imp')return head+setRow('🎭','Variante',gc('ix')==='none'?'🕵️ Klassisch':'🤫 Undercover','ix',ro)+`<div class="xs mut" style="margin:-2px 0 6px">${IMPX[gc('ix')]}</div>`+setRow('🕵️','Imposter',gc('ik')==='auto'?'Auto (ab 7 Spielern 2)':gc('ik'),'ik',ro)+setRow('🔁','Runden',gc('ir'),'ir',ro)+setRow('💬','Hinweise pro Spieler',gc('ic'),'ic',ro)+setRow('⏱️','Zeit pro Hinweis',gc('it')+' s','it',ro)+auto+'</div>';
  return''}
 function gCfgText(c){const m=GMODES[c.mode];const g=k=>c[k]==null?GDEF[k]:c[k];
  if(c.mode==='sch')return`${m.ic} ${m.n} · ${g('sn')} Fragen · ${g('st')} s`;if(c.mode==='hl')return`${m.ic} ${m.n} · ${g('hn')} ❤️ · ${g('ht')} s`;
  if(c.mode==='lie')return`${m.ic} ${m.n} · ${g('ln')} Runden · ${g('lw')} s zum Lügen`;if(c.mode==='slf')return`${m.ic} ${m.n} · ${g('sr')} Runden · ${g('sz')} s · ${(c.cats||SLFDEF).join(', ')}`;
- if(c.mode==='draw')return`${m.ic} ${m.n} · ${g('dm')==='all'?'Alle malen · '+(g('dr')+2)+' Runden':'Klassisch · jeder '+g('dr')+'×'} · ${g('dt')} s · ${DPACKS[g('dp')]}`;return''}
+ if(c.mode==='imp')return`${m.ic} ${m.n} · ${g('ix')==='none'?'Klassisch':'Undercover'} · ${g('ir')} Runden · ${g('ic')}× Hinweis`;if(c.mode==='draw')return`${m.ic} ${m.n} · ${g('dm')==='all'?'Alle malen · '+(g('dr')+2)+' Runden':'Klassisch · jeder '+g('dr')+'×'} · ${g('dt')} s · ${DPACKS[g('dp')]}`;return''}
 /* ---------- 🔢 Schätz mal (online) ---------- */
 function schF(q,v){return /Jahr/.test(q.unit||'')?String(Math.round(+v)):fmtN(v)}
 function schPool(){return shuffle([...Q.filter(q=>q.type==='est'),...SCH])}
@@ -3737,7 +3739,7 @@ function galHTML(){const g=(ON&&ON.gal)||[];if(!g.length)return'';return`<div cl
 /* ---------- Klick-Aktionen ---------- */
 const GACT={
  otv(){const c=(($('otvcode')||{}).value||'').replace(/\D/g,'');if(c.length!==4){toast('Bitte den 4-stelligen Raumcode eingeben');return}TVJ=true;joinRoom(c)},
- gnext(){if(ON&&ON.role==='host'&&ON.g&&ON.g.next&&['gschr','ghlr','glr','gslfr','gdre','gdar'].includes(ON.state))ON.g.next()},
+ gnext(){if(ON&&ON.role==='host'&&ON.g&&ON.g.next&&['gschr','ghlr','glr','gslfr','gdre','gdar','gimpr'].includes(ON.state))ON.g.next()},
  schok(){const i=$('schn');if(!i)return;const v=+i.value;if(i.value===''||!Number.isFinite(v)){toast('Bitte eine Zahl eingeben');return}if(G&&G.mode==='osch'){oSchAns(v);return}mSend({t:'scha',v});const e=$('schin');if(e)e.innerHTML=`<div class="sm">✅ Dein Tipp: <b>${esc(i.value)}</b><div class="xs mut">Warte auf die anderen …</div></div>`},
  hlv(p){if(G&&G.mode==='ohl'){oHlAns(+p[1]);return}mSend({t:'hla',v:+p[1]});const b=$('hlbtn');if(b)b.innerHTML=`<div class="sm">${+p[1]?'⬆️':'⬇️'} getippt – warte auf die anderen …</div>`},
  liesend(){const i=$('liew');if(!i)return;const v=i.value.trim();if(v.length<1){toast('Schreib eine Lüge 😏');return}mSend({t:'liew',a:v})},
@@ -3848,6 +3850,197 @@ Object.assign(GACT,{
  odrpeek(){const b=$('odrpk');if(!b||!G)return;b.textContent=b.dataset.on?'👁️ Wort anzeigen':'🙈 '+G.w;b.dataset.on=b.dataset.on?'':'1'},
  odrok(p){oDrawDone(+p[1])},
  odrnext(){oDrawTurn()}});
+
+/* ===================== 🕵️ Imposter ===================== */
+const IMPW=`Essen|Pizza|Burger
+Essen|Döner|Falafel
+Essen|Pommes|Chips
+Essen|Schokolade|Gummibärchen
+Essen|Apfel|Birne
+Essen|Kuchen|Keks
+Essen|Ketchup|Mayo
+Essen|Eis|Joghurt
+Essen|Banane|Gurke
+Essen|Spaghetti|Lasagne
+Getränk|Kaffee|Tee
+Getränk|Bier|Wein
+Getränk|Cola|Eistee
+Tier|Hund|Katze
+Tier|Löwe|Tiger
+Tier|Hai|Delfin
+Tier|Pinguin|Eisbär
+Tier|Spinne|Skorpion
+Tier|Pferd|Esel
+Tier|Biene|Wespe
+Ort|Strand|Pool
+Ort|Kino|Theater
+Ort|Schule|Uni
+Ort|See|Meer
+Ort|Wald|Park
+Ort|Flughafen|Bahnhof
+Ort|Supermarkt|Kiosk
+Ort|Disco|Festival
+Ort|Camping|Hotel
+Ort|Tankstelle|Werkstatt
+Ort|Zahnarzt|Friseur
+Ort|Bäcker|Metzger
+App|Netflix|YouTube
+App|Instagram|TikTok
+App|WhatsApp|Snapchat
+App|Spotify|Radio
+Gaming|Minecraft|Roblox
+Gaming|PlayStation|Xbox
+Gaming|Fortnite|Call of Duty
+Technik|iPhone|Samsung
+Technik|Handy|Tablet
+Technik|Laptop|PC
+Fahrzeug|BMW|Mercedes
+Fahrzeug|Fahrrad|Roller
+Fahrzeug|Zug|Bus
+Fahrzeug|Flugzeug|Hubschrauber
+Fahrzeug|Lkw|Traktor
+Fahrzeug|Formel 1|Rallye
+Sport|Fußball|Handball
+Sport|Skifahren|Snowboarden
+Sport|Schwimmen|Tauchen
+Sport|Fitnessstudio|Joggen
+Beruf|Polizei|Feuerwehr
+Beruf|Lehrer|Professor
+Beruf|Rapper|Sänger
+Fantasie|Vampir|Zombie
+Fantasie|Pirat|Wikinger
+Fantasie|Ritter|König
+Fantasie|Zauberer|Hexe
+Fantasie|Rakete|Ufo
+Natur|Sonne|Mond
+Natur|Schnee|Regen
+Natur|Berg|Hügel
+Natur|Rose|Tulpe
+Fest|Hochzeit|Geburtstag
+Fest|Weihnachten|Ostern
+Zuhause|Bett|Sofa
+Zuhause|Dusche|Badewanne
+Zuhause|Gabel|Löffel
+Zuhause|Uhr|Wecker
+Zuhause|Kerze|Taschenlampe
+Kleidung|Schuh|Socke
+Kleidung|Mütze|Kappe
+Kleidung|Jacke|Pullover
+Kleidung|Brille|Sonnenbrille
+Musik|Gitarre|Geige`.split('\n').map(l=>l.split('|'));
+Object.assign(GMODES,{imp:{ic:'🕵️',n:'Imposter',d:'Einer hat ein anderes Wort – wer?'}});Object.assign(OMODES,{imp:GMODES.imp});
+Object.assign(OSET,{ir:[3,5,8],ic:[1,2,3],it:[15,20,30,45],ix:['sim','none'],ik:['auto',1,2]});
+Object.assign(GDEF,{ir:5,ic:2,it:30,ix:'sim',ik:'auto'});
+GRULES.imp='Alle bekommen dasselbe geheime Wort – nur der Imposter nicht. Reihum schreibt jeder EINEN Begriff, der zu seinem Wort passt (nicht zu deutlich!). Dann stimmt ihr ab, wer der Imposter ist. Erwischt: +100 für jeden, der richtig getippt hat. Nicht erwischt: +300 für den Imposter.';
+const IMPX={sim:'🤫 Undercover – der Imposter hat ein ähnliches Wort und weiß nicht, dass er es ist',none:'🕵️ Klassisch – der Imposter weiß es, kennt aber nur die Kategorie'};
+GSTART.imp=()=>impStart();
+function impK(n,k){k=k==='auto'?(n>=7?2:1):+k;return clamp(k,1,Math.max(1,Math.floor((n-1)/2)))}
+function impStart(){gStart();const g=ON.g;g.used=[];g.n=gc('ir');g.next=impRound;impRound()}
+function impPair(used){let pool=IMPW.filter(p=>!used.includes(p[1]));if(!pool.length)pool=IMPW;const p=pool[rint(0,pool.length-1)];used.push(p[1]);const sw=Math.random()<.5;return{cat:p[0],w1:sw?p[2]:p[1],w2:sw?p[1]:p[2]}}
+function impRound(){const g=ON.g;clearT();g.r++;if(g.r>=g.n){gEnd();return}const pr=impPair(g.used);Object.assign(g,pr);const ids=ON.players.map(p=>p.id);const k=impK(ids.length,gc('ik'));g.imp=shuffle([...ids]).slice(0,k);g.mode=gc('ix');
+ g.order=shuffle([...ids]);g.clues=[];g.ci=-1;g.total=g.order.length*gc('ic');g.votes={};g.stole=false;g.chk=null;ON.state='gimpw';
+ ON.players.forEach(p=>{const im=g.imp.includes(p.id);sendTo(p.id,{t:'impw',w:im?(g.mode==='sim'?g.w2:null):g.w1,cat:g.cat,imp:im&&g.mode==='none'?1:0})});
+ hb({t:'impgo',r:g.r,n:g.n,order:g.order,k,mode:g.mode,dur:8,players:pubPlayers()});ON.mT=setTimeout(impTurn,8500)}
+function impTurn(){const g=ON.g;clearT();g.ci++;if(g.ci>=g.total){impVote();return}const id=g.order[g.ci%g.order.length];if(!ON.players.some(p=>p.id===id)){impTurn();return}g.turn=id;ON.state='gimpc';
+ hb({t:'impt',id,ci:g.ci,total:g.total,clues:g.clues,dur:gc('it'),players:pubPlayers()});ON.mT=setTimeout(()=>{if(ON&&ON.state==='gimpc'&&g.turn===id){g.clues.push([id,'…']);impTurn()}},gc('it')*1000+900)}
+function impVote(){const g=ON.g;clearT();ON.state='gimpv';g.chk=impVChk;hb({t:'impv',clues:g.clues,dur:60,players:pubPlayers()});ON.mT=setTimeout(impCount,61000)}
+function impVChk(){const g=ON.g;if(ON.state==='gimpv'&&ON.players.every(p=>g.votes[p.id]))impCount()}
+function impCount(){const g=ON.g;if(ON.state!=='gimpv')return;clearT();const cnt={};Object.values(g.votes).forEach(id=>cnt[id]=(cnt[id]||0)+1);const mx=Math.max(0,...Object.values(cnt));const top=Object.keys(cnt).filter(id=>cnt[id]===mx);
+ g.top=mx?top:[];g.caught=top.length===1&&mx>0&&g.imp.includes(top[0]);
+ if(g.caught&&g.mode==='none'&&ON.players.some(p=>p.id===top[0])){ON.state='gimpg';g.gid=top[0];const p=ON.players.find(x=>x.id===top[0]);hb({t:'impgw',id:top[0],n:p.name,dur:25});ON.mT=setTimeout(impReveal,26000);return}impReveal()}
+function impReveal(){const g=ON.g;if(!['gimpv','gimpg'].includes(ON.state))return;clearT();const gain={};const add=(id,v)=>{const p=ON.players.find(x=>x.id===id);if(!p)return;p.score+=v;gain[id]=(gain[id]||0)+v};
+ if(g.caught){ON.players.forEach(p=>{if(g.imp.includes(p.id))return;add(p.id,50);if(g.imp.includes(g.votes[p.id])){add(p.id,100);p.cor++}});if(g.stole)g.imp.forEach(id=>add(id,200))}else g.imp.forEach(id=>{add(id,300);const p=ON.players.find(x=>x.id===id);if(p)p.cor++});
+ ON.state='gimpr';const last=g.r+1>=g.n;hb({t:'impr',cat:g.cat,w1:g.w1,w2:g.mode==='sim'?g.w2:null,imp:g.imp,votes:g.votes,top:g.top,caught:g.caught,stole:g.stole,gain,last,players:pubPlayers()});gAuto(impRound,last?8000:12000)}
+Object.assign(MH,{
+ impc(p,d){const g=ON.g;if(ON.state!=='gimpc'||p.id!==g.turn)return;const c=cleanT(d.c,30);if(!c)return;const n=norm(c);const own=g.imp.includes(p.id)?(g.mode==='sim'?g.w2:''):g.w1;
+  if(own&&(n.includes(norm(own))||lev(n,norm(own))<=1)){sendTo(p.id,{t:'impcrej'});return}g.clues.push([p.id,c]);impTurn()},
+ impvo(p,d){const g=ON.g;if(ON.state!=='gimpv'||d.id===p.id||!ON.players.some(x=>x.id===d.id))return;g.votes[p.id]=d.id;hb({t:'impvc',c:Object.keys(g.votes).length,n:ON.players.length});impVChk()},
+ impg(p,d){const g=ON.g;if(ON.state!=='gimpg'||p.id!==g.gid)return;const x=norm(cleanT(d.g,30)),w=norm(g.w1);g.stole=x===w||(w.length>=5&&lev(x,w)<=1);g.guess=cleanT(d.g,30);impReveal()}});
+function impMy(){const s=ON.gimp;if(!s||ON.tv)return'';return`<div class="card" style="text-align:center;padding:10px;border-color:var(--acc)"><div class="xs mut">${s.imp?'Du bist der Imposter – Kategorie':'Dein geheimes Wort'}</div><div style="font-size:24px;font-weight:900">${s.imp?'🕵️ '+esc(s.cat):s.w?esc(s.w):'🕵️ '+esc(s.cat)}</div></div>`}
+function impClues(cl){if(!cl.length)return'';const by={};cl.forEach(([id,c])=>{(by[id]=by[id]||[]).push(c)});return`<div class="card" style="padding:8px">${Object.entries(by).map(([id,cs])=>{const p=ON.players.find(x=>x.id===id)||{name:'?',ava:'❔'};return`<div class="line it sm"><span>${headH(p,22)} ${id===meId()?'<b>Du</b>':esc(p.name)}</span><span>${cs.map(c=>`<span class="chip" style="margin-left:4px">${esc(c)}</span>`).join('')}</span></div>`}).join('')}</div>`}
+Object.assign(MG,{
+ impw(m){ON.gimp=m},
+ impgo(m){gPl(m);ON.state='gimpw';if(!ON.gimp)ON.gimp=null;const s=ON.gimp;
+  view(`${gHead(`🕵️ Runde ${m.r+1}/${m.n}`)}${gTimer()}${ON.tv||!s?`<div class="card" style="text-align:center;padding:26px"><div style="font-size:50px">🤫</div><h2>Jeder bekommt sein geheimes Wort …</h2><div class="sm mut">${m.k>1?m.k+' Imposter':'1 Imposter'} · ${IMPX[m.mode]}</div></div>`
+  :`<div class="card" style="text-align:center;padding:24px"><div class="xs mut">${s.imp?'🕵️ DU BIST DER IMPOSTER!':'Dein geheimes Wort'}</div><div style="font-size:40px;font-weight:900;margin:8px 0;color:var(--gold)">${s.imp?'Kategorie: '+esc(s.cat):esc(s.w)}</div><div class="sm mut">${s.imp?'Tu so, als ob du das Wort kennst 😏':'Beschreib es gleich mit EINEM Begriff – aber nicht zu deutlich!'}</div></div>`}
+  <div class="card sm mut" style="text-align:center">${m.k>1?m.k+' Imposter sind dabei':'1 Imposter ist dabei'} · Reihenfolge: ${m.order.map(id=>{const p=ON.players.find(x=>x.id===id);return p?esc(p.name):'?'}).join(' → ')}</div>${emoBar()}`);bar(m.dur)},
+ impt(m){gPl(m);ON.state='gimpc';const mine=m.id===meId();const tp=ON.players.find(p=>p.id===m.id)||{name:'?',ava:'❔'};
+  view(`${gHead(`🕵️ Hinweis ${m.ci+1}/${m.total}`)}${gTimer()}${impMy()}${mine?`<div class="card" style="border-color:var(--gold)"><b>Du bist dran!</b> <span class="sm mut">Ein Begriff zu deinem Wort:</span><div class="row" style="flex-wrap:nowrap;margin-top:8px"><input class="txt" id="impc" maxlength="30" placeholder="z. B. lecker" autocomplete="off" onkeydown="if(event.key==='Enter')document.querySelector('[data-a=impsend]').click()"><button class="btn gold" data-a="impsend">✅</button></div></div>`
+  :`<div class="card" style="text-align:center;padding:16px">${headH(tp,44)}<div style="margin-top:6px"><b>${esc(tp.name)}</b> überlegt sich einen Hinweis …</div></div>`}${impClues(m.clues)}${emoBar()}`);bar(m.dur);if(mine)setTimeout(()=>{const i=$('impc');if(i)i.focus()},100)},
+ impcrej(){toast('🙊 Das verrät dein Wort – nimm einen anderen Begriff!');const i=$('impc');if(i){i.value='';i.focus()}},
+ impv(m){gPl(m);ON.state='gimpv';const others=ON.players.filter(p=>p.id!==meId());
+  view(`${gHead('🕵️ Wer ist der Imposter?')}${gTimer()}${impMy()}${impClues(m.clues)}<div class="card"><h3 style="margin-top:0">🗳️ Abstimmen</h3><div id="impvb" style="display:grid;grid-template-columns:1fr 1fr;gap:8px">${others.map(p=>`<button class="btn alt" data-a="impvo|${p.id}">${p.ava} ${esc(p.name)}</button>`).join('')}</div><div class="xs mut" id="impvc" style="margin-top:6px;text-align:center"></div></div>${emoBar()}`);bar(m.dur)},
+ impvc(m){const e=$('impvc');if(e)e.textContent=`${m.c}/${m.n} haben abgestimmt`},
+ impgw(m){ON.state='gimpg';stopTimer();const mine=m.id===meId();const e=$('impvb');const box=e?e.parentElement:null;const h=mine?`<h3 style="margin-top:0">😱 Du wurdest erwischt!</h3><div class="sm">Rate das Wort der anderen – richtig = +200 für dich:</div><div class="row" style="flex-wrap:nowrap;margin-top:8px"><input class="txt" id="impg" maxlength="30" placeholder="Das Wort ist …" autocomplete="off" onkeydown="if(event.key==='Enter')document.querySelector('[data-a=impguess]').click()"><button class="btn gold" data-a="impguess">✅</button></div>`
+  :`<div style="text-align:center"><b>😱 ${esc(m.n)} wurde erwischt!</b><div class="sm mut">… und darf jetzt das Wort raten.</div></div>`;if(box)box.innerHTML=h;else view(`${gHead('🕵️ Erwischt!')}<div class="card">${h}</div>`);bar(m.dur);if(mine)setTimeout(()=>{const i=$('impg');if(i)i.focus()},100)},
+ impr(m){gPl(m);ON.state='gimpr';stopTimer();const nm=id=>ON.players.find(p=>p.id===id)||{name:'?',ava:'❔'};const vc={};Object.values(m.votes).forEach(id=>vc[id]=(vc[id]||0)+1);const iAmImp=m.imp.includes(meId());
+  const head=m.caught?(iAmImp?'😱 Du wurdest erwischt!':'🎉 Imposter erwischt!'):(iAmImp?'😎 Du bist durchgekommen!':'🕵️ Der Imposter ist entkommen!');
+  view(`${gHead('🕵️ Auflösung')}<div class="card" style="text-align:center;padding:14px;background:${m.caught?'#15803d':'#7f1d1d'};color:#fff"><b style="font-size:22px">${head}</b><div class="sm" style="margin-top:6px">Wort: <b>${esc(m.w1)}</b>${m.w2?` · Imposter-Wort: <b>${esc(m.w2)}</b>`:` · Kategorie: ${esc(m.cat)}`}</div>${m.stole?'<div class="sm">…aber der Imposter hat das Wort erraten! +200 🕵️</div>':''}</div>
+  <div class="card" style="padding:8px">${rankOrder(ON.players).map(p=>`<div class="line it sm"><span>${headH(p,22)} ${p.id===meId()?'<b>Du</b>':esc(p.name)} ${m.imp.includes(p.id)?'🕵️':''}</span><span class="xs mut">${vc[p.id]?vc[p.id]+' 🗳️ · ':''}tippte: ${m.votes[p.id]?esc(nm(m.votes[p.id]).name):'–'}</span><b class="${m.gain[p.id]?'pos':'mut'}">${m.gain[p.id]?'+'+m.gain[p.id]:'0'}</b></div>`).join('')}</div>${gScores()}${gNext(m.last)}${emoBar()}`);if(m.caught&&!iAmImp||!m.caught&&iAmImp)confetti(80);ON.gimp=null}});
+Object.assign(GACT,{
+ impsend(){const i=$('impc');const v=i&&i.value.trim();if(!v){toast('Schreib einen Begriff');return}mSend({t:'impc',c:v})},
+ impvo(p){mSend({t:'impvo',id:p[1]});document.querySelectorAll('#impvb button').forEach(b=>{b.disabled=true;if(b.dataset.a==='impvo|'+p[1])b.classList.remove('alt')})},
+ impguess(){const i=$('impg');const v=i&&i.value.trim();if(!v)return;mSend({t:'impg',g:v});const e=$('impg');if(e)e.disabled=true}});
+/* ----- Imposter offline (ein Handy) ----- */
+function oImpMenu(){G={mode:'oimpm'};const pl=P.odrPl&&P.odrPl.length>=2?P.odrPl:[P.name||'Spieler 1','Spieler 2','Spieler 3'];P.odrPl=pl;P.impX=P.impX||'sim';
+ view(`<div class="top"><button class="back" data-a="home">←</button><h2>🕵️ Imposter</h2></div><div class="card sm mut">Ein Handy wird reihum weitergegeben: Jeder schaut sich heimlich sein Wort an. Dann sagt jeder reihum EIN Wort dazu – und ihr stimmt ab, wer der Imposter ist. Ab 3 Spielern.</div>
+ <div class="card"><h3 style="margin-top:0">👥 Spieler (${pl.length})</h3>${pl.map((n,i)=>`<div class="row" style="flex-wrap:nowrap;margin-bottom:6px"><input class="txt" maxlength="14" value="${esc(n)}" onchange="P.odrPl[${i}]=this.value.trim().slice(0,14)||'Spieler ${i+1}';save()">${pl.length>2?`<button class="btn alt s" data-a="oimprm|${i}">✕</button>`:''}</div>`).join('')}${pl.length<12?'<button class="btn alt s" style="width:100%" data-a="oimpadd">+ Spieler</button>':''}</div>
+ <div class="card"><div class="sm" style="margin-bottom:6px">🎭 Variante</div>${Object.entries(IMPX).map(([k,v])=>`<button class="btn s ${P.impX===k?'':'alt'}" style="width:100%;margin-bottom:6px;text-align:left" data-a="oimpx|${k}">${v}</button>`).join('')}</div>
+ <button class="btn gold" style="width:100%;font-size:17px;padding:14px" data-a="oimpgo" ${pl.length<3?'disabled':''}>${pl.length<3?'Mindestens 3 Spieler':'🚀 Los geht\'s'}</button>`)}
+function oImpStart(){G={mode:'oimp',pl:P.odrPl.map((n,i)=>({n:n||'Spieler '+(i+1),s:0})),r:-1,n:5,used:[],x:P.impX||'sim'};oImpRound()}
+function oImpRound(){const g=G;g.r++;if(g.r>=g.n){const s=[...g.pl].sort((a,b)=>b.s-a.s);offEnd({t:'🕵️ Imposter',k:'oimp',big:'🏆 '+esc(s[0].n),sub:'hat gewonnen!',xp:40,coins:20,good:true,again:'gimp',extra:`<div class="card">${s.map((p,i)=>`<div class="line it sm"><span>${['🥇','🥈','🥉'][i]||(i+1)+'.'} ${esc(p.n)}</span><b>${p.s}</b></div>`).join('')}</div>`});return}
+ Object.assign(g,impPair(g.used));g.imp=rint(0,g.pl.length-1);g.k=-1;oImpPass()}
+function oImpPass(){const g=G;g.k++;if(g.k>=g.pl.length){g.start=rint(0,g.pl.length-1);
+  view(`${gHead(`🕵️ Runde ${g.r+1}/${g.n}`)}<div class="card" style="text-align:center;padding:22px"><div style="font-size:46px">🗣️</div><h2 style="margin:8px 0">Jetzt reihum!</h2><div class="sm">Jeder sagt <b>EIN Wort</b> zu seinem geheimen Wort.<br>Es fängt an: <b style="color:var(--gold)">${esc(g.pl[g.start].n)}</b><br><span class="mut">Am besten 2 Runden – dann abstimmen.</span></div></div>
+  <button class="btn gold" style="width:100%" data-a="oimpvote">🗳️ Zur Abstimmung</button>`);return}
+ const p=g.pl[g.k];view(`${gHead(`🕵️ Runde ${g.r+1}/${g.n}`)}<div class="card" style="text-align:center;padding:26px"><div style="font-size:46px">📱</div><h2 style="margin:8px 0">Gib das Handy an<br>${esc(p.n)}</h2><div class="sm mut">Die anderen schauen weg 🙈</div><button class="btn gold" style="width:100%;margin-top:14px" data-a="oimpshow">👀 Ich bin ${esc(p.n)} – Wort zeigen</button></div>`)}
+function oImpShow(){const g=G;const im=g.k===g.imp;const w=im?(g.x==='sim'?g.w2:null):g.w1;
+ view(`${gHead(`🕵️ ${esc(g.pl[g.k].n)}`)}<div class="card" style="text-align:center;padding:30px"><div class="xs mut">${im&&g.x==='none'?'🕵️ DU BIST DER IMPOSTER!':'Dein geheimes Wort'}</div><div style="font-size:40px;font-weight:900;margin:10px 0;color:var(--gold)">${w?esc(w):'Kategorie: '+esc(g.cat)}</div><div class="sm mut">${im&&g.x==='none'?'Tu so, als ob du das Wort kennst 😏':'Merk es dir – nicht verraten!'}</div></div>
+ <button class="btn" style="width:100%" data-a="oimpok">✅ Gemerkt – Handy weitergeben</button>`)}
+function oImpVote(){const g=G;view(`${gHead('🗳️ Wer ist der Imposter?')}<div class="card sm mut" style="text-align:center">Diskutiert kurz und einigt euch – oder zählt per Handzeichen.</div><div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px">${g.pl.map((p,i)=>`<button class="btn alt" data-a="oimppick|${i}">${esc(p.n)}</button>`).join('')}</div>`)}
+function oImpPick(i){const g=G;g.pick=i;const caught=i===g.imp;if(caught&&g.x==='none'){view(`${gHead('😱 Erwischt!')}<div class="card" style="text-align:center"><h3>${esc(g.pl[i].n)} ist der Imposter!</h3><div class="sm">Jetzt darf ${esc(g.pl[i].n)} das Wort raten (laut sagen).<br>Das Wort war: <b class="tvhide" id="oimpw" style="filter:blur(8px)">${esc(g.w1)}</b> <button class="btn alt s" data-a="oimpw">👁️</button></div></div>
+ <div class="row"><button class="btn" style="flex:1;background:#15803d" data-a="oimpres|1">✅ Richtig geraten</button><button class="btn" style="flex:1;background:#b91c1c" data-a="oimpres|0">❌ Falsch</button></div>`);return}oImpRes(0)}
+function oImpRes(stole){const g=G;const caught=g.pick===g.imp;g.pl.forEach((p,i)=>{if(i===g.imp){if(!caught)p.s+=300;else if(stole)p.s+=200}else if(caught)p.s+=100});
+ view(`${gHead(`🕵️ Runde ${g.r+1}/${g.n}`)}<div class="card" style="text-align:center;padding:14px;background:${caught?'#15803d':'#7f1d1d'};color:#fff"><b style="font-size:22px">${caught?'🎉 Imposter erwischt!':'🕵️ Falsch getippt – der Imposter entkommt!'}</b><div class="sm" style="margin-top:6px">Imposter: <b>${esc(g.pl[g.imp].n)}</b><br>Wort: <b>${esc(g.w1)}</b>${g.x==='sim'?` · Imposter-Wort: <b>${esc(g.w2)}</b>`:''}${stole?'<br>…aber er hat das Wort erraten! +200':''}</div></div>
+ <div class="card">${[...g.pl].sort((a,b)=>b.s-a.s).map(p=>`<div class="line it sm"><span>${esc(p.n)}</span><b>${p.s}</b></div>`).join('')}</div><button class="btn gold" style="width:100%" data-a="oimpnext">${g.r+1>=g.n?'🏁 Ergebnis':'Nächste Runde →'}</button>`)}
+GOFF.gimp=oImpMenu;
+Object.assign(GACT,{
+ oimprm(p){P.odrPl.splice(+p[1],1);save();oImpMenu()},oimpadd(){P.odrPl.push('Spieler '+(P.odrPl.length+1));save();oImpMenu()},oimpx(p){P.impX=p[1];save();oImpMenu()},
+ oimpgo(){if(P.odrPl.length>=3)oImpStart()},oimpshow(){oImpShow()},oimpok(){oImpPass()},oimpvote(){oImpVote()},oimppick(p){oImpPick(+p[1])},
+ oimpw(){const e=$('oimpw');if(e)e.style.filter=e.style.filter?'':'blur(8px)'},oimpres(p){oImpRes(+p[1])},oimpnext(){oImpRound()}});
+/* ===================== 📱 QR-Code zum Beitreten ===================== */
+/* ===================== QR-Code (eigener kleiner Generator, Byte-Modus, Fehlerkorrektur M) ===================== */
+function qrMatrix(text){const data=[...new TextEncoder().encode(text)];const ECC=[-1,10,16,26,18,24,16,18,22,22,26],BLK=[-1,1,1,1,2,2,4,4,4,5,5];
+ const raw=v=>{let r=(16*v+128)*v+64;if(v>=2){const n=Math.floor(v/7)+2;r-=(25*n-10)*n-55;if(v>=7)r-=36}return r};
+ let ver=1;for(;ver<=10;ver++){const cap=Math.floor(raw(ver)/8)-ECC[ver]*BLK[ver];if(4+(ver<10?8:16)+8*data.length<=cap*8)break}if(ver>10)return null;
+ const size=ver*4+17,dc=Math.floor(raw(ver)/8)-ECC[ver]*BLK[ver];const bits=[];const put=(v,n)=>{for(let i=n-1;i>=0;i--)bits.push(v>>>i&1)};
+ put(4,4);put(data.length,ver<10?8:16);data.forEach(b=>put(b,8));put(0,Math.min(4,dc*8-bits.length));put(0,(8-bits.length%8)%8);for(let p=0xEC;bits.length<dc*8;p^=0xEC^0x11)put(p,8);
+ const cw=[];for(let i=0;i<bits.length;i+=8){let b=0;for(let j=0;j<8;j++)b=b<<1|bits[i+j];cw.push(b)}
+ const mul=(x,y)=>{let z=0;for(let i=7;i>=0;i--){z=(z<<1)^((z>>>7)*0x11D);z^=((y>>>i)&1)*x}return z&255};
+ const deg=ECC[ver];const div=Array(deg).fill(0);div[deg-1]=1;let root=1;for(let i=0;i<deg;i++){for(let j=0;j<deg;j++){div[j]=mul(div[j],root);if(j+1<deg)div[j]^=div[j+1]}root=mul(root,2)}
+ const rem=d=>{const r=Array(deg).fill(0);d.forEach(b=>{const f=b^r.shift();r.push(0);div.forEach((c,i)=>r[i]^=mul(c,f))});return r};
+ const nb=BLK[ver],rc=Math.floor(raw(ver)/8),ns=nb-rc%nb,sl=Math.floor(rc/nb);const blocks=[];for(let i=0,k=0;i<nb;i++){const dat=cw.slice(k,k+sl-deg+(i<ns?0:1));k+=dat.length;const e=rem(dat);if(i<ns)dat.push(0);blocks.push(dat.concat(e))}
+ const fin=[];for(let i=0;i<blocks[0].length;i++)blocks.forEach((b,j)=>{if(i!==sl-deg||j>=ns)fin.push(b[i])});
+ const M=[...Array(size)].map(()=>Array(size).fill(false)),F=[...Array(size)].map(()=>Array(size).fill(false));const set=(x,y,d)=>{M[y][x]=d;F[y][x]=true};
+ for(let i=0;i<size;i++){set(6,i,i%2===0);set(i,6,i%2===0)}
+ [[3,3],[size-4,3],[3,size-4]].forEach(([x,y])=>{for(let dy=-4;dy<=4;dy++)for(let dx=-4;dx<=4;dx++){const d=Math.max(Math.abs(dx),Math.abs(dy)),xx=x+dx,yy=y+dy;if(xx>=0&&xx<size&&yy>=0&&yy<size)set(xx,yy,d!==2&&d!==4)}});
+ if(ver>1){const n=Math.floor(ver/7)+2,step=Math.ceil((ver*4+4)/(n*2-2))*2;const pos=[6];for(let i=0,p=size-7;i<n-1;i++,p-=step)pos.splice(1,0,p);
+  pos.forEach((x,i)=>pos.forEach((y,j)=>{if(i===0&&j===0||i===0&&j===n-1||i===n-1&&j===0)return;for(let dy=-2;dy<=2;dy++)for(let dx=-2;dx<=2;dx++)set(x+dx,y+dy,Math.max(Math.abs(dx),Math.abs(dy))!==1)}))}
+ const fmt=mask=>{const d=(0<<3)|mask;let r=d;for(let i=0;i<10;i++)r=(r<<1)^((r>>>9)*0x537);const b=(d<<10|r)^0x5412;const g=i=>(b>>>i&1)===1;
+  for(let i=0;i<=5;i++)set(8,i,g(i));set(8,7,g(6));set(8,8,g(7));set(7,8,g(8));for(let i=9;i<15;i++)set(14-i,8,g(i));for(let i=0;i<8;i++)set(size-1-i,8,g(i));for(let i=8;i<15;i++)set(8,size-15+i,g(i));set(8,size-8,true)};
+ fmt(0);if(ver>=7){let r=ver;for(let i=0;i<12;i++)r=(r<<1)^((r>>>11)*0x1F25);const b=ver<<12|r;for(let i=0;i<18;i++){const bt=(b>>>i&1)===1,a=size-11+i%3,c=Math.floor(i/3);set(a,c,bt);set(c,a,bt)}}
+ let i=0;for(let right=size-1;right>=1;right-=2){if(right===6)right=5;for(let v=0;v<size;v++)for(let j=0;j<2;j++){const x=right-j,up=((right+1)&2)===0,y=up?size-1-v:v;if(!F[y][x]&&i<fin.length*8){M[y][x]=(fin[i>>>3]>>>(7-(i&7))&1)===1;i++}}}
+ const msk=[(x,y)=>(x+y)%2===0,(x,y)=>y%2===0,(x,y)=>x%3===0,(x,y)=>(x+y)%3===0,(x,y)=>(Math.floor(x/3)+Math.floor(y/2))%2===0,(x,y)=>x*y%2+x*y%3===0,(x,y)=>(x*y%2+x*y%3)%2===0,(x,y)=>((x+y)%2+x*y%3)%2===0];
+ const apply=m=>{for(let y=0;y<size;y++)for(let x=0;x<size;x++)if(!F[y][x]&&msk[m](x,y))M[y][x]=!M[y][x]};
+ const pen=()=>{let p=0,dark=0;for(let a=0;a<2;a++)for(let y=0;y<size;y++){let run=1;for(let x=1;x<=size;x++){const c=x<size&&(a?M[x][y]:M[y][x])===(a?M[x-1][y]:M[y][x-1]);if(c)run++;else{if(run>=5)p+=run-2;run=1}}}
+  for(let y=0;y<size-1;y++)for(let x=0;x<size-1;x++){const c=M[y][x];if(c===M[y][x+1]&&c===M[y+1][x]&&c===M[y+1][x+1])p+=3}M.forEach(r=>r.forEach(c=>{if(c)dark++}));p+=(Math.ceil(Math.abs(dark*20-size*size*10)/(size*size))-1)*10;return p};
+ let best=0,bp=1e9;for(let m=0;m<8;m++){apply(m);fmt(m);const p=pen();if(p<bp){bp=p;best=m}apply(m)}apply(best);fmt(best);return M}
+function qrSVG(text){const M=qrMatrix(text);if(!M)return'';const n=M.length,q=4;let d='';M.forEach((r,y)=>r.forEach((c,x)=>{if(c)d+=`M${x+q},${y+q}h1v1h-1z`}));return`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${n+q*2} ${n+q*2}" shape-rendering="crispEdges"><rect width="100%" height="100%" fill="#fff"/><path d="${d}" fill="#000"/></svg>`}
+function joinURL(code){return location.origin+location.pathname+'?join='+code}
+function qrFill(id,code){const e=$(id);if(!e)return;const sv=qrSVG(joinURL(code));e.innerHTML=sv?`<div style="width:100%;max-width:${e.dataset.sz||220}px;margin:0 auto;border-radius:12px;overflow:hidden">${sv}</div>`:'<div class="xs mut">QR-Code nicht möglich</div>'}
+GACT.oqr=()=>{const e=$('oqrbox');if(!e)return;if(e.hidden){e.hidden=false;qrFill('oqrimg',ON.code)}else e.hidden=true};
+function joinFromURL(){let j=null;try{j=new URLSearchParams(location.search).get('join')}catch(e){}if(!j||!/^\d{4}$/.test(j))return;try{history.replaceState(null,'',location.pathname)}catch(e){}
+ onlineMenu();const i=$('ocode');if(i)i.value=j;if(P.name){toast('🔗 Trete Raum '+j+' bei …');joinRoom(j)}else{toast('Gib deinen Namen ein und tippe „Los!“');const n=$('oname');if(n)n.focus()}}
 
 document.addEventListener('click',e=>{const b=e.target.closest('[data-a]');if(!b||b.disabled)return;const p=b.dataset.a.split('|'),c=p[0];if(GACT[c]){GACT[c](p,b);return}
  switch(c){
@@ -3971,5 +4164,5 @@ document.addEventListener('click',e=>{const b=e.target.closest('[data-a]');if(!b
  case'resetok':P=newProfile();save();applyTheme();home();toast('Zurückgesetzt.');break;
  }});
 document.addEventListener('visibilitychange',()=>{if(document.hidden)save()});
-applyTheme();home();
+applyTheme();home();setTimeout(joinFromURL,200);
 </script></body></html>
