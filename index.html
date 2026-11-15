@@ -158,6 +158,8 @@ details.card>summary{cursor:pointer;font-weight:800;list-style:none;font-size:15
 .dagrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:8px;margin-bottom:12px}.daimg{background:var(--p2);border:3px solid transparent;border-radius:14px;padding:4px;color:var(--t);text-align:center;font-size:12px;font-weight:700}.daimg img{width:100%;border-radius:10px;display:block;background:#fff}.daimg span{display:block;margin-top:3px}.daimg.win{border-color:var(--gold)}.daimg.own{opacity:.5}button.daimg{cursor:pointer}
 .schl{position:relative;height:84px;margin:14px 6px 2px}.schax{position:absolute;left:0;right:0;bottom:6px;height:6px;border-radius:4px;background:linear-gradient(90deg,var(--acc),var(--acc2))}.schans{position:absolute;bottom:0;top:0;width:3px;background:var(--gold);transform:translateX(-50%)}.schans b{position:absolute;top:-16px;left:50%;transform:translateX(-50%);background:var(--gold);color:#000;border-radius:6px;padding:0 5px;font-size:11px;white-space:nowrap}.schm{position:absolute;transform:translateX(-50%);font-size:20px;line-height:1}
 .hlg{display:grid;grid-template-columns:1fr auto 1fr;gap:6px;align-items:center;margin-bottom:12px}.hlc{background:var(--p);border:2px solid var(--line);border-radius:16px;padding:12px 8px;text-align:center;min-height:130px;display:flex;flex-direction:column;justify-content:center;gap:2px}.hlc b{font-size:15px}.hlv{font-size:26px;font-weight:900;color:var(--acc2)}.hlc.up{border-color:#22c55e;background:#14532d66}.hlc.dn{border-color:#ef4444;background:#7f1d1d66}.hlvs{font-weight:900;color:var(--mut)}
+.lstep{border-color:var(--acc);background:linear-gradient(135deg,#4c1d9566,transparent)}.lstep>b{display:block;margin-bottom:4px}
+.gstep{display:flex;align-items:center;gap:12px;padding:12px 14px}.gsn{flex:none;width:26px;height:26px;border-radius:50%;background:var(--acc);color:#fff;font-weight:900;display:flex;align-items:center;justify-content:center}
 .slfx{background:rgba(255,255,255,.12);border:0;color:var(--t);border-radius:50%;width:20px;height:20px;font-size:11px;margin-left:5px;padding:0;line-height:20px}textarea.txt{font-family:inherit;font-size:15px}
 .slfL{font-size:64px;font-weight:900;line-height:1;color:var(--gold);text-shadow:0 4px 18px rgba(251,191,36,.4)}.slfrow{display:grid;grid-template-columns:110px 1fr;gap:8px;align-items:center;margin-bottom:6px}.slfrow label{font-weight:700}input.bad{border-color:#ef4444!important;background:#7f1d1d44}
 body.tv #app{max-width:760px}body.tv .emofab,body.tv .emopanel,body.tv #app input.txt,body.tv #app textarea,body.tv #schin,body.tv #liein,body.tv #drgin,body.tv #hlbtn,body.tv .slfrow,body.tv #slfstop,body.tv .dtools,body.tv #pkin,body.tv #pkj,body.tv #pkbt button,body.tv [data-a^="pkv|"],body.tv [data-a^="slfvo|"],body.tv [data-a="pkdone"],body.tv [data-a="schok"],body.tv .tvhide{display:none!important}
@@ -2361,7 +2363,8 @@ function record(q,right,t){P.tot++;if(right)P.cor++;if(!right)P.wrong[q.id]={s:0
 function streakCheck(){if(G.streak>P.bestStreak)P.bestStreak=G.streak;if(G.streak>=10)unlock('str10');if(G.streak>=25)unlock('str25')}
 
 /* ====================== Screens ====================== */
-function view(h){stopTimer();$('app').innerHTML=h;window.scrollTo(0,0)}
+function view(h,keep){stopTimer();const y=keep?window.scrollY:0;$('app').innerHTML=h;window.scrollTo(0,y)}
+function viewK(h){view(h,true)}
 function home(){G=null;const L=lvlInfo();const today=dkey();const dd=P.daily.last===today;
  const RK=rankOf(L.l);view(`<div class="card prof"><div class="ava" style="${FRM[P.frame]||''}">${P.ava}</div><div style="flex:1"><div class="line"><b style="font-size:17px;${COLM[P.ncol]||''}">${esc(P.name||'Quiz-Champion')}</b><span class="chip">🪙 ${P.coins}</span></div>
  <div class="xs mut" style="margin:3px 0">${RK[0]} ${RK[1]}${P.title?' · „'+esc(P.title)+'“':''} · Level ${L.l} · ${P.cor}/${P.tot} richtig${P.tot?' ('+Math.round(P.cor/P.tot*100)+'%)':''}</div><div class="bar"><i style="width:${L.x/L.need*100}%"></i></div></div></div>
@@ -2620,7 +2623,7 @@ function dailyShare(){const r=P.dres;if(!r)return;const [y,m,d]=r.d.split('-');c
 /* ---------- Online-Party (Raumcode, WebRTC über PeerJS) ---------- */
 const ICE={iceServers:[{urls:'stun:stun.l.google.com:19302'},{urls:'stun:stun1.l.google.com:19302'},{urls:'stun:global.stun.twilio.com:3478'},
  {urls:'turn:openrelay.metered.ca:80',username:'openrelayproject',credential:'openrelayproject'},{urls:'turn:openrelay.metered.ca:443',username:'openrelayproject',credential:'openrelayproject'},{urls:'turn:openrelay.metered.ca:443?transport=tcp',username:'openrelayproject',credential:'openrelayproject'}]};
-let ON=null;const rint=(a,b)=>a+Math.floor(Math.random()*(b-a+1));
+let ON=null;const GRACE=2500;const rint=(a,b)=>a+Math.floor(Math.random()*(b-a+1));
 const OMODES={klass:{ic:'🎯',n:'Klassisch',d:'Schnell & richtig = mehr Punkte'},turbo:{ic:'⚡',n:'Turbo',d:'Halbe Zeit, 1,5-fache Punkte'},ko:{ic:'💀',n:'K.-o.',d:'Falsch = raus! Wer bleibt übrig?'},team:{ic:'⚔️',n:'Team-Duell',d:'🔵 Blau gegen 🔴 Rot'},poker:{ic:'📈',n:'Hochpetern',d:'Wer kennt mehr? Bieten, aussteigen, beweisen'},mill:{ic:'💰',n:'Wer wird Millionär?',d:'Alle gleichzeitig · aussteigen oder weiterzocken · echte Joker'}};
 const KH=['#e21b3c','#1368ce','#d89e00','#26890c'],KS=['▲','◆','●','■'],EMOS=['😂','🔥','😮','👏','😭','🤯','😏','💀'],TEAMS=[['🔵','Blau','#2563eb'],['🔴','Rot','#dc2626']];
 const QUIPS=['GG 🤝','Nochmal! 🔁','Glück gehabt 😏','Zu leicht 😎','Was?! 😳','Ich wusste es! 🧠','Nächstes Mal… 😤','Haha 😂'];
@@ -2649,7 +2652,7 @@ function onlineMenu(){if(ON)leaveOnline(true);TVJ=false;tvZoom();view(`<div clas
  <div class="card xs mut">ℹ️ Alle brauchen Internet, egal wo sie wohnen. Klappt es über mobile Daten nicht, hilft oft WLAN – oder umgekehrt.</div>`)}
 function netMsg(t,bad){const e=$('onet');if(e)e.innerHTML=`<div class="card ${bad?'neg':''}">${t}</div>`;else toast(t)}
 function clearT(){if(!ON)return;['timer','auto','allT','phT','mT'].forEach(k=>clearTimeout(ON[k]))}
-function leaveOnline(silent){if(!ON)return;document.body.classList.remove('tv');document.body.style.zoom='';sayStop();const rg=$('ringov');if(rg)rg.remove();try{clearT();clearTimeout(ON.joinTO);clearInterval(ON.hb);if(ON.conn)ON.conn.close();Object.values(ON.conns||{}).forEach(c=>{try{c.send({t:'bye'});c.close()}catch(e){}});ON.peer&&ON.peer.destroy();(ON.mq||[]).forEach(c=>setTimeout(()=>{try{c.end()}catch(e){}},400));if(ON.mqc)(c=>setTimeout(()=>{try{c.end(true)}catch(e){}},400))(ON.mqc)}catch(e){}ON=null;stopTimer();if(!silent)home()}
+function leaveOnline(silent){if(!ON)return;document.body.classList.remove('tv');document.body.style.zoom='';sayStop();const rg=$('ringov');if(rg)rg.remove();try{clearT();clearTimeout(ON.joinTO);clearInterval(ON.hb);clearInterval(ON.rs);clearInterval(ON.pendIv);clearInterval(DC.sy);if(ON.conn)ON.conn.close();Object.values(ON.conns||{}).forEach(c=>{try{c.send({t:'bye'});c.close()}catch(e){}});ON.peer&&ON.peer.destroy();(ON.mq||[]).forEach(c=>setTimeout(()=>{try{c.end()}catch(e){}},400));if(ON.mqc)(c=>setTimeout(()=>{try{c.end(true)}catch(e){}},400))(ON.mqc)}catch(e){}ON=null;stopTimer();if(!silent)home()}
 const LOADERR='❌ Die Online-Funktion konnte nicht geladen werden. Bist du online? (Im Claude-Vorschaufenster und in der iPhone-Dateivorschau ist sie blockiert – öffne den Link im Browser.)';
 const BROKERS=['wss://broker.emqx.io:8084/mqtt','wss://broker.hivemq.com:8884/mqtt','wss://test.mosquitto.org:8081/mqtt'];
 function loadMqtt(){return new Promise((res,rej)=>{if(window.mqtt)return res();const srcs=['https://unpkg.com/mqtt@5.10.1/dist/mqtt.min.js','https://cdn.jsdelivr.net/npm/mqtt@5.10.1/dist/mqtt.min.js'];let k=0;
@@ -2668,11 +2671,12 @@ async function hostRoom(){const name=myName();netMsg('⏳ Raum wird erstellt…'
   peer.on('open',ready);
   peer.on('error',e=>{if(ON!==my)return;if(e.type==='unavailable-id'){leaveOnline(true);hostRoom();return}if(e.type==='peer-unavailable')return;if(!opened&&!mOk)netMsg('❌ Verbindungsproblem: '+(e.type||e.message||e),true)});
   peer.on('connection',conn=>{conn.on('data',d=>hostData(conn,d));conn.on('close',()=>dropPlayer(conn.peer));conn.on('error',()=>dropPlayer(conn.peer))})}
- if(mOk)BROKERS.forEach(u=>mqttOne(u).then(c=>{if(ON!==my){try{c.end(true)}catch(e){}return}my.mq.push(c);c.subscribe(RT(code)+'/h');c.on('message',(t,pl)=>hostRelay(c,pl));ready()}).catch(()=>{}));
+ if(mOk)BROKERS.forEach(u=>mqttOne(u).then(c=>{if(ON!==my){try{c.end(true)}catch(e){}return}my.mq.push(c);c.subscribe(RT(code)+'/h',{qos:1});c.on('message',(t,pl)=>hostRelay(c,pl));ready()}).catch(()=>{}));
+ my.rs=setInterval(()=>{if(ON===my)hostResend()},2500);
  my.hb=setInterval(()=>{if(ON!==my)return;const now=Date.now();Object.values(my.rconns).forEach(c=>{if(now-c.seen>20000){delete my.rconns[c.peer];dropPlayer(c.peer)}else c.send({t:'hb'})})},4000);
  setTimeout(()=>{if(ON===my&&!opened)netMsg('❌ Der Raum konnte nicht erstellt werden. Bist du online?',true)},15000)}
 function hostRelay(c,pl){if(!ON||ON.role!=='host')return;let o;try{o=JSON.parse(String(pl))}catch(e){return}if(!o||typeof o.f!=='string'||!o.m)return;const id='r_'+o.f.slice(0,20);
- let conn=ON.rconns[id];if(!conn){if(o.m.t!=='hello')return;conn={peer:id,open:true,relay:true,seen:Date.now(),send:m=>{try{c.publish(RT(ON.code)+'/g/'+o.f,JSON.stringify(m))}catch(e){}},close(){}};ON.rconns[id]=conn}
+ let conn=ON.rconns[id];if(!conn){if(o.m.t!=='hello')return;conn={peer:id,open:true,relay:true,mq:c,seen:Date.now(),send:m=>{try{c.publish(RT(ON.code)+'/g/'+o.f,JSON.stringify(m),{qos:1})}catch(e){}},close(){}};ON.rconns[id]=conn}
  conn.seen=Date.now();if(o.m.t==='hb')return;if(o.m.t==='bye'){delete ON.rconns[id];dropPlayer(id);return}hostData(conn,o.m)}
 function hostData(conn,d){if(!ON||ON.role!=='host'||!d)return;const id=conn.peer;const p=ON.players.find(x=>x.id===id);
  if(d.t==='hello'&&d.tv&&!p){ON.conns[id]=conn;ON.tvs=ON.tvs||{};ON.tvs[id]=1;conn.send({t:'welcome',code:ON.code,you:id,players:pubPlayers(),cfg:ON.cfg,state:ON.state,tv:1});sfx('ok');toast('📺 TV-Bildschirm verbunden');if(ON.state==='lobby')renderLobby();return}
@@ -2681,9 +2685,10 @@ function hostData(conn,d){if(!ON||ON.role!=='host'||!d)return;const id=conn.peer
   if(Array.isArray(d.hist))d.hist.slice(-400).forEach(x=>{if(typeof x==='string'&&x.length<40)ON.ghs.add(x)});
   ON.conns[id]=conn;let q=p;if(!q){q=mkP(id,nm,String(d.ava||'🙂').slice(0,8),cleanLook(d.look));ON.players.push(q);
    if(ON.state!=='lobby'){if(ON.cfg.mode==='mill'){q.m=Object.assign(mNew(),{st:'out'})}if(ON.cfg.mode==='poker'){q.score=+ON.cfg.pc||10}if(ON.cfg.mode==='ko'){q.out=true;q.outAt=-1}if(ON.cfg.mode==='team'){const c0=ON.players.filter(x=>x.team===0&&x!==q).length,c1=ON.players.filter(x=>x.team===1).length;q.team=c0<=c1?0:1}}}
-  conn.send({t:'welcome',code:ON.code,you:id,players:pubPlayers(),cfg:ON.cfg,state:ON.state});sfx('ok');toast(`👋 ${q.ava} ${nm} ist beigetreten`);
+  conn.send({t:'welcome',code:ON.code,you:id,players:pubPlayers(),cfg:ON.cfg,state:ON.state});if(!p){sfx('ok');toast(`👋 ${q.ava} ${nm} ist beigetreten`)}
   hostBroadcast({t:'lobby',players:pubPlayers(),cfg:ON.cfg});if(ON.state==='lobby')renderLobby();return}
  if(!p)return;
+ if(d._k){try{conn.send({t:'ack',k:d._k})}catch(e){}ON.seenK=ON.seenK||new Set();if(ON.seenK.has(d._k))return;ON.seenK.add(d._k);if(ON.seenK.size>3000)ON.seenK=new Set()}
  if(MH[d.t]){MH[d.t](p,d);return}
  if(d.t==='ans'){hostTakeAns(p,d);return}
  if(d.t==='jk'){hostJoker(p,d.k,d.i);return}
@@ -2695,7 +2700,12 @@ function hostTakeAns(p,d){if(p.out||d.i!==ON.qi||ON.state!=='q')return;const q=O
 function dropPlayer(id){if(!ON||ON.role!=='host')return;if(ON.tvs&&ON.tvs[id]){delete ON.tvs[id];delete ON.conns[id];if(ON.rconns)delete ON.rconns[id];toast('📺 TV-Bildschirm getrennt');if(ON.state==='lobby')renderLobby();return}const p=ON.players.find(x=>x.id===id);if(!p)return;ON.players=ON.players.filter(x=>x.id!==id);delete ON.conns[id];if(ON.rconns)delete ON.rconns[id];toast(`🚪 ${p.name} hat den Raum verlassen`);hostBroadcast({t:'lobby',players:pubPlayers(),cfg:ON.cfg});if(ON.state==='lobby')renderLobby();else if(ON.state==='q')afterAnswer();else if(ON.state==='bet')hostBetCount();else if(ON.state==='vote')hostVoteCount();else if(ON.state==='mq'||ON.state==='mdec')millCheck();else if(ON.state[0]==='p')pkDrop();else if(ON.state[0]==='g')gDrop()}
 function hostKick(id){if(!ON||ON.role!=='host'||id==='host')return;const c=ON.conns[id];if(c){try{c.send({t:'kick'})}catch(e){}setTimeout(()=>{try{c.close()}catch(e){}},300)}dropPlayer(id)}
 function pubPlayers(){return ON.players.map(p=>({id:p.id,name:p.name,ava:p.ava,look:p.look,score:p.score,last:p.last,st:p.st,best:p.best,mv:p.mv,out:p.out,outAt:p.outAt,team:p.team,cor:p.cor,jk:p.jk,m:p.m,pj:p.pj}))}
-function hostBroadcast(m){Object.values(ON.conns).forEach(c=>{try{c.open!==false&&c.send(m)}catch(e){}})}
+const SCR=new Set('wheel vote bet q rev end mstart mq mlock mrev mdec mgo pktopic pkbid pkprove pkres schq schr hlq hlr lieq liec lier slfq slfv slfr drpick drgo drend dago dav dares impgo impl impt impv impej impr gintro'.split(' '));
+function hostBroadcast(m){if(!ON)return;if(SCR.has(m.t)){m.sq=ON.sq=(ON.sq||0)+1;ON.lastScr=m}else if(m._i==null)m._i=ON.bi=(ON.bi||0)+1;const s=JSON.stringify(m);if(SCR.has(m.t))ON.lastScrS=s;const pubs=new Set();
+ Object.values(ON.conns).forEach(c=>{try{if(c.relay&&c.mq){if(!pubs.has(c.mq)){pubs.add(c.mq);c.mq.publish(RT(ON.code)+'/all',s,{qos:1})}}else if(c.open!==false)c.send(m)}catch(e){}})}
+function hostResend(){if(!ON||ON.role!=='host'||ON.state==='lobby')return;Object.entries(ON.lastPriv||{}).forEach(([id,m])=>{const c=ON.conns[id];if(c&&c.relay)try{c.send(m)}catch(e){}});if(!ON.lastScrS)return;const pubs=new Set();Object.values(ON.conns).forEach(c=>{try{if(c.relay&&c.mq){if(!pubs.has(c.mq)){pubs.add(c.mq);c.mq.publish(RT(ON.code)+'/all',ON.lastScrS,{qos:1})}}}catch(e){}})}
+function gSend(m){if(!ON||!ON.conn)return;if(!['dro','drs','emo','quip','hb','bye','hello'].includes(m.t)){m._k=Math.random().toString(36).slice(2,10);ON.pend=ON.pend||{};ON.pend[m._k]={m,n:0};if(!ON.pendIv)ON.pendIv=setInterval(gResend,1300)}try{ON.conn.send(m)}catch(e){}}
+function gResend(){if(!ON||!ON.pend||!ON.conn)return;Object.entries(ON.pend).forEach(([k,o])=>{if(++o.n>8){delete ON.pend[k];return}try{ON.conn.send(o.m)}catch(e){}})}
 function hostCfg(){if(!ON||ON.role!=='host')return;try{localStorage.setItem('quizarena_ocfg',JSON.stringify(ON.cfg))}catch(e){}hostBroadcast({t:'lobby',players:pubPlayers(),cfg:ON.cfg});renderLobby()}
 function cycCfg(k,dir){const a=OSET[k];let i=a.indexOf(ON.cfg[k]);if(i<0)i=0;ON.cfg[k]=a[(i+dir+a.length)%a.length];hostCfg()}
 function shareCode(){const link=/^https?:/.test(location.href)?joinURL(ON.code):'';const t=`Komm in meine Quiz-Arena! 🎉 ${link?link+' → ':''}🌐 Online-Party → Raumcode: ${ON.code}`;if(navigator.share)navigator.share({text:t}).catch(()=>{});else if(navigator.clipboard){navigator.clipboard.writeText(t);toast('📋 Einladung kopiert')}else toast('Raumcode: '+ON.code)}
@@ -2733,18 +2743,18 @@ function settingsHTML(ro){const c=ON.cfg;if(GMODES[c.mode])return gSettings(ro);
   <div style="margin-top:8px">${togRow('💰','Wetten','wett','Vor jeder Frage Punkte setzen',ro)}${togRow('🃏','Joker','jok','50:50, Doppelte Punkte, Schild',ro)}${togRow('🔥','Serien-Bonus','streak','',ro)}${c.mode==='ko'?'':togRow('🏆','Finale ×2','fin','',ro)}
   ${togRow('⚡','Tempo-Punkte','speed','Schneller = mehr Punkte',ro)}${togRow('➖','Minuspunkte bei falsch','pen','−200 pro falscher Antwort',ro)}${togRow('🔄','Umstimmen erlaubt','change','',ro)}${togRow('⏭️','Automatisch weiter','auto','',ro)}</div>
   ${ro?'':'<button class="btn alt s" style="width:100%;margin-top:8px" data-a="oreset">↺ Standard-Einstellungen</button>'}</details>`}
-function renderLobby(){if(!ON)return;G=null;ON.state='lobby';stopTimer();const c=ON.cfg;const n=ON.players.length;
- if(ON.role==='host'){const M=OMODES[c.mode]||OMODES.klass;view(`<div class="top"><button class="back" data-a="oleave">✕</button><h2>🌐 Dein Raum</h2>${voiceChip()}</div>
+function renderLobby(){if(!ON)return;const keep=ON.state==='lobby'&&!!document.querySelector('.plgrid');G=null;ON.state='lobby';stopTimer();const c=ON.cfg;const n=ON.players.length;
+ if(ON.role==='host'){const M=OMODES[c.mode]||OMODES.klass;(keep?viewK:view)(`<div class="top"><button class="back" data-a="oleave">✕</button><h2>🌐 Dein Raum</h2>${voiceChip()}</div>
   <div class="card"><div class="line"><div><div class="xs mut">Raumcode</div><div class="code">${ON.code}</div></div><div class="row" style="gap:6px;flex-wrap:nowrap"><button class="btn s alt" data-a="oqr">📱 QR</button><button class="btn s" data-a="oshare">📤 Einladen</button></div></div><div id="oqrbox" hidden style="margin-top:10px;text-align:center"><div id="oqrimg" data-sz="200"></div><div class="xs mut" style="margin-top:6px">Mit der Handy-Kamera scannen → direkt im Raum</div></div>
   <div class="line" style="margin-top:12px"><b class="sm">👥 Spieler</b><span class="chip">${n}/12</span></div><div class="plgrid">${lobbyGrid()}</div>${n<2?'<div class="xs mut" style="margin-top:6px">Warte auf Freunde … Sie öffnen 🌐 Online-Party und geben den Code ein.</div>':''}<div class="xs ${ON.tvs&&Object.keys(ON.tvs).length?'pos':'mut'}" style="margin-top:6px">${ON.tvs&&Object.keys(ON.tvs).length?'📺 TV-Bildschirm verbunden ✓':'📺 Optional: Fernseher als großen Bildschirm verbinden – dort Online-Party → „Fernseher“ öffnen und den Code eingeben.'}</div></div>
   ${modePicker()}${settingsHTML(false)}
   <div class="startbar"><button class="btn gold" style="width:100%;font-size:17px;padding:14px" data-a="ostart">🚀 Starten: ${M.ic} ${M.n}</button><div class="xs mut" style="text-align:center;margin-top:5px">${cfgText(c)}</div></div>${emoBar()}`)}
- else if(ON.tv){const M=c?(OMODES[c.mode]||OMODES.klass):null;const url=(location.host+location.pathname).replace(/index\.html$/,'');view(`<div class="top"><button class="back" data-a="oleave">✕</button><h2>📺 Quiz-Arena</h2>${voiceChip()}</div>
+ else if(ON.tv){const M=c?(OMODES[c.mode]||OMODES.klass):null;const url=(location.host+location.pathname).replace(/index\.html$/,'');(keep?viewK:view)(`<div class="top"><button class="back" data-a="oleave">✕</button><h2>📺 Quiz-Arena</h2>${voiceChip()}</div>
   <div class="card" style="text-align:center;padding:22px"><div class="sm mut">Mitspielen? Öffne auf dem Handy</div><div class="tvurl">${esc(url)}</div><div class="sm mut" style="margin-top:12px">→ 🌐 Online-Party → Code eingeben:</div><div class="tvcode" style="margin-top:6px">${ON.code}</div><div class="sm mut" style="margin-top:12px">… oder QR-Code scannen:</div><div id="tvqr" data-sz="200" style="margin-top:8px"></div></div>
   ${M?`<div class="card" style="text-align:center"><div style="font-size:26px;font-weight:900">${M.ic} ${M.n}</div><div class="sm mut">${cfgText(c)}</div></div>`:''}
   <div class="card"><div class="line"><b>👥 Spieler</b><span class="chip">${n}/12</span></div><div class="plgrid">${lobbyGrid()}</div></div>
   <div class="sm mut" style="text-align:center">${ON.state==='wait'?'Das Spiel läuft – gleich geht es hier weiter …':'Warte, bis der Host startet …'}</div>`);qrFill('tvqr',ON.code)}
- else{const M=c?(OMODES[c.mode]||OMODES.klass):null;view(`<div class="top"><button class="back" data-a="oleave">✕</button><h2>🌐 Raum ${ON.code}</h2>${voiceChip()}</div>
+ else{const M=c?(OMODES[c.mode]||OMODES.klass):null;(keep?viewK:view)(`<div class="top"><button class="back" data-a="oleave">✕</button><h2>🌐 Raum ${ON.code}</h2>${voiceChip()}</div>
   <div class="card" style="text-align:center;padding:16px">${headH(meP()||{ava:'⏳'},52)}<div style="margin-top:6px"><b>Du bist drin!</b></div><div class="sm mut">${ON.state==='wait'?'Das Spiel läuft schon – du steigst bei der nächsten Frage ein.':'Warte, bis der Host das Spiel startet …'}</div></div>
   ${M?`<div class="card"><div class="xs mut">Der Host hat gewählt</div><div style="font-size:20px;font-weight:900;margin:4px 0">${M.ic} ${M.n}</div><div class="sm">${cfgText(c)}</div>${c.mode==='mill'?`<div class="xs mut" style="margin-top:6px">${MILLRULES}</div>`:''}${c.mode==='poker'?`<div class="xs mut" style="margin-top:6px">${PKRULES}</div>`:''}${GRULES[c.mode]?`<div class="xs mut" style="margin-top:6px">${GRULES[c.mode]}</div>`:''}</div>`:''}
   <div class="card"><div class="line"><b class="sm">👥 Spieler</b><span class="chip">${n}/12</span></div><div class="plgrid">${lobbyGrid()}</div></div>
@@ -2754,7 +2764,7 @@ function qTotal(){return ON.cfg.mode==='ko'?60:ON.cfg.n}
 function hostStart(){if(!ON||ON.role!=='host')return;if(ON.players.length<2&&!ON.soloOk){ON.soloOk=true;toast('Noch niemand da – nochmal tippen, um allein zu testen');return}
  if(ON.cfg.mode==='mill'){millStart();return}
  if(ON.cfg.mode==='poker'){pkStart();return}
- if(GSTART[ON.cfg.mode]){GSTART[ON.cfg.mode]();return}
+ if(GSTART[ON.cfg.mode]){gIntro(ON.cfg.mode,GSTART[ON.cfg.mode]);return}
  if(!OTYPES.some(t=>ON.cfg.types[t[0]]))ON.cfg.types.mc=true;
  ON.qi=-1;ON.used=[];ON.usedA=[];ON.curCat='mix';ON.players.forEach(resetP);
  if(ON.cfg.mode==='team'){const sh=[...ON.players].sort(()=>Math.random()-.5);sh.forEach((p,i)=>p.team=i%2)}P.games++;hostNext()}
@@ -2785,14 +2795,14 @@ function hostAsk(){if(!ON)return;clearT();const q=pickQ();ON.cq=q;ON.used.push(q
  const fin=ON.cfg.fin&&ON.cfg.mode!=='ko'&&qTotal()>2&&ON.qi===qTotal()-1;ON.fin=fin;
  const pub={id:q.id,q:q.q,cat:q.cat,d:q.d,type:q.type,emo:q.emo||''};if(q.type==='est')Object.assign(pub,{min:q.min,max:q.max,unit:q.unit,step:stepOf(q)});else pub.opts=q.opts;if(q.type==='who')pub.clues=q.clues;
  const m={t:'q',i:ON.qi,n:ON.cfg.mode==='ko'?0:qTotal(),dur:ON.dur,fin,mode:ON.cfg.mode,cfg:ON.cfg,players:pubPlayers(),bets:ON.bets||{},q:pub};
- hostBroadcast(m);showOnlineQ(m);ON.timer=setTimeout(hostReveal,ON.dur*1000+1500)}
+ hostBroadcast(m);showOnlineQ(m);ON.timer=setTimeout(hostReveal,ON.dur*1000+GRACE)}
 function afterAnswer(){if(!ON||ON.state!=='q')return;const act=ON.players.filter(p=>!p.out);const n=act.filter(p=>ON.ans[p.id]).length;hostBroadcast({t:'cnt',c:n,n:act.length});const e=$('ocnt');if(e)e.textContent=`${n}/${act.length} haben geantwortet`;
  clearTimeout(ON.allT);if(n>=act.length){ON.allT=setTimeout(hostReveal,ON.cfg.change?2500:600);hostBroadcast({t:'all'});allMsg()}}
 function allMsg(){const e=$('ocnt');if(e)e.innerHTML='<b>Alle haben geantwortet – gleich wird aufgelöst…</b>'}
 function hostJoker(p,k,i){if(!ON||!ON.cfg.jok||ON.state!=='q'||i!==ON.qi||p.out||!p.jk||!(p.jk[k]>0))return;const q=ON.cq;
  if(k==='fifty'){if(!['mc','emo','flag','who'].includes(q.type))return;p.jk.fifty--;const rm=shuffle(q.opts.map((_,j)=>j).filter(j=>j!==q.ok)).slice(0,2);sendTo(p.id,{t:'fifty',rm})}
  else if(k==='dbl'){p.jk.dbl--;p.dbl=ON.qi;sendTo(p.id,{t:'jkok',k})}}
-function sendTo(id,m){if(id==='host')guestData(m,true);else{const c=ON.conns[id];if(c)try{c.send(m)}catch(e){}}}
+function sendTo(id,m){if(id==='host')guestData(m,true);else{const c=ON.conns[id];if(!c)return;if(c.relay){m._p=ON.pi=(ON.pi||0)+1;ON.lastPriv=ON.lastPriv||{};ON.lastPriv[id]=m}try{c.send(m)}catch(e){}}}
 function rankOrder(arr){const ko=(ON.cfg||{}).mode==='ko';return[...arr].sort((a,b)=>ko&&a.out!==b.out?(a.out?1:-1):ko&&a.out&&b.outAt!==b.outAt?b.outAt-a.outAt:b.score-a.score)}
 function teamScores(pl){return[0,1].map(t=>{const m=pl.filter(p=>p.team===t);return m.length?Math.round(m.reduce((s,p)=>s+p.score,0)/m.length):0})}
 function hostReveal(){if(!ON||ON.state!=='q')return;clearT();ON.state='rev';const q=ON.cq,c=ON.cfg;const mult=(c.mode==='turbo'?1.5:1)*(ON.fin?2:1);
@@ -2820,8 +2830,9 @@ async function joinRoom(code){const name=myName();netMsg('⏳ Verbinde mit Raum 
  const [pOk,mOk]=await Promise.all([loadPeer().then(()=>1,()=>0),loadMqtt().then(()=>1,()=>0)]);if(!pOk&&!mOk){netMsg(LOADERR,true);return}
  if(mOk){let c=null;try{c=await mqttFirst()}catch(e){}
   if(c){const gid=Math.random().toString(36).slice(2,12);const my={role:'guest',code,players:[],state:'join',name,me:'r_'+gid,mqc:c,relay:true,lastHost:Date.now()};ON=my;
-   const conn={open:true,send:m=>{try{c.publish(RT(code)+'/h',JSON.stringify({f:gid,m}))}catch(e){}},close(){conn.send({t:'bye'})}};my.conn=conn;
-   c.subscribe(RT(code)+'/g/'+gid,()=>conn.send({t:'hello',name,ava:P.ava,look:myLook(),hist:ohSend(),tv:TVJ?1:0}));
+   const conn={open:true,send:m=>{try{c.publish(RT(code)+'/h',JSON.stringify({f:gid,m}),{qos:1})}catch(e){}},close(){conn.send({t:'bye'})}};my.conn=conn;
+   c.subscribe(RT(code)+'/all',{qos:1});c.subscribe(RT(code)+'/g/'+gid,{qos:1},()=>conn.send({t:'hello',name,ava:P.ava,look:myLook(),hist:ohSend(),tv:TVJ?1:0}));
+   my.hi=setInterval(()=>{if(ON!==my||my.state!=='join'){clearInterval(my.hi);return}conn.send({t:'hello',name,ava:P.ava,look:myLook(),hist:ohSend(),tv:TVJ?1:0})},2000);
    c.on('message',(t,pl)=>{if(ON!==my)return;my.lastHost=Date.now();let m;try{m=JSON.parse(String(pl))}catch(e){return}if(m&&m.t!=='hb')guestData(m)});
    my.hb=setInterval(()=>{if(ON!==my)return;conn.send({t:'hb'});if(my.state!=='join'&&Date.now()-my.lastHost>20000){toast('🔌 Verbindung zum Host verloren');leaveOnline()}},4000);
    const ok=await new Promise(r=>{const t0=Date.now();const iv=setInterval(()=>{if(ON!==my){clearInterval(iv);r(false)}else if(my.state!=='join'){clearInterval(iv);r(true)}else if(Date.now()-t0>7000){clearInterval(iv);r(false)}},200)});
@@ -2833,11 +2844,13 @@ async function joinRoom(code){const name=myName();netMsg('⏳ Verbinde mit Raum 
   ON.joinTO=setTimeout(()=>{if(ON&&ON.state==='join'){netMsg('❌ Keine Verbindung zu Raum '+code+'. Stimmt der Code? Ist der Host noch im Raum? Versuch es nochmal oder wechsle zwischen WLAN und mobilen Daten.',true);try{peer.destroy()}catch(e){}ON=null}},15000)});
  peer.on('error',e=>{if(!ON||ON.peer!==peer)return;if(e.type==='peer-unavailable'){netMsg('❌ Raum '+code+' gibt es nicht (mehr). Code prüfen!',true);clearTimeout(ON.joinTO);try{peer.destroy()}catch(x){}ON=null;return}netMsg('❌ Verbindungsproblem: '+(e.type||e.message||e),true)})}
 function guestData(d,self){if(!ON||!d)return;
+ if(!self&&ON.role!=='host'&&ON.state==='join'&&!['welcome','full','kick','bye','ack'].includes(d.t))return;
+ if(!self&&ON.role!=='host'){if(d.t==='ack'){if(ON.pend)delete ON.pend[d.k];return}if(d._p!=null){ON.seenP=ON.seenP||new Set();if(ON.seenP.has(d._p))return;ON.seenP.add(d._p)}if(d.sq!=null){if(d.sq<=(ON.lastSq||0))return;ON.lastSq=d.sq}else if(d._i!=null){ON.seenI=ON.seenI||new Set();if(ON.seenI.has(d._i))return;ON.seenI.add(d._i);if(ON.seenI.size>500)ON.seenI=new Set([...ON.seenI].slice(-250))}}
  if(MG[d.t]){if(self||ON.role!=='host'||['mfifty','mpubwait','mpub','mpollreq','mtelring','mtelres','mring','mringend'].includes(d.t))MG[d.t](d);return}
  if(d.t==='fifty'){(d.rm||[]).forEach(j=>{const b=$('a'+j);if(b){b.classList.add('gone');b.disabled=true}});ON.my&&(ON.my.jk='fifty');jkUsed('fifty');return}
  if(d.t==='jkok'){jkUsed(d.k);toast('⭐ Doppelte Punkte aktiv!');return}
  if(self)return;
- if(d.t==='welcome'){clearTimeout(ON.joinTO);ON.me=d.you;ON.tv=!!d.tv;tvZoom();ON.players=d.players;ON.cfg=d.cfg;sfx('ok');ON.state=d.state!=='lobby'?'wait':'lobby';renderLobby();return}
+ if(d.t==='welcome'){if(ON.state!=='join')return;clearTimeout(ON.joinTO);ON.me=d.you;ON.tv=!!d.tv;tvZoom();ON.players=d.players;ON.cfg=d.cfg;sfx('ok');ON.state=d.state!=='lobby'?'wait':'lobby';renderLobby();return}
  if(d.t==='full'){netMsg('❌ Der Raum ist voll (12 Spieler).',true);return}
  if(d.t==='bye'){ON.state='left';toast('🚪 Der Host hat den Raum geschlossen');leaveOnline();return}
  if(d.t==='kick'){ON.state='left';toast('🚪 Du wurdest aus dem Raum entfernt');leaveOnline();return}
@@ -2900,7 +2913,7 @@ function timeUp(){if(!ON||!ON.my)return;ON.my.up=true;document.querySelectorAll(
 function sendAns(v,first){const ms=performance.now()-ON.my.t0;ON.my.v=v;sfx('lock');const ch=ON.cfg&&ON.cfg.change!==false;
  $('after').innerHTML=`<div class="info" style="text-align:center">${first?'✔ Antwort abgegeben':'🔄 Umgestimmt'}${ch?' – du kannst bis zum Schluss noch umstimmen':' – warte auf die anderen…'}</div>`;
  if(!ch){document.querySelectorAll('#kh .a,#oeb,#oer,[data-a^=oestd]').forEach(b=>b.disabled=true)}
- if(ON.role==='host')hostTakeAns(meP(),{v,ms,i:ON.cur.i});else{try{ON.conn.send({t:'ans',i:ON.cur.i,v,ms})}catch(e){}}}
+ if(ON.role==='host')hostTakeAns(meP(),{v,ms,i:ON.cur.i});else{try{gSend({t:'ans',i:ON.cur.i,v,ms})}catch(e){}}}
 function onlineAnswer(raw){if(!ON||!G||ON.state!=='q'||!ON.my||ON.my.up)return;const me=meP();if(!me||me.out)return;const v=raw===-1||raw==='-1'?-1:+raw;
  if(v<0){G.answered=true;timeUp();if(ON.my.v==null)sfx('no');return}
  if(ON.my.v===v)return;if(G.answered&&ON.cfg&&ON.cfg.change===false)return;const first=!G.answered;G.answered=true;
@@ -3006,7 +3019,7 @@ const MILLN=15;
 function mSafe(i){let w=0;SAFE.forEach(s=>{if(i>s)w=LADDER[s]});return w}
 function mNew(){return{st:'in',lvl:0,bank:0,fin:0,at:0,jk:{fifty:1,pub:1,tel:1}}}
 function mAct(){return ON.players.filter(p=>p.m&&p.m.st==='in')}
-function mSend(m){if(!ON)return;if(ON.role==='host'){const f=MH[m.t];if(f)f(meP(),m)}else try{ON.conn.send(m)}catch(e){}}
+function mSend(m){if(!ON)return;if(ON.role==='host'){const f=MH[m.t];if(f)f(meP(),m)}else gSend(m)}
 function millStart(){ON.used=[];ON.usedA=[];ON.players.forEach(p=>{resetP(p);p.m=mNew()});ON.mi=-1;P.games++;ON.state='mstart';
  const m={t:'mstart',players:pubPlayers(),cfg:ON.cfg};hostBroadcast(m);showMillIntro(m);ON.mT=setTimeout(()=>millAsk(0),5200)}
 function millPickQ(i){const d=i<5?[1]:i<10?[2]:[3];const all=Q.filter(q=>!P.hidden[q.id]&&OPT4.includes(q.type));const base=all.filter(q=>csOk(q.cat));
@@ -3032,7 +3045,7 @@ function millReveal(){if(!ON||ON.state!=='mlock')return;ON.state='mrev';const q=
  const m={t:'mrev',i,ok:q.ok,info:q.info||'',picks,res,votes:{...ON.mvotes},last,players:pubPlayers()};hostBroadcast(m);showMillRev(m);
  if(ON.cfg.auto)ON.mT=setTimeout(millAfterRev,last?6500:7500)}
 function millAfterRev(){if(!ON||ON.role!=='host'||ON.state!=='mrev')return;clearT();if(!mAct().length||ON.mi>=MILLN-1){millEnd();return}millDec()}
-function millDec(){ON.state='mdec';ON.mdec={};const dur=20;const m={t:'mdec',i:ON.mi,dur,players:pubPlayers()};hostBroadcast(m);showMillDec(m);ON.mT=setTimeout(millDecEnd,dur*1000+1200)}
+function millDec(){ON.state='mdec';ON.mdec={};const dur=20;const m={t:'mdec',i:ON.mi,dur,players:pubPlayers()};hostBroadcast(m);showMillDec(m);ON.mT=setTimeout(millDecEnd,dur*1000+GRACE)}
 function millDecEnd(){if(!ON||ON.state!=='mdec')return;clearT();const quit=[];mAct().forEach(p=>{if(ON.mdec[p.id]===false){p.m.st='out';p.m.fin=p.m.bank;p.m.at=ON.mi+1;p.score=p.m.fin;quit.push(p.id)}});
  if(!mAct().length){millEnd();return}ON.state='mgo';const m={t:'mgo',quit,players:pubPlayers()};hostBroadcast(m);showMillGo(m);ON.mT=setTimeout(()=>millAsk(ON.mi+1),3000)}
 function millEnd(){if(!ON)return;clearT();ON.players.forEach(p=>{if(p.m){if(p.m.st==='in'){p.m.st='out';p.m.fin=p.m.bank}p.score=p.m.fin}});ON.state='end';const m={t:'end',players:pubPlayers(),mode:'mill',awards:millAwards()};hostBroadcast(m);showEnd(m)}
@@ -3444,32 +3457,40 @@ const SLFL='ABCDEFGHIKLMNOPRSTUVWZ';
 /* ===================== Zeichen-Leinwand (Montagsmaler) ===================== */
 const DCOLS=['#111827','#ffffff','#9ca3af','#ef4444','#f97316','#facc15','#22c55e','#14b8a6','#3b82f6','#8b5cf6','#ec4899','#92400e'];
 const DSIZES=[5,12,26];
-const DC={el:null,ctx:null,ops:[],can:false,col:'#111827',w:12,tool:'pen',send:null,buf:[],last:null,fl:null,down:false};
+const DC={el:null,ctx:null,ops:[],can:false,col:'#111827',w:12,tool:'pen',send:null,fl:null,sy:null,down:false,cur:null,sent:0,sid:0,dirty:false};
 function drawUI(can){return`<div class="dwrap"><canvas id="dcv" width="800" height="800"></canvas></div><div id="dtl">${can?drawToolbar():''}</div>`}
 function drawToolbar(){return`<div class="dtools"><div class="dcols">${DCOLS.map(c=>`<button class="dcol ${DC.col===c&&DC.tool!=='erase'?'sel':''}" style="background:${c}" data-a="dcol|${c}"></button>`).join('')}</div>
  <div class="row" style="gap:6px;justify-content:center;margin-top:6px">${DSIZES.map(s=>`<button class="btn s ${DC.w===s?'':'alt'}" data-a="dsz|${s}"><span class="ddot" style="width:${6+s/2}px;height:${6+s/2}px"></span></button>`).join('')}
  <button class="btn s ${DC.tool==='fill'?'':'alt'}" data-a="dtool|fill" title="Füllen">🪣</button><button class="btn s ${DC.tool==='erase'?'':'alt'}" data-a="dtool|erase" title="Radierer">🧽</button><button class="btn s alt" data-a="dundo" title="Rückgängig">↩️</button><button class="btn s alt" data-a="dclear" title="Alles löschen">🗑️</button></div></div>`}
 function drawTools(){const t=$('dtl');if(t)t.innerHTML=drawToolbar()}
-function drawInit(can,send,keep){DC.el=$('dcv');if(!DC.el)return;DC.ctx=DC.el.getContext('2d');DC.can=can;DC.send=send||null;if(!keep)DC.ops=[];DC.buf=[];DC.down=false;drawRedraw();
- if(!can)return;const el=DC.el;
+function drawInit(can,send,keep){DC.el=$('dcv');if(!DC.el)return;DC.ctx=DC.el.getContext('2d');DC.can=can;DC.send=send||null;if(!keep){DC.ops=[];DC.sid=0}DC.down=false;DC.cur=null;clearInterval(DC.fl);clearInterval(DC.sy);DC.dirty=false;drawRedraw();
+ if(!can)return;const el=DC.el;if(DC.send)DC.sy=setInterval(()=>{if(!DC.el||!document.body.contains(DC.el)){clearInterval(DC.sy);return}if(DC.dirty&&!DC.down){DC.dirty=false;DC.send({o:{k:'y',ops:DC.ops}})}},3500);
  const pos=e=>{const r=el.getBoundingClientRect();return[clamp(Math.round((e.clientX-r.left)/r.width*1000),0,1000),clamp(Math.round((e.clientY-r.top)/r.height*1000),0,1000)]};
- el.onpointerdown=e=>{e.preventDefault();const[x,y]=pos(e);
-  if(DC.tool==='fill'){const o={k:'f',x,y,c:DC.col};drawApply(o);DC.send&&DC.send({o});return}
-  try{el.setPointerCapture(e.pointerId)}catch(_){}DC.down=true;const o={k:'s',c:DC.tool==='erase'?'#ffffff':DC.col,w:DC.tool==='erase'?Math.max(DC.w,26):DC.w,p:[x,y]};drawApply(o);DC.send&&DC.send({o:{k:'s',c:o.c,w:o.w,p:[x,y]}});
-  DC.fl=setInterval(drawFlush,70)};
- el.onpointermove=e=>{if(!DC.down)return;e.preventDefault();const[x,y]=pos(e);const s=DC.ops[DC.ops.length-1];if(!s||s.k!=='s')return;const lx=s.p[s.p.length-2],ly=s.p[s.p.length-1];if(Math.abs(lx-x)+Math.abs(ly-y)<4)return;drawApply({k:'p',p:[x,y]});DC.buf.push(x,y)};
- const up=()=>{if(!DC.down)return;DC.down=false;clearInterval(DC.fl);drawFlush()};el.onpointerup=up;el.onpointercancel=up;el.onpointerleave=up}
-function drawFlush(){if(!DC.buf.length)return;const p=DC.buf;DC.buf=[];DC.send&&DC.send({o:{k:'p',p}})}
-function drawCmd(k){if(k==='u'){const o={k:'u'};drawApply(o);DC.send&&DC.send({o})}else{const o={k:'c'};drawApply(o);DC.send&&DC.send({o})}}
-function drawApply(o){if(!o)return;const ops=DC.ops;
- if(o.k==='s'){ops.push({k:'s',c:o.c,w:o.w,p:[...o.p]});drawSeg(ops[ops.length-1],0)}
- else if(o.k==='p'){const s=ops[ops.length-1];if(!s||s.k!=='s')return;const from=s.p.length-2;s.p.push(...o.p);drawSeg(s,from)}
- else if(o.k==='f'){ops.push(o);drawFill(o)}
- else if(o.k==='u'){let i=ops.length-1;while(i>=0&&ops[i].k==='c')i--;if(i>=0){ops.splice(i,1);drawRedraw()}}
- else if(o.k==='c'){ops.push(o);drawRedraw()}}
-function drawSeg(s,from){const c=DC.ctx;if(!c)return;const k=DC.el.width/1000;c.strokeStyle=s.c;c.fillStyle=s.c;c.lineWidth=s.w*k;c.lineCap='round';c.lineJoin='round';const p=s.p;
- if(p.length<=2||from<0){c.beginPath();c.arc(p[0]*k,p[1]*k,s.w*k/2,0,Math.PI*2);c.fill();if(p.length<=2)return;from=0}
- c.beginPath();c.moveTo(p[from]*k,p[from+1]*k);for(let i=from+2;i<p.length;i+=2)c.lineTo(p[i]*k,p[i+1]*k);c.stroke()}
+ el.onpointerdown=e=>{e.preventDefault();if(DC.down)return;const[x,y]=pos(e);
+  if(DC.tool==='fill'){const o={k:'f',id:++DC.sid,x,y,c:DC.col};drawApply(o);DC.send&&DC.send({o});DC.dirty=true;return}
+  try{el.setPointerCapture(e.pointerId)}catch(_){}DC.down=true;const o={k:'s',id:++DC.sid,c:DC.tool==='erase'?'#ffffff':DC.col,w:DC.tool==='erase'?Math.max(DC.w,26):DC.w,p:[x,y],br:[]};DC.ops.push(o);DC.cur=o;DC.sent=2;drawSeg(o,-1);
+  DC.send&&DC.send({o:{k:'s',id:o.id,c:o.c,w:o.w,p:[x,y]}});clearInterval(DC.fl);DC.fl=setInterval(drawFlush,100)};
+ el.onpointermove=e=>{if(!DC.down||!DC.cur)return;e.preventDefault();const[x,y]=pos(e);const s=DC.cur;const lx=s.p[s.p.length-2],ly=s.p[s.p.length-1];if(Math.abs(lx-x)+Math.abs(ly-y)<4)return;const from=s.p.length-2;s.p.push(x,y);drawSeg(s,from)};
+ const up=()=>{if(!DC.down)return;DC.down=false;clearInterval(DC.fl);drawFlush();const s=DC.cur;DC.cur=null;if(s&&DC.send)DC.send({o:{k:'e',id:s.id,c:s.c,w:s.w,p:s.p}});DC.dirty=true};el.onpointerup=up;el.onpointercancel=up;el.onpointerleave=up}
+function drawFlush(){const s=DC.cur;if(!s||s.p.length<=DC.sent)return;const p=s.p.slice(DC.sent);const i=DC.sent/2;DC.sent=s.p.length;DC.send&&DC.send({o:{k:'p',id:s.id,i,p,c:s.c,w:s.w}})}
+function drawCmd(k){if(DC.down)return;if(k==='u'){let t=null;for(let i=DC.ops.length-1;i>=0;i--){const o=DC.ops[i];if(o.k==='c')break;if(o.k==='s'||o.k==='f'){t=o;break}}if(!t)return;const o={k:'u',id:t.id};drawApply(o);DC.send&&DC.send({o})}
+ else{const o={k:'c',id:++DC.sid};drawApply(o);DC.send&&DC.send({o})}DC.dirty=true}
+function drawFind(id){return DC.ops.find(o=>o.id===id)}
+function drawIns(op){const ops=DC.ops;ops.push(op);if(ops.length>1&&ops[ops.length-2].id>op.id){ops.sort((a,b)=>a.id-b.id);return false}return true}
+function drawApply(o){if(!o||!DC.ctx)return;
+ if(o.k==='y'){if(!Array.isArray(o.ops))return;DC.ops=o.ops.filter(x=>x&&typeof x.id==='number').map(x=>x.k==='s'?{k:'s',id:x.id,c:x.c,w:x.w,p:[...x.p],br:[...(x.br||[])]}:{...x}).sort((a,b)=>a.id-b.id);drawRedraw();return}
+ if(o.k==='s'){if(drawFind(o.id))return;const op={k:'s',id:o.id,c:o.c,w:o.w,p:[...o.p],br:[]};if(drawIns(op))drawSeg(op,-1);else drawRedraw();return}
+ if(o.k==='p'){let op=drawFind(o.id);if(!op){op={k:'s',id:o.id,c:o.c,w:o.w,p:[],br:[]};drawIns(op)}const n=op.p.length/2;let pts=o.p;
+  if(o.i<n){pts=pts.slice((n-o.i)*2);if(!pts.length)return}else if(o.i>n&&n>0)op.br.push(n);const from=op.p.length?op.p.length-2:-1;op.p.push(...pts);
+  if(DC.ops[DC.ops.length-1]===op)drawSeg(op,o.i>n?-1:from);else drawRedraw();return}
+ if(o.k==='e'){let op=drawFind(o.id);if(!op){op={k:'s',id:o.id,c:o.c,w:o.w,p:[],br:[]};drawIns(op)}op.p=[...o.p];op.br=[];drawRedraw();return}
+ if(o.k==='f'){if(drawFind(o.id))return;const op={k:'f',id:o.id,x:o.x,y:o.y,c:o.c};if(drawIns(op))drawFill(op);else drawRedraw();return}
+ if(o.k==='c'){if(drawFind(o.id))return;drawIns({k:'c',id:o.id});drawRedraw();return}
+ if(o.k==='u'){const i=DC.ops.findIndex(x=>x.id===o.id);if(i>=0){DC.ops.splice(i,1);drawRedraw()}}}
+function drawSeg(s,from){const c=DC.ctx;if(!c||!s.p.length)return;const k=DC.el.width/1000;c.strokeStyle=s.c;c.fillStyle=s.c;c.lineWidth=s.w*k;c.lineCap='round';c.lineJoin='round';const p=s.p,br=s.br||[];
+ const dot=i=>{c.beginPath();c.arc(p[i]*k,p[i+1]*k,s.w*k/2,0,Math.PI*2);c.fill()};
+ if(from<0){dot(0);br.forEach(b=>dot(b*2));if(p.length<=2)return;from=0}
+ c.beginPath();c.moveTo(p[from]*k,p[from+1]*k);for(let i=from+2;i<p.length;i+=2){if(br.includes(i/2))c.moveTo(p[i]*k,p[i+1]*k);else c.lineTo(p[i]*k,p[i+1]*k)}c.stroke()}
 function drawRedraw(){const c=DC.ctx;if(!c)return;c.fillStyle='#fff';c.fillRect(0,0,DC.el.width,DC.el.height);let st=0;DC.ops.forEach((o,i)=>{if(o.k==='c')st=i+1});
  DC.ops.slice(st).forEach(o=>{if(o.k==='s')drawSeg(o,-1);else if(o.k==='f')drawFill(o)})}
 function drawFill(o){const c=DC.ctx;if(!c)return;const W=DC.el.width,H=DC.el.height,k=W/1000;const x0=Math.round(o.x*k),y0=Math.round(o.y*k);const img=c.getImageData(0,0,W,H),d=img.data;
@@ -3485,11 +3506,11 @@ const GMODES={sch:{ic:'🔢',n:'Schätz mal!',d:'Wer am nächsten dran ist, gewi
 Object.assign(OMODES,GMODES);
 Object.assign(OSET,{sn:[5,8,10,15],st:[15,20,30,45,60],hn:[1,2,3,5],ht:[8,10,15,20],ln:[3,5,8,10],lw:[30,45,60,90],sr:[3,5,8],sz:[60,90,120,180],dm:['classic','all'],dr:[1,2,3],dt:[60,80,100,120],dp:['mix','tiere','essen','gaming','autos','eigene'],dm2:[0]});
 const GDEF={sn:8,st:30,hn:3,ht:10,ln:5,lw:45,sr:3,sz:90,dm:'classic',dr:2,dt:80,dp:'mix',cats:null,dw:''};
-const GRULES={sch:'Alle bekommen dieselbe Schätzfrage und tippen eine Zahl. Je näher du dran bist, desto mehr Punkte. Genau richtig gibt Bonus, der Nächste bekommt +200.',
- hl:'Du siehst einen Wert – ist der zweite höher oder tiefer? Richtig = Punkte (Serie gibt Bonus), falsch = ein Leben weg. Wer zuletzt noch Leben hat, gewinnt.',
- lie:'Eine Frage, die kaum einer weiß. Jeder erfindet eine glaubwürdige falsche Antwort. Dann werden alle Antworten gemischt – finde die echte (+1000). Für jeden, der auf deine Lüge reinfällt: +500.',
+const GRULES={sch:'Alle tippen gleichzeitig eine Zahl. Am nächsten dran: +3 · Zweiter: +2 · Dritter: +1 · genau richtig: +2 Bonus.',
+ hl:'Ist der zweite Wert höher oder tiefer? Richtig: +1 Punkt. Falsch: ein Leben weg. Wer zuletzt noch Leben hat, gewinnt.',
+ lie:'Schritt 1: Jeder erfindet eine falsche Antwort, die echt klingt. Schritt 2: Alle Antworten werden gemischt – tippe die echte an. Echte gefunden: +2 · für jeden, der auf deine Lüge reinfällt: +1.',
  slf:'Ein Buchstabe – füll alle Kategorien aus. Wer fertig ist, drückt „Stopp!“, dann haben alle noch 10 Sekunden. Danach stimmen alle ab. Einzige gültige Antwort: 20 · einmalig: 10 · doppelt: 5.',
- draw:'Klassisch: Einer malt (3 Wörter zur Auswahl), die anderen raten im Chat. Schneller raten = mehr Punkte, der Maler bekommt Punkte für jeden Treffer. Alle malen: Alle malen dasselbe Wort, dann wird das beste Bild gewählt.'};
+ draw:'Klassisch: Einer malt (1 von 3 Wörtern), die anderen tippen ihren Tipp. Erster: +3 · Zweiter: +2 · danach +1. Der Maler bekommt +1 pro Treffer. Alle malen: Alle malen dasselbe Wort, dann wird abgestimmt – +1 pro Stimme.'};
 function gc(k){const v=ON.cfg[k];return v==null?GDEF[k]:v}
 function gHead(t){return`<div class="qhead"><button class="back" data-a="${ON?'oleave':'home'}">✕</button><span class="chip">${t}</span><span style="flex:1"></span>${ON?voiceChip()+`<span class="chip">🌐 ${ON.code}</span>`:''}</div>`}
 function hb(m){hostBroadcast(m);if(MG[m.t])MG[m.t](m)}
@@ -3498,6 +3519,19 @@ function gStart(){clearT();ON.used=[];ON.usedA=[];ON.players.forEach(resetP);P.g
 function gEnd(){clearT();ON.state='end';const m={t:'end',players:pubPlayers(),mode:ON.cfg.mode,awards:ON.g&&ON.g.aw||[]};hostBroadcast(m);showEnd(m)}
 function gScores(gain){return`<div class="card" style="padding:10px"><div class="pwrap">${rankOrder(ON.players).map(p=>chipP(p,` <b class="xs">${p.score}</b>${gain&&gain[p.id]?` <span class="xs pos">+${gain[p.id]}</span>`:''}`)).join('')}</div></div>`}
 function gNext(last){return ON.role==='host'?`<button class="btn gold" style="width:100%" data-a="gnext">${last?'🏁 Zum Ergebnis':'Weiter →'}</button>${ON.cfg.auto?'<div class="xs mut" style="text-align:center;margin-top:4px">geht automatisch weiter …</div>':''}`:'<div class="xs mut" style="text-align:center">Gleich geht es weiter …</div>'}
+function gLock(sec,fn){clearTimeout(ON.lockT);ON.lockT=setTimeout(()=>{if(ON)fn()},sec*1000)}
+const GSTEPS={sch:[['🔢','Eine Schätzfrage – alle tippen gleichzeitig eine Zahl.'],['🎯','Wer am nächsten dran ist, gewinnt: +3 · +2 · +1.'],['💯','Genau richtig: +2 Bonus obendrauf.']],
+ hl:[['⚖️','Du siehst einen Wert – hat der zweite MEHR oder WENIGER?'],['✅','Richtig: +1 Punkt.'],['❤️','Falsch: ein Leben weg. Wer zuletzt noch lebt, gewinnt.']],
+ lie:[['✍️','Schritt 1: Erfinde eine FALSCHE Antwort, die echt klingt.'],['🔍','Schritt 2: Alle Antworten werden gemischt – tippe die ECHTE an.'],['🏆','Echte gefunden: +2 · Jeder, der auf deine Lüge reinfällt: +1.']],
+ slf:[['🔤','Ein Buchstabe – schreib zu jeder Kategorie ein Wort.'],['✋','Wer fertig ist, drückt Stopp – dann noch 10 Sekunden.'],['👍','Alle stimmen ab. Einzige Antwort: 20 · einmalig: 10 · doppelt: 5.']],
+ draw:[['✏️','Einer malt – er sucht sich 1 von 3 Wörtern aus.'],['💬','Alle anderen tippen ihren Tipp ins Feld.'],['🏆','Erster: +3 · Zweiter: +2 · danach +1. Der Maler: +1 pro Treffer.']],
+ drawall:[['🎨','Alle malen gleichzeitig dasselbe Wort.'],['🗳️','Danach stimmt ihr für das schönste Bild.'],['🏆','+1 pro Stimme · das beste Bild +1 extra.']],
+ imp:[['🤫','Alle sehen dasselbe Wort – der Imposter sieht nur „IMPOSTER“.'],['🗣️','Reihum sagt jeder EIN Wort dazu – nicht zu deutlich!'],['👉','Dann wählt ihr einen raus – bis alle Imposter gefunden sind.']]};
+function gIntro(mode,fn){clearT();ON.g={next:fn};ON.state='gintro';const k=mode==='draw'&&gc('dm')==='all'?'drawall':mode;hb({t:'gintro',mode,k,dur:15,players:pubPlayers()});ON.mT=setTimeout(()=>{if(ON&&ON.state==='gintro')fn()},15500)}
+Object.assign(MG,{gintro(m){gPl(m);ON.state='gintro';const M=GMODES[m.mode]||{ic:'🎮',n:''};const st=GSTEPS[m.k]||[];
+ view(`${gHead(M.ic+' '+M.n)}${gTimer()}<div class="card" style="text-align:center;padding:18px"><div style="font-size:52px">${M.ic}</div><h2 style="margin:6px 0">${esc(M.n)}</h2><div class="sm mut">So geht's:</div></div>
+ ${st.map((x,i)=>`<div class="card gstep"><span class="gsn">${i+1}</span><span style="font-size:26px">${x[0]}</span><span>${esc(x[1])}</span></div>`).join('')}
+ ${ON.role==='host'?'<button class="btn gold" style="width:100%;font-size:17px;padding:14px" data-a="gnext">🚀 Alle bereit – los geht\'s!</button>':'<div class="xs mut" style="text-align:center">Gleich geht es los …</div>'}${emoBar()}`);bar(m.dur)}});
 function gTimer(){return'<div class="timer" id="tw"><i id="tb" style="width:100%"></i></div>'}
 function gAuto(fn,ms){if(ON.cfg.auto)ON.mT=setTimeout(fn,ms)}
 function gDrop(){const g=ON.g;if(g&&g.chk)g.chk()}
@@ -3525,13 +3559,13 @@ function schF(q,v){return /Jahr/.test(q.unit||'')?String(Math.round(+v)):fmtN(v)
 function schPool(){return shuffle([...Q.filter(q=>q.type==='est'),...SCH])}
 function schStart(){gStart();const all=schPool();let pool=all.filter(q=>csOk(q.cat||'allg'));if(pool.length<gc('sn'))pool=all;ON.g.qs=freshPick('sch',pool,q=>q.q,gc('sn'));ON.g.next=schAsk;schAsk()}
 function schAsk(){const g=ON.g;clearT();g.r++;if(g.r>=g.qs.length){gEnd();return}const q=g.qs[g.r];g.ans={};g.chk=schChk;ON.state='gsch';const dur=gc('st');
- hb({t:'schq',r:g.r,n:g.qs.length,q:{q:q.q,unit:q.unit,min:q.min,max:q.max,ans:0,tol:q.tol},dur,players:pubPlayers()});ON.mT=setTimeout(schReveal,dur*1000+900)}
+ hb({t:'schq',r:g.r,n:g.qs.length,q:{q:q.q,unit:q.unit,min:q.min,max:q.max,ans:0,tol:q.tol},dur,players:pubPlayers()});ON.mT=setTimeout(schReveal,dur*1000+GRACE)}
 function schChk(){if(ON.state==='gsch'&&ON.players.every(p=>ON.g.ans[p.id]!=null))schReveal()}
 function schPts(q,v){const rng=(q.max-q.min)||1;const d=Math.abs(v-q.ans);let pts=Math.round(1000*Math.max(0,1-d/(rng*.3)));if(d<=(q.tol||0))pts+=300;return pts}
-function schReveal(){if(ON.state!=='gsch')return;clearT();const g=ON.g,q=g.qs[g.r];const res=ON.players.map(p=>{const v=g.ans[p.id];return v==null?[p.id,null,0]:[p.id,v,schPts(q,v)]});
- const best=res.filter(r=>r[1]!=null).sort((a,b)=>Math.abs(a[1]-q.ans)-Math.abs(b[1]-q.ans))[0];if(best){best[2]+=200;best[3]=1}
+function schReveal(){if(ON.state!=='gsch')return;clearT();const g=ON.g,q=g.qs[g.r];const ds=[...new Set(ON.players.map(p=>g.ans[p.id]).filter(v=>v!=null).map(v=>Math.abs(v-q.ans)))].sort((a,b)=>a-b);
+ const res=ON.players.map(p=>{const v=g.ans[p.id];if(v==null)return[p.id,null,0];const d=Math.abs(v-q.ans);const rk=ds.indexOf(d);let pts=[3,2,1][rk]||0;if(d<=(q.tol||0))pts+=2;return[p.id,v,pts,rk===0?1:0]});
  res.forEach(r=>{const p=ON.players.find(x=>x.id===r[0]);if(p){p.score+=r[2];if(r[2]>0)p.cor++}});ON.state='gschr';const last=g.r+1>=g.qs.length;
- hb({t:'schr',q:{q:q.q,ans:q.ans,unit:q.unit,min:q.min,max:q.max,info:q.info||''},res,last,players:pubPlayers()});gAuto(schAsk,last?6000:9000)}
+ hb({t:'schr',q:{q:q.q,ans:q.ans,unit:q.unit,min:q.min,max:q.max,info:q.info||''},res,last,players:pubPlayers()});gAuto(schAsk,last?7000:12000)}
 let SCHQ=null;function schInput(q){SCHQ=q;const mid=+(((q.min+q.max)/2).toFixed(2));const st=stepOf(q)||1;const m0=Math.round(mid/st)*st;
  return`<div class="card" id="schin" style="text-align:center"><div class="big" style="margin:0"><span id="schv">${schF(q,m0)}</span> <span class="sm">${esc(q.unit)}</span></div>
  <input type="range" id="schr" min="${q.min}" max="${q.max}" step="${st}" value="${m0}" style="width:100%;accent-color:var(--acc);margin:10px 0" oninput="$('schv').textContent=schF(SCHQ,this.value);$('schn').value=this.value">
@@ -3541,7 +3575,7 @@ function schLine(q,marks){const pc=v=>clamp((v-q.min)/((q.max-q.min)||1)*100,0,1
  return`<div class="schl"><div class="schax"></div><div class="schans" style="left:${pc(q.ans)}%"><b>${schF(q,q.ans)}</b></div>${marks.map((m,i)=>`<div class="schm" style="left:${pc(m.v)}%;top:${8+(i%3)*24}px" title="${esc(m.n)}">${m.a}</div>`).join('')}</div><div class="line xs mut"><span>${schF(q,q.min)}</span><span>${schF(q,q.max)} ${esc(q.unit)}</span></div>`}
 Object.assign(MH,{scha(p,d){if(ON.state!=='gsch')return;const q=ON.g.qs[ON.g.r];const v=+d.v;if(!Number.isFinite(v))return;ON.g.ans[p.id]=clamp(v,q.min,q.max);const c=Object.keys(ON.g.ans).length;hb({t:'schc',c,n:ON.players.length});schChk()}});
 Object.assign(MG,{
- schq(m){gPl(m);ON.state='gsch';const q=m.q;view(`${gHead(`🔢 Frage ${m.r+1}/${m.n}`)}${gTimer()}<div class="card"><div style="font-size:20px;font-weight:800;line-height:1.3">${esc(q.q)}</div></div>${schInput(q)}<div class="xs mut" id="schc" style="text-align:center"></div>${emoBar()}`);bar(m.dur)},
+ schq(m){gPl(m);ON.state='gsch';const q=m.q;view(`${gHead(`🔢 Frage ${m.r+1}/${m.n}`)}${gTimer()}<div class="card"><div style="font-size:20px;font-weight:800;line-height:1.3">${esc(q.q)}</div></div>${schInput(q)}<div class="xs mut" id="schc" style="text-align:center"></div>${emoBar()}`);bar(m.dur);gLock(m.dur,()=>{const e=$('schin');if(e&&$('schn'))e.innerHTML='<div class="sm">⌛ Zeit vorbei – gleich kommt die Auflösung</div>'})},
  schc(m){const e=$('schc');if(e)e.textContent=`${m.c}/${m.n} haben getippt`},
  schr(m){gPl(m);ON.state='gschr';stopTimer();const q=m.q;const nm=id=>ON.players.find(x=>x.id===id)||{name:'?',ava:'❔'};const rs=[...m.res].sort((a,b)=>b[2]-a[2]);const mine=m.res.find(r=>r[0]===meId());
   view(`${gHead('🔢 Auflösung')}<div class="card"><div class="sm mut">${esc(q.q)}</div><div class="big" style="color:var(--gold)">${schF(q,q.ans)} <span class="sm">${esc(q.unit)}</span></div>${q.info?`<div class="xs mut" style="text-align:center">${esc(q.info)}</div>`:''}
@@ -3554,23 +3588,23 @@ function hlFmt(c,v){return c.y?String(v):fmtN(v)}
 function hlStart(){gStart();const g=ON.g;g.lives={};ON.players.forEach(p=>g.lives[p.id]=gc('hn'));g.used=new Set(usedGet('hl'));g.next=hlAsk;hlAsk()}
 function hlAlive(){return ON.players.filter(p=>(ON.g.lives[p.id]??gc('hn'))>0)}
 function hlAsk(){const g=ON.g;clearT();const al=hlAlive();if(g.r>=0&&(ON.players.length>1?al.length<=1:al.length<1)||g.r>=39){gEnd();return}g.r++;const pr=hlPair(g.used,gc('hlc'));g.pr=pr;g.ans={};g.chk=hlChk;ON.state='ghl';const dur=gc('ht');
- hb({t:'hlq',r:g.r,cat:{n:pr.c.n,u:pr.c.u,hi:pr.c.hi,lo:pr.c.lo,q:pr.c.q,y:pr.c.y||0},a:[pr.a[0],hlFmt(pr.c,pr.a[1])],b:pr.b[0],dur,lives:g.lives,players:pubPlayers()});ON.mT=setTimeout(hlReveal,dur*1000+900)}
+ hb({t:'hlq',r:g.r,cat:{n:pr.c.n,u:pr.c.u,hi:pr.c.hi,lo:pr.c.lo,q:pr.c.q,y:pr.c.y||0},a:[pr.a[0],hlFmt(pr.c,pr.a[1])],b:pr.b[0],dur,lives:g.lives,players:pubPlayers()});ON.mT=setTimeout(hlReveal,dur*1000+GRACE)}
 function hlChk(){if(ON.state==='ghl'&&hlAlive().every(p=>ON.g.ans[p.id]!=null))hlReveal()}
 function hlReveal(){if(ON.state!=='ghl')return;clearT();const g=ON.g,pr=g.pr;const up=pr.b[1]>pr.a[1];const al=hlAlive();const res={};al.forEach(p=>res[p.id]=g.ans[p.id]==null?-1:(!!g.ans[p.id]===up?1:0));
  const allWrong=al.length>1&&al.every(p=>res[p.id]!==1);const gain={};
- al.forEach(p=>{if(res[p.id]===1){p.st++;p.cor++;gain[p.id]=100+Math.min(p.st-1,10)*25;p.score+=gain[p.id]}else{p.st=0;if(!allWrong)g.lives[p.id]--}});
+ al.forEach(p=>{if(res[p.id]===1){p.st++;p.cor++;gain[p.id]=1;p.score+=1}else{p.st=0;if(!allWrong)g.lives[p.id]--}});
  ON.state='ghlr';const al2=hlAlive();const last=(ON.players.length>1?al2.length<=1:al2.length<1)||g.r>=39;
- hb({t:'hlr',up,bv:hlFmt(pr.c,pr.b[1]),res,gain,allWrong,lives:g.lives,last,players:pubPlayers()});gAuto(hlAsk,last?5000:4500)}
+ hb({t:'hlr',up,bv:hlFmt(pr.c,pr.b[1]),res,gain,allWrong,lives:g.lives,last,players:pubPlayers()});gAuto(hlAsk,last?6000:7000)}
 function hlHearts(n,max){return'❤️'.repeat(Math.max(0,n))+'🖤'.repeat(Math.max(0,(max||n)-n))}
 function hlCards(cat,a,b,bv,up){return`<div class="hlg"><div class="hlc"><div class="xs mut">${esc(cat.q)}</div><b>${esc(a[0])}</b><div class="hlv">${esc(a[1])}</div><div class="xs mut">${esc(cat.u)}</div></div><div class="hlvs">VS</div>
  <div class="hlc ${bv!=null?(up?'up':'dn'):''}"><div class="xs mut">${esc(cat.q)}</div><b>${esc(b)}</b><div class="hlv">${bv!=null?esc(bv):'?'}</div><div class="xs mut">${esc(cat.u)}</div></div></div>`}
 Object.assign(MH,{hla(p,d){const g=ON.g;if(ON.state!=='ghl'||!((g.lives[p.id]??0)>0))return;g.ans[p.id]=d.v?1:0;hlChk()}});
 Object.assign(MG,{
  hlq(m){gPl(m);ON.state='ghl';ON.ghl=m;const lv=m.lives[meId()];const out=!(lv>0);const mx=gc('hn');
-  view(`${gHead(`⬆️ Runde ${m.r+1}`)}${gTimer()}<div class="card sm" style="text-align:center">${esc(m.cat.n)} · ${out?'👀 Du bist raus und schaust zu':'Deine Leben: '+hlHearts(lv,mx)}</div>${hlCards(m.cat,m.a,m.b)}
+  view(`${gHead(`⬆️ Runde ${m.r+1}`)}${gTimer()}<div class="card sm" style="text-align:center">${esc(m.cat.n)} · ${ON.tv?'📺 Alle tippen am Handy':out?'👀 Du bist raus und schaust zu':'Deine Leben: '+hlHearts(lv,mx)}</div>${hlCards(m.cat,m.a,m.b)}
   <div class="card" style="text-align:center"><div class="sm" style="margin-bottom:8px">Hat <b>${esc(m.b)}</b> ${m.cat.y?'später oder früher':'mehr oder weniger'} als <b>${esc(m.a[0])}</b>?</div>
   <div class="row" id="hlbtn" style="justify-content:center;gap:10px"><button class="btn" style="background:#15803d;min-width:130px" data-a="hlv|1" ${out?'disabled':''}>⬆️ ${m.cat.hi}</button><button class="btn" style="background:#b91c1c;min-width:130px" data-a="hlv|0" ${out?'disabled':''}>⬇️ ${m.cat.lo}</button></div></div>
-  <div class="card" style="padding:8px"><div class="pwrap">${ON.players.map(p=>chipP(p,` <span class="xs">${hlHearts(m.lives[p.id]??0)}</span>`)).join('')}</div></div>${emoBar()}`);bar(m.dur)},
+  <div class="card" style="padding:8px"><div class="pwrap">${ON.players.map(p=>chipP(p,` <span class="xs">${hlHearts(m.lives[p.id]??0)}</span>`)).join('')}</div></div>${emoBar()}`);bar(m.dur);gLock(m.dur,()=>{const b=$('hlbtn');if(b&&b.querySelector('button'))b.innerHTML='<div class="sm">⌛ Zeit vorbei!</div>'})},
  hlr(m){gPl(m);ON.state='ghlr';stopTimer();const q=ON.ghl;if(!q)return;const me=m.res[meId()];const mx=gc('hn');
   view(`${gHead(`⬆️ Runde ${q.r+1}`)}${hlCards(q.cat,q.a,q.b,m.bv,m.up)}
   <div class="card" style="text-align:center;padding:14px;${me===1?'background:#15803d;color:#fff':me===0||me===-1?'background:#991b1b;color:#fff':''}"><b style="font-size:20px">${me===1?'✅ Richtig! +'+m.gain[meId()]:me===0?'❌ Falsch!':me===-1?'⌛ Zu langsam!':'👀 Zuschauer'}</b>${m.allWrong?'<div class="sm">Alle lagen falsch – keiner verliert ein Leben 😅</div>':''}</div>
@@ -3578,36 +3612,36 @@ Object.assign(MG,{
 /* ---------- 🤥 Lügen-Quiz (online) ---------- */
 function lieStart(){gStart();ON.g.qs=freshPick('lie',LIE,q=>q.q,gc('ln'));ON.g.next=lieAsk;lieAsk()}
 function lieAsk(){const g=ON.g;clearT();g.r++;if(g.r>=g.qs.length){gEnd();return}const q=g.qs[g.r];g.lies={};g.pick={};g.chk=lieChk;ON.state='glw';const dur=gc('lw');
- hb({t:'lieq',r:g.r,n:g.qs.length,q:q.q,dur,players:pubPlayers()});ON.mT=setTimeout(lieChoose,dur*1000+900)}
+ hb({t:'lieq',r:g.r,n:g.qs.length,q:q.q,dur,players:pubPlayers()});ON.mT=setTimeout(lieChoose,dur*1000+GRACE)}
 function lieChk(){const g=ON.g;if(ON.state==='glw'&&ON.players.every(p=>g.lies[p.id]))lieChoose();else if(ON.state==='glc'&&ON.players.every(p=>g.pick[p.id]!=null||!lieCanPick(p.id)))lieReveal()}
 function lieCanPick(id){return ON.g.opts.some(o=>!o.au.includes(id))}
 function lieChoose(){const g=ON.g;if(ON.state!=='glw')return;clearT();const q=g.qs[g.r];const opts=[{x:q.a,au:[],tr:1}];
  Object.entries(g.lies).forEach(([id,x])=>{const o=opts.find(o=>norm(o.x)===norm(x));if(o&&!o.tr)o.au.push(id);else if(!o)opts.push({x,au:[id]})});
  shuffle([...q.f]).forEach(f=>{if(opts.length<Math.max(4,Math.min(6,ON.players.length+1))&&!opts.some(o=>norm(o.x)===norm(f)))opts.push({x:f,au:[],bot:1})});
- shuffle(opts);opts.forEach((o,i)=>o.k=i);g.opts=opts;ON.state='glc';hb({t:'liec',q:q.q,opts:opts.map(o=>[o.k,o.x]),dur:25,players:pubPlayers()});ON.mT=setTimeout(lieReveal,26000)}
+ shuffle(opts);opts.forEach((o,i)=>o.k=i);g.opts=opts;ON.state='glc';hb({t:'liec',q:q.q,opts:opts.map(o=>[o.k,o.x]),dur:25,players:pubPlayers()});ON.mT=setTimeout(lieReveal,25000+GRACE)}
 function lieReveal(){const g=ON.g;if(ON.state!=='glc')return;clearT();const gain={};const add=(id,v)=>{gain[id]=(gain[id]||0)+v};
- Object.entries(g.pick).forEach(([id,k])=>{const o=g.opts[k];if(!o)return;if(o.tr)add(id,1000);else o.au.forEach(a=>{if(a!==id)add(a,500)})});
+ Object.entries(g.pick).forEach(([id,k])=>{const o=g.opts[k];if(!o)return;if(o.tr)add(id,2);else o.au.forEach(a=>{if(a!==id)add(a,1)})});
  Object.entries(gain).forEach(([id,v])=>{const p=ON.players.find(x=>x.id===id);if(p){p.score+=v;p.cor++}});ON.state='glr';const last=g.r+1>=g.qs.length;
- hb({t:'lier',q:g.qs[g.r].q,opts:g.opts.map(o=>({k:o.k,x:o.x,au:o.au,tr:o.tr||0,bot:o.bot||0,by:Object.keys(g.pick).filter(id=>g.pick[id]===o.k)})),gain,last,players:pubPlayers()});gAuto(lieAsk,last?7000:11000)}
+ hb({t:'lier',q:g.qs[g.r].q,opts:g.opts.map(o=>({k:o.k,x:o.x,au:o.au,tr:o.tr||0,bot:o.bot||0,by:Object.keys(g.pick).filter(id=>g.pick[id]===o.k)})),gain,last,players:pubPlayers()});gAuto(lieAsk,last?8000:14000)}
 Object.assign(MH,{
  liew(p,d){const g=ON.g;if(ON.state!=='glw')return;const x=cleanT(d.a,60);if(x.length<1)return;const q=g.qs[g.r];const n=norm(x),t=norm(q.a);if(n===t||(t.length>4&&lev(n,t)<=1)||(n.length>3&&t.includes(n)&&n.length>=t.length*.6)){sendTo(p.id,{t:'lierej'});return}
   g.lies[p.id]=x;hb({t:'liecnt',c:Object.keys(g.lies).length,n:ON.players.length});sendTo(p.id,{t:'lieok',x});lieChk()},
  liep(p,d){const g=ON.g;if(ON.state!=='glc')return;const o=g.opts[+d.k];if(!o||o.au.includes(p.id))return;g.pick[p.id]=o.k;hb({t:'liecnt',c:Object.keys(g.pick).length,n:ON.players.length});lieChk()}});
 Object.assign(MG,{
- lieq(m){gPl(m);ON.state='glw';ON.glie={mine:''};view(`${gHead(`🤥 Runde ${m.r+1}/${m.n}`)}${gTimer()}<div class="card"><div class="xs mut">Erfinde eine glaubwürdige Antwort auf:</div><div style="font-size:20px;font-weight:800;margin-top:4px;line-height:1.3">${esc(m.q)}</div></div>
-  <div class="card" id="liein"><div class="row" style="flex-wrap:nowrap"><input class="txt" id="liew" maxlength="60" placeholder="Deine Lüge …" autocomplete="off" onkeydown="if(event.key==='Enter')document.querySelector('[data-a=liesend]').click()"><button class="btn gold" data-a="liesend">✅</button></div><div class="xs mut" style="margin-top:6px">Tipp: Je echter es klingt, desto mehr fallen drauf rein 😏 Wenn du die echte Antwort weißt – schreib sie NICHT.</div></div>
-  <div class="xs mut" id="liecnt" style="text-align:center"></div>${emoBar()}`);bar(m.dur);setTimeout(()=>{const i=$('liew');if(i)i.focus()},100)},
+ lieq(m){gPl(m);ON.state='glw';ON.glie={mine:''};view(`${gHead(`🤥 Runde ${m.r+1}/${m.n}`)}${gTimer()}<div class="card lstep"><b>Schritt 1 von 2 · ✍️ Lüge ausdenken</b><div class="sm">Schreib eine <b>FALSCHE</b> Antwort, die echt klingt. Die anderen sollen darauf reinfallen!</div><div class="xs mut" style="margin-top:4px">Beispiel: „Hauptstadt von Australien?“ → Lüge: „Sydney“</div></div><div class="card"><div class="xs mut">Die Frage:</div><div style="font-size:20px;font-weight:800;margin-top:4px;line-height:1.3">${esc(m.q)}</div></div>
+  <div class="card" id="liein"><div class="row" style="flex-wrap:nowrap"><input class="txt" id="liew" maxlength="60" placeholder="Deine Lüge …" autocomplete="off" onkeydown="if(event.key==='Enter')document.querySelector('[data-a=liesend]').click()"><button class="btn gold" data-a="liesend">✅</button></div><div class="xs mut" style="margin-top:6px">Du weißt die echte Antwort? Dann schreib sie NICHT – sonst wird sie abgelehnt 😉</div></div>
+  <div class="xs mut" id="liecnt" style="text-align:center"></div>${emoBar()}`);bar(m.dur);gLock(m.dur,()=>{const e=$('liein');if(e&&$('liew'))e.innerHTML='<div class="sm" style="text-align:center">⌛ Zeit vorbei</div>'});setTimeout(()=>{const i=$('liew');if(i)i.focus()},100)},
  lieok(m){ON.glie.mine=m.x;const e=$('liein');if(e)e.innerHTML=`<div class="sm" style="text-align:center">✅ Deine Lüge: <b>${esc(m.x)}</b><div class="xs mut">Warte auf die anderen …</div></div>`},
  lierej(){toast('😅 Das ist (fast) die echte Antwort – lass dir was anderes einfallen!');const i=$('liew');if(i){i.value='';i.focus()}},
  liecnt(m){const e=$('liecnt');if(e)e.textContent=`${m.c}/${m.n} fertig`},
- liec(m){gPl(m);ON.state='glc';const mine=norm((ON.glie||{}).mine||'');view(`${gHead('🤥 Welche ist echt?')}${gTimer()}<div class="card"><div style="font-size:18px;font-weight:800;line-height:1.3">${esc(m.q)}</div></div>
+ liec(m){gPl(m);ON.state='glc';const mine=norm((ON.glie||{}).mine||'');view(`${gHead('🤥 Welche ist echt?')}${gTimer()}<div class="card lstep"><b>Schritt 2 von 2 · 🔍 Finde die ECHTE Antwort</b><div class="sm">Nur <b>eine</b> Antwort ist wahr – die anderen haben eure Mitspieler erfunden 🤥 Tippe auf die, die du für echt hältst.</div></div><div class="card"><div style="font-size:18px;font-weight:800;line-height:1.3">${esc(m.q)}</div></div>
   <div id="liepk" style="display:grid;gap:8px;margin-bottom:12px">${m.opts.map(([k,x])=>{const own=mine&&norm(x)===mine;return`<button class="btn ${own?'alt':''}" style="text-align:left;${own?'opacity:.55':''}" data-a="liepk|${k}" ${own?'disabled':''}>${esc(x)}${own?' <span class="xs">(deine Lüge)</span>':''}</button>`}).join('')}</div>
-  <div class="xs mut" id="liecnt" style="text-align:center"></div>${emoBar()}`);bar(m.dur)},
- lier(m){gPl(m);ON.state='glr';stopTimer();const nm=id=>{const p=ON.players.find(x=>x.id===id);return p?(p.id===meId()?'Du':p.name):'?'};const my=m.gain[meId()]||0;
-  view(`${gHead('🤥 Auflösung')}<div class="card"><div class="sm">${esc(m.q)}</div></div>
-  ${m.opts.map(o=>`<div class="card" style="padding:10px;${o.tr?'border-color:#22c55e;background:#14532d55':''}"><div class="line"><b>${o.tr?'✅ ':'🤥 '}${esc(o.x)}</b><span class="xs mut">${o.tr?'die Wahrheit':o.bot?'🤖 Quiz-Bot':o.au.includes(meId())?'Deine Lüge':'Lüge von '+o.au.map(nm).map(esc).join(' & ')}</span></div>
-  ${o.by.length?`<div class="xs" style="margin-top:4px">${o.tr?'Gefunden von':'Reingefallen'}: ${o.by.map(id=>esc(nm(id))).join(', ')}</div>`:''}</div>`).join('')}
-  <div class="card sm" style="text-align:center">${my?`Du bekommst <b class="pos">+${my}</b>`:'Diesmal keine Punkte für dich'}</div>${gScores(m.gain)}${gNext(m.last)}${emoBar()}`);if(my>=1000)confetti(60)}});
+  <div class="xs mut" id="liecnt" style="text-align:center"></div>${emoBar()}`);bar(m.dur);gLock(25,()=>{document.querySelectorAll('#liepk button').forEach(b=>b.disabled=true)})},
+ lier(m){gPl(m);ON.state='glr';stopTimer();const nm=id=>{const p=ON.players.find(x=>x.id===id);return p?(p.id===meId()?'Du':p.name):'?'};const my=m.gain[meId()]||0;const tr=m.opts.find(o=>o.tr);const lies=m.opts.filter(o=>!o.tr);const myPick=m.opts.find(o=>o.by.includes(meId()));
+  view(`${gHead('🤥 Auflösung')}<div class="card" style="text-align:center;padding:16px;border-color:#22c55e;background:#14532d66"><div class="xs mut">${esc(m.q)}</div><div class="xs" style="margin-top:8px">✅ Die echte Antwort ist:</div><div style="font-size:24px;font-weight:900;margin:4px 0;color:#4ade80">${esc(tr?tr.x:'')}</div><div class="sm">${tr&&tr.by.length?'Gefunden von: '+tr.by.map(id=>esc(nm(id))).join(', '):'Keiner hat sie gefunden 😅'}</div></div>
+  ${myPick?`<div class="card sm" style="text-align:center">${myPick.tr?'🎉 Du hast die Wahrheit gefunden! <b class="pos">+2</b>':`😅 Du bist auf ${myPick.bot?'den Quiz-Bot':'die Lüge von <b>'+myPick.au.map(nm).map(esc).join(' & ')+'</b>'} reingefallen.`}</div>`:''}
+  <div class="card" style="padding:8px"><div class="xs mut" style="margin:2px 4px 6px">🤥 Die Lügen:</div>${lies.map(o=>`<div class="line it sm"><span><b>${esc(o.x)}</b><br><span class="xs mut">${o.bot?'🤖 Quiz-Bot':o.au.includes(meId())?'Deine Lüge':'von '+o.au.map(nm).map(esc).join(' & ')}</span></span><span class="xs" style="text-align:right">${o.by.length?`reingefallen: ${o.by.map(id=>esc(nm(id))).join(', ')}${o.bot?'':` <b class="pos">+${o.by.filter(id=>!o.au.includes(id)).length}</b>`}`:'<span class="mut">keiner reingefallen</span>'}</span></div>`).join('')}</div>
+  <div class="card sm" style="text-align:center">${my?`Du bekommst diese Runde <b class="pos">+${my}</b>`:'Diesmal keine Punkte für dich'}</div>${gScores(m.gain)}${gNext(m.last)}${emoBar()}`);if(my>=2)confetti(60)}});
 /* ---------- 🏙️ Stadt-Land-Fluss (online) ---------- */
 function slfCats(){const c=ON.cfg.cats;return Array.isArray(c)&&c.length>=2?c:[...SLFDEF]}
 function slfSaved(){try{return JSON.parse(localStorage.getItem('quizarena_slfcats'))||[]}catch(e){return[]}}
@@ -3616,7 +3650,7 @@ function slfLetter(used){const pool=SLFL.split('').filter(l=>!used.includes(l));
 function slfOk(x,L){const n=norm(x);return n.length>=2&&n[0]===norm(L)[0]}
 function slfStart(){gStart();const g=ON.g;g.used=[];g.cats=slfCats();g.next=slfAsk;slfAsk()}
 function slfAsk(){const g=ON.g;clearT();g.r++;if(g.r>=gc('sr')){gEnd();return}g.L=slfLetter(g.used);g.used.push(g.L);g.ans={};g.stop=null;g.v={};g.chk=null;ON.state='gslf';const dur=gc('sz');
- hb({t:'slfq',r:g.r,n:gc('sr'),L:g.L,cats:g.cats,dur,players:pubPlayers()});ON.mT=setTimeout(slfCollect,dur*1000+900)}
+ hb({t:'slfq',r:g.r,n:gc('sr'),L:g.L,cats:g.cats,dur,players:pubPlayers()});ON.mT=setTimeout(slfCollect,dur*1000+GRACE)}
 function slfCollect(){const g=ON.g;if(ON.state!=='gslf')return;clearT();ON.state='gslfc';hb({t:'slfcol'});ON.mT=setTimeout(slfVote,1800)}
 function slfVote(){const g=ON.g;if(ON.state!=='gslfc')return;clearT();ON.state='gslfv';g.chk=null;const rows=ON.players.map(p=>[p.id,g.cats.map((_,i)=>cleanT((g.ans[p.id]||[])[i],30))]);g.rows=rows;
  hb({t:'slfv',L:g.L,cats:g.cats,rows,dur:60,players:pubPlayers()});ON.mT=setTimeout(slfScore,61000)}
@@ -3669,25 +3703,25 @@ function drawGo(w){const g=ON.g;if(ON.state!=='gdrp')return;clearT();g.word=w;g.
  hb({t:'drgo',drawer:g.drawer,mask:drawMask(w,[]),ti:g.ti,tn:g.tn,dur:g.dur,players:pubPlayers()});sendTo(g.drawer,{t:'drword',w});
  const letters=w.split('').map((c,i)=>i).filter(i=>/[^\s-]/.test(w[i]));const hints=Math.min(Math.floor(letters.length/3),3);
  g.hT=[];for(let h=1;h<=hints;h++)g.hT.push(setTimeout(()=>{if(!ON||ON.state!=='gdr')return;const rest=letters.filter(i=>!g.shown.includes(i));if(rest.length<=1)return;g.shown.push(rest[rint(0,rest.length-1)]);hb({t:'drhint',mask:drawMask(w,g.shown)})},g.dur*1000*(.35+.5*h/(hints+1))));
- ON.mT=setTimeout(drawEnd,g.dur*1000+800)}
+ ON.mT=setTimeout(drawEnd,g.dur*1000+GRACE)}
 function drawChk(){const g=ON.g;if(ON.state!=='gdr')return;if(!ON.players.some(p=>p.id===g.drawer)){drawEnd();return}if(ON.players.filter(p=>p.id!==g.drawer).every(p=>g.guessed[p.id]))drawEnd()}
-function drawEnd(){const g=ON.g;if(ON.state!=='gdr')return;clearT();(g.hT||[]).forEach(clearTimeout);const dp=ON.players.find(p=>p.id===g.drawer);const n=Object.keys(g.guessed).length;const dpts=n?50+n*60:0;if(dp)dp.score+=dpts;
- ON.state='gdre';const last=g.ti+1>=g.tn;const gain={...g.guessed};if(dp&&dpts)gain[dp.id]=dpts;hb({t:'drend',w:g.word,drawer:g.drawer,gain,last,players:pubPlayers()});gAuto(drawTurn,last?6000:7000)}
+function drawEnd(){const g=ON.g;if(ON.state!=='gdr')return;clearT();(g.hT||[]).forEach(clearTimeout);const dp=ON.players.find(p=>p.id===g.drawer);const n=Object.keys(g.guessed).length;const dpts=n;if(dp)dp.score+=dpts;
+ ON.state='gdre';const last=g.ti+1>=g.tn;const gain={...g.guessed};if(dp&&dpts)gain[dp.id]=dpts;hb({t:'drend',w:g.word,drawer:g.drawer,gain,last,players:pubPlayers()});gAuto(drawTurn,last?7000:9000)}
 function daRound(){const g=ON.g;clearT();g.r++;if(g.r>=g.n){gEnd();return}g.word=freshPick('draw',drawPool(gc('dps'),drawOwn()),w=>w,1)[0];g.used.push(g.word);g.imgs={};g.votes={};ON.state='gda';g.chk=null;
- hb({t:'dago',r:g.r,n:g.n,w:g.word,dur:gc('dt'),players:pubPlayers()});ON.mT=setTimeout(daCollect,gc('dt')*1000+900)}
+ hb({t:'dago',r:g.r,n:g.n,w:g.word,dur:gc('dt'),players:pubPlayers()});ON.mT=setTimeout(daCollect,gc('dt')*1000+GRACE)}
 function daCollect(){const g=ON.g;if(ON.state!=='gda')return;clearT();ON.state='gdac';hb({t:'dacol'});ON.mT=setTimeout(daVote,3500)}
 function daVote(){const g=ON.g;if(ON.state!=='gdac')return;clearT();const ids=shuffle(Object.keys(g.imgs));g.keys=ids;ON.state='gdav';g.chk=daChk;
  if(ids.length<2){daResult();return}ids.forEach((id,k)=>sendTo(id,{t:'damyk',k}));hb({t:'dav',w:g.word,imgs:ids.map((id,k)=>[k,g.imgs[id]]),dur:30,players:pubPlayers()});ON.mT=setTimeout(daResult,31000)}
 function daChk(){const g=ON.g;if(ON.state==='gdav'&&ON.players.every(p=>g.votes[p.id]!=null||!g.keys.some(id=>id!==p.id)))daResult()}
 function daResult(){const g=ON.g;if(ON.state!=='gdav')return;clearT();const cnt={};Object.values(g.votes).forEach(k=>{cnt[k]=(cnt[k]||0)+1});const gain={};
- g.keys.forEach((id,k)=>{const v=cnt[k]||0;if(v){gain[id]=v*100;const p=ON.players.find(x=>x.id===id);if(p){p.score+=v*100;p.cor++}}});
- const best=Math.max(0,...Object.values(cnt));if(best)g.keys.forEach((id,k)=>{if(cnt[k]===best){gain[id]=(gain[id]||0)+100;const p=ON.players.find(x=>x.id===id);if(p)p.score+=100}});
+ g.keys.forEach((id,k)=>{const v=cnt[k]||0;if(v){gain[id]=v;const p=ON.players.find(x=>x.id===id);if(p){p.score+=v;p.cor++}}});
+ const best=Math.max(0,...Object.values(cnt));if(best)g.keys.forEach((id,k)=>{if(cnt[k]===best){gain[id]=(gain[id]||0)+1;const p=ON.players.find(x=>x.id===id);if(p)p.score+=1}});
  ON.state='gdar';const last=g.r+1>=g.n;hb({t:'dares',w:g.word,res:g.keys.map((id,k)=>[k,id,cnt[k]||0,g.imgs[id]]),gain,last,players:pubPlayers()});gAuto(daRound,last?7000:10000)}
 Object.assign(MH,{
  drw(p,d){const g=ON.g;if(ON.state==='gdrp'&&p.id===g.drawer&&g.words[+d.i])drawGo(g.words[+d.i])},
- dro(p,d){const g=ON.g;if(ON.state!=='gdr'||p.id!==g.drawer||!d.o)return;const o=d.o;const ok={s:1,p:1,f:1,u:1,c:1}[o.k];if(!ok)return;const m={t:'dro',o};Object.entries(ON.conns).forEach(([id,c])=>{if(id!==p.id)try{c.send(m)}catch(e){}});if(p.id!=='host')MG.dro(m)},
+ dro(p,d){const g=ON.g;if(ON.state!=='gdr'||p.id!==g.drawer||!d.o)return;const o=d.o;if(!{s:1,p:1,e:1,f:1,u:1,c:1,y:1}[o.k])return;if(o.k==='y'&&(!Array.isArray(o.ops)||o.ops.length>800||JSON.stringify(o.ops).length>200000))return;if((o.k==='p'||o.k==='e'||o.k==='s')&&(!Array.isArray(o.p)||o.p.length>20000))return;g.ops=o.k==='y'?o.ops:g.ops;const m={t:'dro',o};hostBroadcast(m);if(p.id!=='host')MG.dro(m)},
  drg(p,d){const g=ON.g;if(ON.state!=='gdr'||p.id===g.drawer||g.guessed[p.id])return;const x=cleanT(d.g,40);if(!x)return;const n=norm(x),w=norm(g.word);
-  if(n===w){const left=clamp(1-(Date.now()-g.t0)/(g.dur*1000),0,1);const first=!Object.keys(g.guessed).length;const pts=Math.round(100+400*left)+(first?100:0);g.guessed[p.id]=pts;p.score+=pts;p.cor++;hb({t:'drok',id:p.id,n:p.name,a:p.ava});sendTo(p.id,{t:'drword',w:g.word,ok:pts});drawChk();return}
+  if(n===w){const left=clamp(1-(Date.now()-g.t0)/(g.dur*1000),0,1);const pts=[3,2][Object.keys(g.guessed).length]||1;g.guessed[p.id]=pts;p.score+=pts;p.cor++;hb({t:'drok',id:p.id,n:p.name,a:p.ava});sendTo(p.id,{t:'drword',w:g.word,ok:pts});drawChk();return}
   if(w.length>=4&&lev(n,w)<=(w.length>=8?2:1)){sendTo(p.id,{t:'drclose',g:x});return}hb({t:'drchat',id:p.id,n:p.name,a:p.ava,g:x})},
  daimg(p,d){const g=ON.g;if(!['gda','gdac'].includes(ON.state)||typeof d.img!=='string'||d.img.length>90000||!d.img.startsWith('data:image/'))return;g.imgs[p.id]=d.img;if(ON.state==='gdac'&&ON.players.every(x=>g.imgs[x.id]))daVote()},
  dav(p,d){const g=ON.g;if(ON.state!=='gdav')return;const k=+d.k;if(!(k>=0&&k<g.keys.length)||g.keys[k]===p.id)return;g.votes[p.id]=k;hb({t:'davc',c:Object.keys(g.votes).length,n:ON.players.length});const need=ON.players.filter(x=>g.keys.some(id=>id!==x.id));if(need.every(x=>g.votes[x.id]!=null))daResult()}});
@@ -3713,7 +3747,7 @@ Object.assign(MG,{
  dago(m){gPl(m);if(m.r===0)ON.gal=[];ON.state='gda';ON.gda={w:m.w};DC.col='#111827';DC.w=12;DC.tool='pen';
   view(`${gHead(`🎨 Runde ${m.r+1}/${m.n}`)}${gTimer()}<div class="card" style="text-align:center;padding:10px"><div class="xs mut">Alle malen:</div><div class="drmask">${esc(m.w)}</div></div>${drawUI(true)}${emoBar()}`);drawInit(true,null);bar(m.dur)},
  dacol(){const img=drawThumb(200);if(img){ON.gal=ON.gal||[];ON.gal.push({w:ON.gda?ON.gda.w:'',img,by:'Du'});mSend({t:'daimg',img})}if(DC.el)DC.el.onpointerdown=null;const t=$('dtl');if(t)t.innerHTML='<div class="card sm" style="text-align:center">⏱️ Zeit vorbei – Bilder werden eingesammelt …</div>'},
- damyk(m){ON.gdak=m.k},
+ damyk(m){ON.gdak=m.k;const b=document.querySelector(`[data-a="davote|${m.k}"]`);if(b){b.disabled=true;b.classList.add('own')}},
  dav(m){gPl(m);ON.state='gdav';const myk=ON.gdak;view(`${gHead('🎨 Welches Bild ist am besten?')}${gTimer()}<div class="card sm" style="text-align:center">Thema: <b>${esc(m.w)}</b> – tippe auf dein Lieblingsbild</div>
   <div class="dagrid">${m.imgs.map(([k,img])=>`<button class="daimg ${k===myk?'own':''}" data-a="davote|${k}" ${k===myk?'disabled':''}><img src="${img}">${k===myk?'<span>dein Bild</span>':''}</button>`).join('')}</div><div class="xs mut" id="davc" style="text-align:center"></div>${emoBar()}`);bar(m.dur)},
  davc(m){const e=$('davc');if(e)e.textContent=`${m.c}/${m.n} haben abgestimmt`},
@@ -3728,7 +3762,7 @@ function galHTML(){const g=(ON&&ON.gal)||[];if(!g.length)return'';return`<div cl
 /* ---------- Klick-Aktionen ---------- */
 const GACT={
  otv(){const c=(($('otvcode')||{}).value||'').replace(/\D/g,'');if(c.length!==4){toast('Bitte den 4-stelligen Raumcode eingeben');return}TVJ=true;joinRoom(c)},
- gnext(){if(ON&&ON.role==='host'&&ON.g&&ON.g.next&&['gschr','ghlr','glr','gslfr','gdre','gdar','gimpr','gimpe'].includes(ON.state))ON.g.next()},
+ gnext(){if(ON&&ON.role==='host'&&ON.g&&ON.g.next&&['gintro','gschr','ghlr','glr','gslfr','gdre','gdar','gimpr','gimpe'].includes(ON.state))ON.g.next()},
  schok(){const i=$('schn');if(!i)return;const v=+i.value;if(i.value===''||!Number.isFinite(v)){toast('Bitte eine Zahl eingeben');return}if(G&&G.mode==='osch'){oSchAns(v);return}mSend({t:'scha',v});const e=$('schin');if(e)e.innerHTML=`<div class="sm">✅ Dein Tipp: <b>${esc(i.value)}</b><div class="xs mut">Warte auf die anderen …</div></div>`},
  hlv(p){if(G&&G.mode==='ohl'){oHlAns(+p[1]);return}mSend({t:'hla',v:+p[1]});const b=$('hlbtn');if(b)b.innerHTML=`<div class="sm">${+p[1]?'⬆️':'⬇️'} getippt – warte auf die anderen …</div>`},
  liesend(){const i=$('liew');if(!i)return;const v=i.value.trim();if(v.length<1){toast('Schreib eine Lüge 😏');return}mSend({t:'liew',a:v})},
@@ -3780,8 +3814,8 @@ function oLieAns(k){const g=G;if(!g||g.mode!=='olie'||g.done)return;g.done=true;
  G.tm=setTimeout(()=>{if(G===g)oLieQ()},1900)}
 /* 🏙️ Stadt-Land-Fluss */
 function oSlfCats(){return Array.isArray(P.slfCats)&&P.slfCats.length>=2?P.slfCats:[...SLFDEF]}
-function oSlfMenu(){G={mode:'oslfm'};const cats=oSlfCats();const saved=slfSaved().filter(x=>!SLFSUG.includes(x));const sug=[...SLFSUG,...saved].filter(x=>!cats.includes(x));P.slfT=P.slfT||90;
- view(`<div class="top"><button class="back" data-a="home">←</button><h2>🏙️ Stadt-Land-Fluss</h2></div><div class="card sm mut">Ein Buchstabe, alle Kategorien ausfüllen – 3 Runden. Spiel allein auf Rekord oder reih um mit Freunden.</div>
+function oSlfMenu(){const kp=G&&G.mode==='oslfm';G={mode:'oslfm'};const cats=oSlfCats();const saved=slfSaved().filter(x=>!SLFSUG.includes(x));const sug=[...SLFSUG,...saved].filter(x=>!cats.includes(x));P.slfT=P.slfT||90;
+ (kp?viewK:view)(`<div class="top"><button class="back" data-a="home">←</button><h2>🏙️ Stadt-Land-Fluss</h2></div><div class="card sm mut">Ein Buchstabe, alle Kategorien ausfüllen – 3 Runden. Spiel allein auf Rekord oder reih um mit Freunden.</div>
  <div class="card"><h3 style="margin-top:0">🗂️ Deine Kategorien (${cats.length})</h3><div class="row" style="gap:6px">${cats.map((x,i)=>`<span class="chip">${esc(x)}${cats.length>2?` <button class="slfx" data-a="oslfrm|${i}">✕</button>`:''}</span>`).join('')}</div>
  ${cats.length<10?`<div class="row" style="flex-wrap:nowrap;margin-top:8px"><input class="txt" id="slfin" maxlength="24" placeholder="Eigene Kategorie" onkeydown="if(event.key==='Enter')document.querySelector('[data-a=oslfadd]').click()"><button class="btn s" data-a="oslfadd">+</button></div>
  <div class="row" style="gap:5px;margin-top:8px">${sug.slice(0,24).map(x=>`<button class="btn s alt" style="padding:5px 9px;font-size:12px" data-a="oslfsug|${esc(x)}">+ ${esc(x)}</button>`).join('')}</div>`:''}<button class="btn alt s" style="width:100%;margin-top:8px" data-a="oslfdef">↺ Standard</button></div>
@@ -3798,8 +3832,8 @@ function oSlfCheck(){const g=G;view(`${gHead(`🏙️ Runde ${g.r+1}/3 – ${g.L
  <div class="card">${g.cats.map((c,i)=>`<div class="line it sm"><span><span class="xs mut">${esc(c)}</span><br><b>${g.ans[i]?esc(g.ans[i]):'–'}</b></span>${g.ans[i]&&slfOk(g.ans[i],g.L)?`<button class="btn s ${g.ok[i]?'':'alt'}" style="${g.ok[i]?'background:#15803d':''}" data-a="oslfok|${i}">${g.ok[i]?'✅ zählt':'❌ zählt nicht'}</button>`:`<span class="xs neg">${g.ans[i]?'falscher Buchstabe':'leer'}</span>`}</div>`).join('')}</div>
  <button class="btn gold" style="width:100%" data-a="oslfnext">✅ Auswerten (+${g.ok.filter(Boolean).length*10})</button>`)}
 /* 🎨 Montagsmaler (ein Handy, reihum) */
-function oDrawMenu(){G={mode:'odrm'};const pl=P.odrPl&&P.odrPl.length>=2?P.odrPl:[P.name||'Spieler 1','Spieler 2'];P.odrPl=pl;
- view(`<div class="top"><button class="back" data-a="home">←</button><h2>🎨 Montagsmaler</h2></div><div class="card sm mut">Ein Handy für alle: Wer dran ist, sucht sich eins von 3 Wörtern aus und malt. Die anderen raten laut – wer es zuerst sagt, bekommt die Punkte. Jeder malt 2×.</div>
+function oDrawMenu(){const kp=G&&G.mode==='odrm';G={mode:'odrm'};const pl=P.odrPl&&P.odrPl.length>=2?P.odrPl:[P.name||'Spieler 1','Spieler 2'];P.odrPl=pl;
+ (kp?viewK:view)(`<div class="top"><button class="back" data-a="home">←</button><h2>🎨 Montagsmaler</h2></div><div class="card sm mut">Ein Handy für alle: Wer dran ist, sucht sich eins von 3 Wörtern aus und malt. Die anderen raten laut – wer es zuerst sagt, bekommt die Punkte. Jeder malt 2×.</div>
  <div class="card"><h3 style="margin-top:0">👥 Spieler (${pl.length})</h3>${pl.map((n,i)=>`<div class="row" style="flex-wrap:nowrap;margin-bottom:6px"><input class="txt" maxlength="14" value="${esc(n)}" onchange="P.odrPl[${i}]=this.value.trim().slice(0,14)||'Spieler ${i+1}';save()">${pl.length>2?`<button class="btn alt s" data-a="odrrm|${i}">✕</button>`:''}</div>`).join('')}${pl.length<10?'<button class="btn alt s" style="width:100%" data-a="odradd">+ Spieler</button>':''}</div>
  <div class="card"><div class="sm" style="margin-bottom:6px">📦 Wörter-Pakete</div>${mselHTML(MSEL.dps(),P.odrPacks,'pms|odrPacks')}
  ${P.odrPacks&&P.odrPacks.includes('eigene')?`<textarea class="txt" rows="3" style="width:100%;margin-top:8px" placeholder="Eigene Wörter, mit Komma getrennt" onchange="drawSaveWords(this.value)">${esc(drawSavedWords())}</textarea>`:''}</div>
@@ -3816,7 +3850,7 @@ function oDrawPick(i){const g=G;g.w=g.words[i];g.used.push(g.w);g.done=false;g.t
  view(`${gHead(`🎨 ${esc(g.pl[g.d].n)} malt`)}${gTimer()}<div class="card" style="text-align:center;padding:8px"><button class="btn alt s" data-a="odrpeek" id="odrpk">👁️ Wort anzeigen</button></div>${drawUI(true)}
  <div class="card"><div class="sm" style="margin-bottom:6px">Wer hat es erraten?</div><div class="row" style="gap:6px">${g.pl.map((p,i)=>i===g.d?'':`<button class="btn s" data-a="odrok|${i}">✅ ${esc(p.n)}</button>`).join('')}<button class="btn s alt" data-a="odrok|-1">⏭️ Keiner</button></div></div>`);drawInit(true,null);oTimer(80,()=>oDrawDone(-1))}
 function oDrawDone(i){const g=G;if(!g||g.mode!=='odraw'||g.done)return;g.done=true;clearTimeout(g.tm);stopTimer();const img=drawThumb(220);if(img)g.gal.push({w:g.w,img,by:g.pl[g.d].n});let txt='Keiner hat es erraten 😅';
- if(i>=0){const pts=100+Math.round(clamp(1-(Date.now()-g.t0)/80000,0,1)*100);g.pl[i].s+=pts;g.pl[g.d].s+=75;txt=`<b>${esc(g.pl[i].n)}</b> +${pts} · <b>${esc(g.pl[g.d].n)}</b> +75 🎨`;sfx('ok')}else sfx('no');
+ if(i>=0){const pts=2;g.pl[i].s+=pts;g.pl[g.d].s+=1;txt=`<b>${esc(g.pl[i].n)}</b> +2 · <b>${esc(g.pl[g.d].n)}</b> +1 🎨`;sfx('ok')}else sfx('no');
  view(`${gHead(`🎨 ${g.ti+1}/${g.tn}`)}<div class="card" style="text-align:center"><div class="xs mut">Das Wort war</div><div class="big" style="color:var(--gold);font-size:32px">${esc(g.w)}</div>${img?`<img src="${img}" style="width:160px;border-radius:12px;border:3px solid #fff;margin:6px 0">`:''}<div class="sm">${txt}</div></div>${oDrawBoard()}
  <button class="btn gold" style="width:100%" data-a="odrnext">Weiter →</button>`)}
 const GOFF={gsch:oSchStart,ghl:oHlStart,glie:oLieStart,gslf:oSlfMenu,gdraw:oDrawMenu};
@@ -3876,7 +3910,7 @@ function drawPool(sel,own){const ks=sel&&sel.length?sel:Object.keys(DPACKS).filt
 Object.assign(GMODES,{imp:{ic:'🕵️',n:'Imposter',d:'Alle haben dasselbe Wort – wer nicht?'}});Object.assign(OMODES,{imp:GMODES.imp});
 Object.assign(OSET,{ir:[1,2,3,5],ik:[1,2,3,4,5],it:[15,20,30,45]});
 Object.assign(GDEF,{ir:3,ik:1,it:30,ityp:false,ihint:false,icats:null});
-GRULES.imp='Alle sehen dasselbe geheime Wort – der Imposter sieht nur „IMPOSTER“. Reihum sagt jeder EIN Wort zu seinem Wort. Dann wählt ihr einen raus. Alle Imposter gefunden: Die anderen gewinnen. Sind gleich viele Imposter wie andere übrig: Die Imposter gewinnen.';
+GRULES.imp='Alle sehen dasselbe geheime Wort – der Imposter sieht nur „IMPOSTER“. Reihum sagt jeder EIN Wort dazu. Dann wählt ihr einen raus. Alle Imposter gefunden: Jeder andere +1. Sonst: Jeder Imposter +3.';
 GSTART.imp=()=>impStart();
 function impMaxK(n){return Math.max(1,Math.floor((n-1)/2))}
 function impStart(){gStart();const g=ON.g;g.n=+gc('ir')||3;g.m=-1;impMatch()}
@@ -3888,7 +3922,7 @@ function impMatch(){const g=ON.g;clearT();g.m++;if(g.m>=g.n){gEnd();return}const
 function impRound(){const g=ON.g;clearT();g.vr++;const al=impAlive();g.order=shuffle(al.map(p=>p.id));g.clues=[];g.ci=-1;g.votes={};g.chk=null;
  if(g.typ){impTurn();return}ON.state='gimpl';hb({t:'impl',vr:g.vr,order:g.order,out:g.out,players:pubPlayers()})}
 function impTurn(){const g=ON.g;clearT();g.ci++;if(g.ci>=g.order.length){impVote();return}const id=g.order[g.ci];if(!ON.players.some(p=>p.id===id)){impTurn();return}g.turn=id;ON.state='gimpc';
- hb({t:'impt',id,ci:g.ci,total:g.order.length,vr:g.vr,clues:g.clues,out:g.out,dur:gc('it'),players:pubPlayers()});ON.mT=setTimeout(()=>{if(ON&&ON.state==='gimpc'&&g.turn===id){g.clues.push([id,'…']);impTurn()}},gc('it')*1000+900)}
+ hb({t:'impt',id,ci:g.ci,total:g.order.length,vr:g.vr,clues:g.clues,out:g.out,dur:gc('it'),players:pubPlayers()});ON.mT=setTimeout(()=>{if(ON&&ON.state==='gimpc'&&g.turn===id){g.clues.push([id,'…']);impTurn()}},gc('it')*1000+GRACE)}
 function impVote(){const g=ON.g;clearT();ON.state='gimpv';g.votes={};g.chk=impVChk;hb({t:'impv',vr:g.vr,clues:g.clues,out:g.out,dur:60,players:pubPlayers()});ON.mT=setTimeout(impCount,61000)}
 function impVChk(){const g=ON.g;if(ON.state==='gimpv'&&impAlive().every(p=>g.votes[p.id]))impCount()}
 function impCount(){const g=ON.g;if(ON.state!=='gimpv')return;clearT();const cnt={};Object.values(g.votes).forEach(id=>cnt[id]=(cnt[id]||0)+1);const mx=Math.max(0,...Object.values(cnt));const top=Object.keys(cnt).filter(id=>cnt[id]===mx);impEject(mx&&top.length===1?top[0]:null,cnt)}
@@ -3896,7 +3930,7 @@ function impEject(id,cnt){const g=ON.g;clearT();g.chk=null;let was=false;if(id){
  const win=ia===0?'civ':ia>=ca?'imp':null;const p=id&&ON.players.find(x=>x.id===id);ON.state='gimpe';g.win=win;g.next=win?impEnd:impRound;
  hb({t:'impej',id,n:p?p.name:'',was,left:ia,win,cnt:cnt||null,out:g.out,players:pubPlayers()});gAuto(g.next,win?3500:5000)}
 function impEnd(){const g=ON.g;clearT();const gain={};const add=(id,v)=>{const p=ON.players.find(x=>x.id===id);if(!p)return;p.score+=v;p.cor++;gain[id]=(gain[id]||0)+v};
- if(g.win==='civ')ON.players.forEach(p=>{if(!g.imp.includes(p.id))add(p.id,g.out.includes(p.id)?50:100)});else g.imp.forEach(id=>add(id,300));
+ if(g.win==='civ')ON.players.forEach(p=>{if(!g.imp.includes(p.id))add(p.id,1)});else g.imp.forEach(id=>add(id,3));
  ON.state='gimpr';g.next=impMatch;const last=g.m+1>=g.n;hb({t:'impr',w1:g.w1,imp:g.imp,win:g.win,gain,last,players:pubPlayers()});gAuto(impMatch,last?8000:11000)}
 Object.assign(MH,{
  impc(p,d){const g=ON.g;if(ON.state!=='gimpc'||p.id!==g.turn)return;const c=cleanT(d.c,30);if(!c)return;const n=norm(c);if(!g.imp.includes(p.id)&&(n.includes(norm(g.w1))||lev(n,norm(g.w1))<=1)){sendTo(p.id,{t:'impcrej'});return}g.clues.push([p.id,c]);impTurn()},
@@ -3910,8 +3944,8 @@ function impMy(){const s=ON.gimp;if(!s||ON.tv)return'';if(ON.gimpOut)return'<div
 function impAliveChips(out){return`<div class="card" style="padding:8px"><div class="pwrap">${ON.players.map(p=>`<span class="pchip" style="${out.includes(p.id)?'opacity:.4;text-decoration:line-through':''}">${headH(p,20)} ${esc(p.name)}${out.includes(p.id)?' 👻':''}</span>`).join('')}</div></div>`}
 function impClues(cl){if(!cl||!cl.length)return'';return`<div class="card" style="padding:8px">${cl.map(([id,c])=>{const p=ON.players.find(x=>x.id===id)||{name:'?',ava:'❔'};return`<div class="line it sm"><span>${headH(p,22)} ${id===meId()?'<b>Du</b>':esc(p.name)}</span><span class="chip">${esc(c)}</span></div>`}).join('')}</div>`}
 Object.assign(MG,{
- impw(m){ON.gimp=m;ON.gimpOut=false},
- impgo(m){gPl(m);ON.state='gimpw';ON.gimpTyp=m.typ;ON.gimpOut=false;const s=ON.gimp;
+ impw(m){ON.gimp=m;ON.gimpOut=false;if(ON.state==='gimpw'&&ON.gimpGo)MG.impgo(ON.gimpGo)},
+ impgo(m){gPl(m);ON.state='gimpw';ON.gimpGo=m;ON.gimpTyp=m.typ;ON.gimpOut=false;const s=ON.gimp;
   view(`${gHead(`🕵️ Spiel ${m.m+1}/${m.n}`)}${ON.tv||!s?`<div class="card" style="text-align:center;padding:26px"><div style="font-size:50px">🤫</div><h2>Jeder schaut sich sein Wort an …</h2></div>`:impCard(s,!m.typ,true)}
   <div class="card sm" style="text-align:center">${m.k>1?`<b>${m.k} Imposter</b> sind dabei`:'<b>1 Imposter</b> ist dabei'} 🕵️</div>${emoBar()}`)},
  impl(m){gPl(m);ON.state='gimpl';ON.gimpOut=m.out.includes(meId());const st=ON.players.find(p=>p.id===m.order[0]);const host=ON.role==='host';const al=ON.players.filter(p=>!m.out.includes(p.id));
@@ -3939,8 +3973,8 @@ Object.assign(GACT,{
  pms(p){const k=p[1],v=p.slice(2).join('|');const it=MSEL[{impCats:'icats',odrPacks:'dps'}[k]]();P[k]=mselTog(P[k],v,it);save();(G&&G.mode==='oimpm'?oImpMenu:oDrawMenu)()},
  otog2(p){P[p[1]]=!P[p[1]];save();oImpMenu()}});
 /* ----- Imposter mit einem Handy (reihum) ----- */
-function oImpMenu(){G={mode:'oimpm'};const pl=P.odrPl&&P.odrPl.length>=2?P.odrPl:[P.name||'Spieler 1','Spieler 2','Spieler 3'];P.odrPl=pl;const mk=impMaxK(pl.length);P.impK=clamp(P.impK||1,1,mk);
- view(`<div class="top"><button class="back" data-a="home">←</button><h2>🕵️ Imposter</h2></div><div class="card sm mut">Ein Handy geht reihum: Jeder schaut heimlich auf sein Wort – der Imposter sieht nur „IMPOSTER“. Dann sagt jeder EIN Wort dazu, ihr wählt einen raus – bis alle Imposter gefunden sind.<br><br>💡 Jeder hat ein eigenes Handy? Dann 🌐 Online-Party → Imposter.</div>
+function oImpMenu(){const kp=G&&G.mode==='oimpm';G={mode:'oimpm'};const pl=P.odrPl&&P.odrPl.length>=2?P.odrPl:[P.name||'Spieler 1','Spieler 2','Spieler 3'];P.odrPl=pl;const mk=impMaxK(pl.length);P.impK=clamp(P.impK||1,1,mk);
+ (kp?viewK:view)(`<div class="top"><button class="back" data-a="home">←</button><h2>🕵️ Imposter</h2></div><div class="card sm mut">Ein Handy geht reihum: Jeder schaut heimlich auf sein Wort – der Imposter sieht nur „IMPOSTER“. Dann sagt jeder EIN Wort dazu, ihr wählt einen raus – bis alle Imposter gefunden sind.<br><br>💡 Jeder hat ein eigenes Handy? Dann 🌐 Online-Party → Imposter.</div>
  <div class="card"><h3 style="margin-top:0">👥 Spieler (${pl.length})</h3>${pl.map((n,i)=>`<div class="row" style="flex-wrap:nowrap;margin-bottom:6px"><input class="txt" maxlength="14" value="${esc(n)}" onchange="P.odrPl[${i}]=this.value.trim().slice(0,14)||'Spieler ${i+1}';save()">${pl.length>2?`<button class="btn alt s" data-a="oimprm|${i}">✕</button>`:''}</div>`).join('')}${pl.length<20?'<button class="btn alt s" style="width:100%" data-a="oimpadd">+ Spieler</button>':''}</div>
  <div class="card"><div class="line setrow"><span class="sm">🕵️ Anzahl Imposter</span><span class="stp"><button class="btn alt s" data-a="oimpk|-1">‹</button><b class="sm">${P.impK}</b><button class="btn alt s" data-a="oimpk|1">›</button></span></div>
  <div class="line setrow"><span class="sm">💡 Hinweis für den Imposter<br><span class="xs mut">Er bekommt ein Hinweis-Wort</span></span><span class="tgl ${P.impHint?'on':''}" data-a="otog2|impHint"></span></div>
@@ -3958,7 +3992,7 @@ function oImpTalk(){const g=G;g.vr++;const al=g.pl.map((_,i)=>i).filter(i=>!g.ou
 function oImpPick(i){const g=G;if(i<0){oImpTalk();return}g.out.push(i);const was=g.imps.includes(i);const al=g.pl.map((_,j)=>j).filter(j=>!g.out.includes(j));const ia=al.filter(j=>g.imps.includes(j)).length,ca=al.length-ia;g.win=ia===0?'civ':ia>=ca?'imp':null;
  view(`${gHead('🕵️ Rausgewählt')}<div class="card" style="text-align:center;padding:22px"><div style="font-size:22px"><b>${esc(g.pl[i].n)}</b> war</div><div style="font-size:30px;font-weight:900;color:${was?'#4ade80':'#f87171'}">${was?'EIN IMPOSTER! 🕵️':'KEIN Imposter 😬'}</div><div class="sm" style="margin-top:10px">${g.win==='civ'?'🎉 Alle Imposter gefunden!':g.win==='imp'?'😈 Die Imposter haben gewonnen!':`Noch <b>${ia}</b> Imposter im Spiel …`}</div></div>
  <button class="btn gold" style="width:100%" data-a="${g.win?'oimpend':'oimptalk'}">${g.win?'Auflösung →':'🗣️ Nächste Runde →'}</button>`);sfx(was?'ok':'no')}
-function oImpEnd(){const g=G;g.pl.forEach((p,i)=>{if(g.win==='civ'){if(!g.imps.includes(i))p.s+=g.out.includes(i)?50:100}else if(g.imps.includes(i))p.s+=300});g.m++;
+function oImpEnd(){const g=G;g.pl.forEach((p,i)=>{if(g.win==='civ'){if(!g.imps.includes(i))p.s+=1}else if(g.imps.includes(i))p.s+=3});g.m++;
  view(`${gHead('🕵️ Auflösung')}<div class="card" style="text-align:center;padding:16px;background:${g.win==='civ'?'#15803d':'#7f1d1d'};color:#fff"><b style="font-size:22px">${g.win==='civ'?'🎉 Imposter enttarnt!':'😈 Die Imposter gewinnen!'}</b><div class="sm" style="margin-top:6px">Das Wort war: <b>${esc(g.w1)}</b><br>Imposter: <b>${g.imps.map(i=>esc(g.pl[i].n)).join(' & ')}</b></div></div>
  <div class="card">${[...g.pl].sort((a,b)=>b.s-a.s).map(p=>`<div class="line it sm"><span>${esc(p.n)}</span><b>${p.s}</b></div>`).join('')}</div>
  <div class="row"><button class="btn gold" style="flex:1" data-a="oimpnext">🔁 Neues Wort</button><button class="btn alt" style="flex:1" data-a="oimpstop">🏁 Beenden</button></div>`);if(g.win==='civ')confetti(80)}
