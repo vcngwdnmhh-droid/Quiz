@@ -5198,13 +5198,15 @@ Object.assign(GACT,{owgkgo(p){oWgkAsk(p[1]==='1')},owgknx(){oWgkRound()},
  owgka(p){const g=G;const i=+p[1];if(p[2]==='1')g.sa=i;else g.ans[g.order[g.k]]=i;g.k++;if(g.k>=g.order.length){oWgkRes();return}oWgkPass(false)}});
 
 /* ===================== 🗺️ Karte (eigene Kachel-Karte mit Zoom) ===================== */
-const GTS={map:{u:(z,x,y,r)=>`https://${'abcd'[(x+y)&3]}.basemaps.cartocdn.com/rastertiles/voyager_nolabels/${z}/${x}/${y}${r?'@2x':''}.png`,mx:16,bg:'#aad3df',at:'© OpenStreetMap-Mitwirkende · © CARTO'},
- sat:{u:(z,x,y)=>`https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/${z}/${y}/${x}`,mx:16,bg:'#0b1d33',at:'Satellit © Esri, Maxar, Earthstar'}};
+const GTS={map:{u:(z,x,y)=>`https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/${z}/${y}/${x}`,mx:16,bg:'#c9d3dc',at:'Karte © Esri, HERE, Garmin, OpenStreetMap',ic:'🗺️',n:'Karte'},
+ terrain:{u:(z,x,y)=>`https://server.arcgisonline.com/ArcGIS/rest/services/World_Terrain_Base/MapServer/tile/${z}/${y}/${x}`,mx:13,bg:'#a9c6d9',at:'Gelände © Esri, USGS, NOAA',ic:'⛰️',n:'Gelände'},
+ sat:{u:(z,x,y)=>`https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/${z}/${y}/${x}`,mx:17,bg:'#0b1d33',at:'Satellit © Esri, Maxar, Earthstar',ic:'🛰️',n:'Satellit'}};
+const GTSO=['map','terrain','sat'];function gtsNext(st){return GTSO[(GTSO.indexOf(st)+1)%GTSO.length]}
 const GTC=new Map();let GTOK=0,GTERR=0;
 function gTile(st,z,x,y,cb){const k=st+z+'/'+x+'/'+y;const t=GTC.get(k);if(t){if(t.ok){GTC.delete(k);GTC.set(k,t);return t.img}if(!t.cbs.includes(cb))t.cbs.push(cb);return null}
  const img=new Image();const o={img,ok:false,cbs:[cb]};GTC.set(k,o);img.decoding='async';
  img.onload=()=>{o.ok=true;GTOK++;o.cbs.forEach(f=>f());o.cbs=[]};img.onerror=()=>{GTERR++;setTimeout(()=>{if(GTC.get(k)===o)GTC.delete(k)},6000)};
- img.src=GTS[st].u(z,x,y,st==='map'&&(window.devicePixelRatio||1)>1.3);
+ img.src=GTS[st].u(z,x,y);
  if(GTC.size>700){const it=GTC.keys();for(let i=0;i<200;i++)GTC.delete(it.next().value)}return null}
 function mX(lon){return(lon+180)/360}
 function mY(lat){const s=Math.sin(clamp(lat,-85.05,85.05)*Math.PI/180);return .5-Math.log((1+s)/(1-s))/(4*Math.PI)}
@@ -5212,8 +5214,8 @@ function mLon(x){return(((x%1)+1)%1)*360-180}
 function mLat(y){return Math.atan(Math.sinh(Math.PI*(1-2*y)))*180/Math.PI}
 function wrapD(d){return d-Math.round(d)}
 function GMap(el,o){
- const m={o,cx:mX(o.lon),cy:mY(o.lat),z:o.z||3,st:P.mapSt==='sat'?'sat':'map',pins:o.pins||[],lines:o.lines||[],dead:false};
- el.innerHTML=`<canvas></canvas><div class="gmz"><button data-mz="1" aria-label="Hineinzoomen">+</button><button data-mz="-1" aria-label="Herauszoomen">−</button><button data-mz="s" aria-label="Kartenstil">${m.st==='map'?'🛰️':'🗺️'}</button>${o.home?'<button data-mz="h" aria-label="Zurück">⟲</button>':''}</div><div class="gmat">${GTS[m.st].at}</div><div class="gmerr" hidden>📡 Die Karte lädt gerade nicht.<br><span>Internet prüfen – du kannst trotzdem tippen.</span></div>`;
+ const m={o,cx:mX(o.lon),cy:mY(o.lat),z:o.z||3,st:GTS[P.mapSt]?P.mapSt:'map',pins:o.pins||[],lines:o.lines||[],dead:false};
+ el.innerHTML=`<canvas></canvas><div class="gmz"><button data-mz="1" aria-label="Hineinzoomen">+</button><button data-mz="-1" aria-label="Herauszoomen">−</button><button data-mz="s" aria-label="Kartenstil wechseln" title="Kartenstil wechseln">${GTS[gtsNext(m.st)].ic}</button>${o.home?'<button data-mz="h" aria-label="Zurück">⟲</button>':''}</div><div class="gmat">${GTS[m.st].at}</div><div class="gmerr" hidden>📡 Die Karte lädt gerade nicht.<br><span>Internet prüfen – du kannst trotzdem tippen.</span></div>`;
  const cv=el.querySelector('canvas'),ctx=cv.getContext('2d');let W=0,H=0,raf=0;const ptr=new Map();let tap=null,pin=null,lastTap=null;
  const WS=()=>256*Math.pow(2,m.z);const zmin=()=>Math.max(.3,Math.log2(Math.max(W,1)/256));
  const req=()=>{if(!raf&&!m.dead)raf=requestAnimationFrame(draw)};m.req=req;
@@ -5259,7 +5261,7 @@ function GMap(el,o){
  cv.addEventListener('pointerup',up);cv.addEventListener('pointercancel',up);
  cv.addEventListener('wheel',e=>{e.preventDefault();m.anim=null;const p=rel(e);zoomAt(m.z-e.deltaY*(e.deltaMode?0.05:0.0022),p[0],p[1])},{passive:false});
  el.querySelector('.gmz').addEventListener('click',e=>{const b=e.target.closest('[data-mz]');if(!b)return;e.stopPropagation();const k=b.dataset.mz;
-  if(k==='s'){m.st=m.st==='map'?'sat':'map';P.mapSt=m.st;save();b.textContent=m.st==='map'?'🛰️':'🗺️';el.querySelector('.gmat').textContent=GTS[m.st].at;req();return}
+  if(k==='s'){m.st=gtsNext(m.st);P.mapSt=m.st;save();b.textContent=GTS[gtsNext(m.st)].ic;el.querySelector('.gmat').textContent=GTS[m.st].at;toast(GTS[m.st].ic+' '+GTS[m.st].n);req();return}
   if(k==='h'){m.fly(o.lat,o.lon,o.z,600);return}const z=clamp(m.z+ +k,zmin(),GTS[m.st].mx);const c=toLL(W/2,H/2);m.fly(c[0],c[1],z,260)});
  window.addEventListener('resize',req);size();fix();draw();return m}
 
